@@ -1,0 +1,344 @@
+{% extends "base.html" %}
+
+{% block title %}My Reports - Stitch{% endblock %}
+
+{% block content %}
+<!-- Header -->
+<div class="sticky top-0 z-30 bg-surface-light backdrop-blur-md bg-opacity-95">
+    <div class="px-4 sm:px-6 lg:px-8 py-4 lg:py-5">
+        <div class="flex items-center justify-between mb-4 lg:mb-5">
+            <h1 class="text-2xl lg:text-3xl font-bold text-gray-900">My Reports</h1>
+            <a href="{{ url_for('issues.report_issue') }}" class="flex items-center gap-2 bg-primary hover:bg-blue-700 text-white px-4 lg:px-5 py-2.5 lg:py-3 rounded-xl transition-colors text-sm lg:text-base font-medium">
+                <span class="material-symbols-rounded text-xl lg:text-2xl">add</span>
+                New Report
+            </a>
+        </div>
+
+        <!-- Filter Tabs -->
+        <div class="flex gap-2 overflow-x-auto hide-scrollbar">
+            <button onclick="filterIssues('all')" class="filter-tab active px-4 lg:px-5 py-2 lg:py-2.5 rounded-xl font-medium whitespace-nowrap text-sm lg:text-base transition-colors">
+                All Reports
+            </button>
+            <button onclick="filterIssues('pending')" class="filter-tab px-4 lg:px-5 py-2 lg:py-2.5 rounded-xl font-medium whitespace-nowrap text-sm lg:text-base transition-colors">
+                Pending
+            </button>
+            <button onclick="filterIssues('in-progress')" class="filter-tab px-4 lg:px-5 py-2 lg:py-2.5 rounded-xl font-medium whitespace-nowrap text-sm lg:text-base transition-colors">
+                In Progress
+            </button>
+            <button onclick="filterIssues('resolved')" class="filter-tab px-4 lg:px-5 py-2 lg:py-2.5 rounded-xl font-medium whitespace-nowrap text-sm lg:text-base transition-colors">
+                Resolved
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Issues List -->
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-8 pb-24">
+    
+    <!-- Issue Card 1 - Pending -->
+    <div class="issue-card pending bg-surface-light rounded-2xl shadow-sm mb-4 lg:mb-5 overflow-hidden hover:shadow-md transition-shadow">
+        <div class="p-5 lg:p-6">
+            <div class="flex items-start gap-4">
+                <!-- Status Badge -->
+                <div class="flex-shrink-0">
+                    <span class="inline-flex items-center gap-1.5 px-3 lg:px-4 py-1.5 lg:py-2 rounded-full text-xs lg:text-sm font-medium bg-yellow-100 text-yellow-800">
+                        <span class="w-2 h-2 bg-yellow-500 rounded-full"></span>
+                        Pending
+                    </span>
+                </div>
+
+                <div class="flex-1 min-w-0">
+                    <!-- Category & Date -->
+                    <div class="flex flex-wrap items-center gap-2 mb-2">
+                        <span class="text-base lg:text-lg">🏗️</span>
+                        <span class="text-sm lg:text-base font-medium text-gray-700">Infrastructure</span>
+                        <span class="text-sm lg:text-base text-gray-400">•</span>
+                        <span class="text-sm lg:text-base text-gray-500">2 days ago</span>
+                    </div>
+
+                    <!-- Title -->
+                    <h3 class="text-base lg:text-lg font-semibold text-gray-900 mb-2">
+                        Large pothole on Main Street near community center
+                    </h3>
+
+                    <!-- Description Preview -->
+                    <p class="text-sm lg:text-base text-gray-600 mb-3 line-clamp-2">
+                        There's a large pothole on Main Street right before the community center entrance. It's quite deep and could damage vehicles.
+                    </p>
+
+                    <!-- Location -->
+                    <div class="flex items-center gap-2 mb-3 text-sm lg:text-base text-gray-500">
+                        <span class="material-symbols-rounded text-lg lg:text-xl">location_on</span>
+                        <span>Main Street, Community Center</span>
+                    </div>
+
+                    <!-- Priority -->
+                    <div class="flex items-center gap-2 mb-4">
+                        <span class="text-lg lg:text-xl">🟡</span>
+                        <span class="text-sm lg:text-base font-medium text-yellow-700">Medium Priority</span>
+                    </div>
+
+                    <!-- Image Thumbnail -->
+                    <div class="mb-4">
+                        <img src="https://images.unsplash.com/photo-1589939705384-5185137a7f0f?w=400&h=300&fit=crop" alt="Issue photo" class="w-full h-48 lg:h-56 object-cover rounded-xl">
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="flex gap-2">
+                        <button class="flex items-center gap-2 px-4 lg:px-5 py-2 lg:py-2.5 bg-gray-100 hover:bg-gray-200 rounded-xl text-sm lg:text-base font-medium text-gray-700 transition-colors">
+                            <span class="material-symbols-rounded text-lg lg:text-xl">visibility</span>
+                            View Details
+                        </button>
+                        <button class="flex items-center gap-2 px-4 lg:px-5 py-2 lg:py-2.5 bg-gray-100 hover:bg-gray-200 rounded-xl text-sm lg:text-base font-medium text-gray-700 transition-colors">
+                            <span class="material-symbols-rounded text-lg lg:text-xl">share</span>
+                            Share
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Issue Card 2 - In Progress -->
+    <div class="issue-card in-progress bg-surface-light rounded-2xl shadow-sm mb-4 lg:mb-5 overflow-hidden hover:shadow-md transition-shadow">
+        <div class="p-5 lg:p-6">
+            <div class="flex items-start gap-4">
+                <!-- Status Badge -->
+                <div class="flex-shrink-0">
+                    <span class="inline-flex items-center gap-1.5 px-3 lg:px-4 py-1.5 lg:py-2 rounded-full text-xs lg:text-sm font-medium bg-blue-100 text-blue-800">
+                        <span class="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></span>
+                        In Progress
+                    </span>
+                </div>
+
+                <div class="flex-1 min-w-0">
+                    <!-- Category & Date -->
+                    <div class="flex flex-wrap items-center gap-2 mb-2">
+                        <span class="text-base lg:text-lg">💡</span>
+                        <span class="text-sm lg:text-base font-medium text-gray-700">Street Lighting</span>
+                        <span class="text-sm lg:text-base text-gray-400">•</span>
+                        <span class="text-sm lg:text-base text-gray-500">5 days ago</span>
+                    </div>
+
+                    <!-- Title -->
+                    <h3 class="text-base lg:text-lg font-semibold text-gray-900 mb-2">
+                        Street light not working on Elm Avenue
+                    </h3>
+
+                    <!-- Description Preview -->
+                    <p class="text-sm lg:text-base text-gray-600 mb-3 line-clamp-2">
+                        The street light on Elm Avenue near house #245 has been out for over a week, making the area very dark at night.
+                    </p>
+
+                    <!-- Location -->
+                    <div class="flex items-center gap-2 mb-3 text-sm lg:text-base text-gray-500">
+                        <span class="material-symbols-rounded text-lg lg:text-xl">location_on</span>
+                        <span>Elm Avenue, #245</span>
+                    </div>
+
+                    <!-- Priority -->
+                    <div class="flex items-center gap-2 mb-4">
+                        <span class="text-lg lg:text-xl">🔴</span>
+                        <span class="text-sm lg:text-base font-medium text-red-700">High Priority</span>
+                    </div>
+
+                    <!-- Update Timeline -->
+                    <div class="bg-blue-50 rounded-xl p-4 mb-4">
+                        <div class="flex items-start gap-3">
+                            <span class="material-symbols-rounded text-blue-600 text-xl lg:text-2xl">update</span>
+                            <div>
+                                <p class="text-sm lg:text-base font-medium text-gray-900 mb-1">Update from City Maintenance</p>
+                                <p class="text-sm lg:text-base text-gray-600">Repair crew scheduled for tomorrow. Expected completion within 24 hours.</p>
+                                <span class="text-xs lg:text-sm text-gray-500 mt-2 inline-block">1 day ago</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="flex gap-2">
+                        <button class="flex items-center gap-2 px-4 lg:px-5 py-2 lg:py-2.5 bg-gray-100 hover:bg-gray-200 rounded-xl text-sm lg:text-base font-medium text-gray-700 transition-colors">
+                            <span class="material-symbols-rounded text-lg lg:text-xl">visibility</span>
+                            View Details
+                        </button>
+                        <button class="flex items-center gap-2 px-4 lg:px-5 py-2 lg:py-2.5 bg-gray-100 hover:bg-gray-200 rounded-xl text-sm lg:text-base font-medium text-gray-700 transition-colors">
+                            <span class="material-symbols-rounded text-lg lg:text-xl">share</span>
+                            Share
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Issue Card 3 - Resolved -->
+    <div class="issue-card resolved bg-surface-light rounded-2xl shadow-sm mb-4 lg:mb-5 overflow-hidden hover:shadow-md transition-shadow">
+        <div class="p-5 lg:p-6">
+            <div class="flex items-start gap-4">
+                <!-- Status Badge -->
+                <div class="flex-shrink-0">
+                    <span class="inline-flex items-center gap-1.5 px-3 lg:px-4 py-1.5 lg:py-2 rounded-full text-xs lg:text-sm font-medium bg-green-100 text-green-800">
+                        <span class="material-symbols-rounded text-base lg:text-lg">check</span>
+                        Resolved
+                    </span>
+                </div>
+
+                <div class="flex-1 min-w-0">
+                    <!-- Category & Date -->
+                    <div class="flex flex-wrap items-center gap-2 mb-2">
+                        <span class="text-base lg:text-lg">🌳</span>
+                        <span class="text-sm lg:text-base font-medium text-gray-700">Environment</span>
+                        <span class="text-sm lg:text-base text-gray-400">•</span>
+                        <span class="text-sm lg:text-base text-gray-500">2 weeks ago</span>
+                    </div>
+
+                    <!-- Title -->
+                    <h3 class="text-base lg:text-lg font-semibold text-gray-900 mb-2">
+                        Overflowing trash bins at park entrance
+                    </h3>
+
+                    <!-- Description Preview -->
+                    <p class="text-sm lg:text-base text-gray-600 mb-3 line-clamp-2">
+                        The trash bins at the park entrance are constantly overflowing, creating an unsanitary environment and attracting pests.
+                    </p>
+
+                    <!-- Location -->
+                    <div class="flex items-center gap-2 mb-3 text-sm lg:text-base text-gray-500">
+                        <span class="material-symbols-rounded text-lg lg:text-xl">location_on</span>
+                        <span>Community Park, Main Entrance</span>
+                    </div>
+
+                    <!-- Resolution -->
+                    <div class="bg-green-50 rounded-xl p-4 mb-4">
+                        <div class="flex items-start gap-3">
+                            <span class="material-symbols-rounded text-green-600 text-xl lg:text-2xl">check_circle</span>
+                            <div>
+                                <p class="text-sm lg:text-base font-medium text-gray-900 mb-1">Issue Resolved</p>
+                                <p class="text-sm lg:text-base text-gray-600">Additional trash bins installed and pickup frequency increased to twice daily.</p>
+                                <span class="text-xs lg:text-sm text-gray-500 mt-2 inline-block">Resolved 1 week ago</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Before/After Images -->
+                    <div class="grid grid-cols-2 gap-3 mb-4">
+                        <div>
+                            <p class="text-xs lg:text-sm font-medium text-gray-600 mb-2">Before</p>
+                            <img src="https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?w=300&h=200&fit=crop" alt="Before" class="w-full h-32 lg:h-40 object-cover rounded-lg">
+                        </div>
+                        <div>
+                            <p class="text-xs lg:text-sm font-medium text-gray-600 mb-2">After</p>
+                            <img src="https://images.unsplash.com/photo-1611284446314-60a58ac0deb9?w=300&h=200&fit=crop" alt="After" class="w-full h-32 lg:h-40 object-cover rounded-lg">
+                        </div>
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="flex gap-2">
+                        <button class="flex items-center gap-2 px-4 lg:px-5 py-2 lg:py-2.5 bg-gray-100 hover:bg-gray-200 rounded-xl text-sm lg:text-base font-medium text-gray-700 transition-colors">
+                            <span class="material-symbols-rounded text-lg lg:text-xl">visibility</span>
+                            View Details
+                        </button>
+                        <button class="flex items-center gap-2 px-4 lg:px-5 py-2 lg:py-2.5 bg-green-100 hover:bg-green-200 rounded-xl text-sm lg:text-base font-medium text-green-700 transition-colors">
+                            <span class="material-symbols-rounded text-lg lg:text-xl">thumb_up</span>
+                            Rate Resolution
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Empty State (Hidden by default, show when no results) -->
+    <div id="emptyState" class="hidden text-center py-16">
+        <div class="w-24 h-24 lg:w-32 lg:h-32 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
+            <span class="material-symbols-rounded text-gray-400 text-5xl lg:text-6xl">inbox</span>
+        </div>
+        <h3 class="text-xl lg:text-2xl font-bold text-gray-900 mb-2">No reports found</h3>
+        <p class="text-base lg:text-lg text-gray-600 mb-6">Start making a difference by reporting issues in your community.</p>
+        <a href="{{ url_for('issues.report_issue') }}" class="inline-flex items-center gap-2 bg-primary hover:bg-blue-700 text-white px-6 lg:px-8 py-3 lg:py-4 rounded-xl transition-colors text-base lg:text-lg font-medium">
+            <span class="material-symbols-rounded text-xl lg:text-2xl">add</span>
+            Report an Issue
+        </a>
+    </div>
+
+</div>
+
+<!-- Bottom Navigation -->
+<div class="fixed bottom-0 left-0 right-0 bg-surface-light border-t border-gray-200 z-40">
+    <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-around items-center h-16 lg:h-20">
+            <a href="{{ url_for('main.dashboard') }}" class="flex flex-col items-center gap-1 text-gray-500 hover:text-primary transition-colors">
+                <span class="material-symbols-rounded text-2xl lg:text-3xl">home</span>
+                <span class="text-xs lg:text-sm font-medium">Home</span>
+            </a>
+            <a href="{{ url_for('events.list_events') }}" class="flex flex-col items-center gap-1 text-gray-500 hover:text-primary transition-colors">
+                <span class="material-symbols-rounded text-2xl lg:text-3xl">event</span>
+                <span class="text-xs lg:text-sm font-medium">Events</span>
+            </a>
+            <a href="{{ url_for('issues.list_issues') }}" class="flex flex-col items-center gap-1 text-primary transition-colors">
+                <span class="material-symbols-rounded text-2xl lg:text-3xl fill-current">report</span>
+                <span class="text-xs lg:text-sm font-medium">Reports</span>
+            </a>
+            <a href="{{ url_for('groups.list_groups') }}" class="flex flex-col items-center gap-1 text-gray-500 hover:text-primary transition-colors">
+                <span class="material-symbols-rounded text-2xl lg:text-3xl">groups</span>
+                <span class="text-xs lg:text-sm font-medium">Groups</span>
+            </a>
+            <a href="{{ url_for('auth.logout') }}" class="flex flex-col items-center gap-1 text-gray-500 hover:text-red-500 transition-colors">
+                <span class="material-symbols-rounded text-2xl lg:text-3xl">logout</span>
+                <span class="text-xs lg:text-sm font-medium">Logout</span>
+            </a>
+        </div>
+    </nav>
+</div>
+
+<style>
+    .filter-tab {
+        background-color: #f3f4f6;
+        color: #6b7280;
+    }
+    
+    .filter-tab.active {
+        background-color: #1392ec;
+        color: white;
+    }
+    
+    .filter-tab:hover {
+        background-color: #e5e7eb;
+    }
+    
+    .filter-tab.active:hover {
+        background-color: #0e7ac9;
+    }
+</style>
+
+<script>
+    function filterIssues(status) {
+        // Update active tab
+        document.querySelectorAll('.filter-tab').forEach(tab => {
+            tab.classList.remove('active');
+        });
+        event.target.classList.add('active');
+
+        // Filter issue cards
+        const cards = document.querySelectorAll('.issue-card');
+        let visibleCount = 0;
+
+        cards.forEach(card => {
+            if (status === 'all' || card.classList.contains(status)) {
+                card.style.display = 'block';
+                visibleCount++;
+            } else {
+                card.style.display = 'none';
+            }
+        });
+
+        // Show/hide empty state
+        const emptyState = document.getElementById('emptyState');
+        if (visibleCount === 0) {
+            emptyState.classList.remove('hidden');
+        } else {
+            emptyState.classList.add('hidden');
+        }
+    }
+</script>
+
+{% endblock %}

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Community App Landing Page</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Noto+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#1392ec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101a22",
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans", "Noto Sans", "sans-serif"],
+                        "body": ["Plus Jakarta Sans", "Noto Sans", "sans-serif"],
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-[#0d161b] dark:text-white font-display overflow-x-hidden antialiased selection:bg-primary/30">
+<div class="relative flex h-auto min-h-screen w-full flex-col group/design-root max-w-[480px] mx-auto bg-white dark:bg-slate-900 border-x border-slate-200 dark:border-slate-800 shadow-xl">
+<!-- Header -->
+<header class="flex items-center px-4 py-4 justify-between sticky top-0 z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md">
+<div class="flex items-center gap-2">
+<div class="flex items-center justify-center w-8 h-8 rounded-lg bg-primary/10 text-primary">
+<span class="material-symbols-outlined text-xl">diversity_3</span>
+</div>
+<h2 class="text-[#0d161b] dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">CommUnity</h2>
+</div>
+<button class="text-sm font-semibold text-primary hover:text-primary/80 transition-colors">Help</button>
+</header>
+<!-- Hero Section -->
+<section class="flex flex-col items-center px-6 pt-8 pb-6">
+<div class="w-full aspect-[4/3] bg-center bg-no-repeat bg-cover rounded-2xl mb-8 shadow-sm overflow-hidden relative" data-alt="People laughing and talking in a park setting" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBNEEOqSb_9Rc3wI9ZAsrzFrZzG7MDlbOmcGAOn14u9jLtwSuuVJVvFfG-a5yqzNP7PnyCYUgvqY8jX-xEKuK6ULHEykFVEOKmKL321mVui8qThCknAMfdSnC5i4nvp0YhJVy6Oi5lgx4aB580x64zWaXdQAhioRVnql6B_YCMd0MNri0iDSWwKFvZrnG2svJhOZfwGW633jA5Ijn5TDePqeh2QTwjlPLgi50l77jV5GrAxRh6FQyHdX9qzdWqviqp0qiWoQQGwj8Qd");'>
+<div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+</div>
+<h1 class="text-[#0d161b] dark:text-white tracking-tight text-[32px] font-extrabold leading-[1.1] text-center mb-4">
+                Connect. Share.<br/><span class="text-primary">Thrive Together.</span>
+</h1>
+<p class="text-slate-600 dark:text-slate-400 text-base font-normal leading-relaxed text-center max-w-[320px] mb-8">
+                Your local community in the palm of your hand. Discover events, meet neighbors, and build lasting connections today.
+            </p>
+<div class="flex flex-col w-full gap-3">
+<button class="flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-xl h-12 px-5 bg-primary hover:bg-primary/90 transition-colors text-white text-base font-bold leading-normal tracking-[0.015em] shadow-lg shadow-primary/20">
+<span class="truncate">Sign Up</span>
+</button>
+<button class="flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-xl h-12 px-5 bg-primary/10 hover:bg-primary/20 transition-colors text-primary dark:text-primary-light text-base font-bold leading-normal tracking-[0.015em]">
+<span class="truncate">Log In</span>
+</button>
+</div>
+</section>
+<!-- Features Section -->
+<section class="px-6 py-8 bg-slate-50 dark:bg-slate-800/50 rounded-t-[32px] -mx-1 mt-4">
+<h3 class="text-[#0d161b] dark:text-white text-lg font-bold mb-6 px-1">Explore Features</h3>
+<div class="grid grid-cols-2 gap-4">
+<!-- Feature 1 -->
+<div class="flex flex-col items-center justify-center p-4 bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700 hover:border-primary/30 transition-colors cursor-pointer group">
+<div class="w-12 h-12 rounded-full bg-blue-50 dark:bg-blue-900/30 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-300">
+<span class="material-symbols-outlined text-primary text-2xl">event</span>
+</div>
+<span class="text-sm font-bold text-slate-900 dark:text-slate-100 text-center">Discover Events</span>
+</div>
+<!-- Feature 2 -->
+<div class="flex flex-col items-center justify-center p-4 bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700 hover:border-primary/30 transition-colors cursor-pointer group">
+<div class="w-12 h-12 rounded-full bg-blue-50 dark:bg-blue-900/30 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-300">
+<span class="material-symbols-outlined text-primary text-2xl">groups</span>
+</div>
+<span class="text-sm font-bold text-slate-900 dark:text-slate-100 text-center">Join Groups</span>
+</div>
+<!-- Feature 3 -->
+<div class="flex flex-col items-center justify-center p-4 bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700 hover:border-primary/30 transition-colors cursor-pointer group">
+<div class="w-12 h-12 rounded-full bg-blue-50 dark:bg-blue-900/30 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-300">
+<span class="material-symbols-outlined text-primary text-2xl">report_problem</span>
+</div>
+<span class="text-sm font-bold text-slate-900 dark:text-slate-100 text-center">Report Issues</span>
+</div>
+<!-- Feature 4 -->
+<div class="flex flex-col items-center justify-center p-4 bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700 hover:border-primary/30 transition-colors cursor-pointer group">
+<div class="w-12 h-12 rounded-full bg-blue-50 dark:bg-blue-900/30 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-300">
+<span class="material-symbols-outlined text-primary text-2xl">location_on</span>
+</div>
+<span class="text-sm font-bold text-slate-900 dark:text-slate-100 text-center">Connect Locally</span>
+</div>
+</div>
+</section>
+<!-- Community Highlights / Testimonials -->
+<section class="px-6 py-8 bg-white dark:bg-slate-900">
+<div class="flex justify-between items-end mb-5">
+<h3 class="text-[#0d161b] dark:text-white text-lg font-bold">Community Voices</h3>
+<span class="text-primary text-sm font-semibold cursor-pointer">View all</span>
+</div>
+<!-- Horizontal Scroll Container -->
+<div class="flex overflow-x-auto gap-4 pb-4 -mx-6 px-6 snap-x scrollbar-hide">
+<!-- Testimonial 1 -->
+<div class="min-w-[280px] p-5 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-700 snap-center">
+<div class="flex items-center gap-3 mb-3">
+<div class="w-10 h-10 rounded-full bg-cover bg-center" data-alt="Portrait of Sarah smiling" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAVSzyhEC_306xVR_rH4lTVmfGFM69RpYDnisf5NifZr8yqDF9PXkGw2Gj3_bhiIoRDHO4OkxvmAtbrrWwNpvyrZT__UbYhlcXB0SzuLApKyPVySe-yR9J8w9N1DAJR7iM4upGBprLnsqs9GTfIW5QXDZc4qbCG-h0T2TJYhxlRaewzTuRX0cPwAjCzNo4h1DsA92-dhe7NyaJfWZYFtlyd7IbSKtZe2h1RMQhvYeJB6tgj1zkpO30L7u5mZ_bKCG-k2Not9AXykHSr");'></div>
+<div>
+<p class="text-sm font-bold text-slate-900 dark:text-white">Sarah Jenkins</p>
+<p class="text-xs text-slate-500 dark:text-slate-400">Greenwood Neighbor</p>
+</div>
+</div>
+<p class="text-sm text-slate-600 dark:text-slate-300 italic">"I found my running group here in just two days! It's amazing to connect with people so close to home."</p>
+</div>
+<!-- Testimonial 2 -->
+<div class="min-w-[280px] p-5 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-700 snap-center">
+<div class="flex items-center gap-3 mb-3">
+<div class="w-10 h-10 rounded-full bg-cover bg-center" data-alt="Portrait of Marcus laughing" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAk-cor-QQFjgVVQ9WY53cq9w9eUBanueYdPIZSNMfNRcNkSrvNeCEz2ntO1MJ3ooe_1t1dxr5CpTCJzVWd_mSNpNT35StwYc-t98L1MvNzUVOT3-hzFpQSV4pL0zVAbhuGGdovePffnx6NGECh3I77X0oQ07-yXyeEmGUdTKpbOi9fdRPPV7Xpeg0ki5HYuUelIIXd09a4Ym3sCwyhV4nnDl-034pxCJeIYge9hQE-1s3eEBnih0kJcCzn6BNwM_ZMGbVTlUBWVxk4");'></div>
+<div>
+<p class="text-sm font-bold text-slate-900 dark:text-white">Marcus Chen</p>
+<p class="text-xs text-slate-500 dark:text-slate-400">Downtown Resident</p>
+</div>
+</div>
+<p class="text-sm text-slate-600 dark:text-slate-300 italic">"Reporting that pothole on Main St. was actually easy, and it got fixed within a week. Great tool."</p>
+</div>
+</div>
+</section>
+<!-- Bottom Banner / CTA -->
+<div class="px-6 py-8 bg-gradient-to-br from-primary/10 to-blue-50 dark:from-slate-800 dark:to-slate-900">
+<div class="rounded-2xl bg-primary p-6 text-center text-white relative overflow-hidden">
+<!-- Decorative circles -->
+<div class="absolute top-[-20px] right-[-20px] w-24 h-24 rounded-full bg-white/10 blur-xl"></div>
+<div class="absolute bottom-[-10px] left-[-10px] w-16 h-16 rounded-full bg-white/10 blur-lg"></div>
+<span class="material-symbols-outlined text-4xl mb-2 block mx-auto">rocket_launch</span>
+<h3 class="text-lg font-bold mb-2 relative z-10">Ready to join in?</h3>
+<p class="text-sm text-white/90 mb-4 relative z-10">Start connecting with your local community today.</p>
+<button class="w-full bg-white text-primary font-bold py-3 rounded-lg text-sm hover:bg-slate-50 transition-colors relative z-10">
+                    Get Started Now
+                </button>
+</div>
+</div>
+<div class="h-8 bg-white dark:bg-slate-900"></div>
+</div>
+</body></html>

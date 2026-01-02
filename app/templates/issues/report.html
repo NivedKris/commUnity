@@ -1,0 +1,388 @@
+{% extends "base.html" %}
+
+{% block title %}Report Issue - Stitch{% endblock %}
+
+{% block content %}
+<!-- Header -->
+<div class="sticky top-0 z-30 bg-surface-light backdrop-blur-md bg-opacity-95">
+    <div class="flex items-center justify-between px-4 sm:px-6 lg:px-8 h-16 lg:h-20">
+        <div class="flex items-center gap-3 lg:gap-4">
+            <a href="{{ url_for('main.dashboard') }}" class="text-gray-600 hover:text-gray-900">
+                <span class="material-symbols-rounded text-2xl lg:text-3xl">arrow_back</span>
+            </a>
+            <h1 class="text-xl lg:text-2xl font-bold text-gray-900">Report an Issue</h1>
+        </div>
+    </div>
+</div>
+
+<!-- Form Container -->
+<div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-8 pb-24">
+    
+    <!-- Introduction Card -->
+    <div class="bg-blue-50 rounded-2xl p-5 lg:p-6 mb-6">
+        <div class="flex gap-4">
+            <span class="material-symbols-rounded text-primary text-3xl lg:text-4xl flex-shrink-0">info</span>
+            <div>
+                <h2 class="font-semibold text-gray-900 text-base lg:text-lg mb-2">Help us improve our community</h2>
+                <p class="text-gray-600 text-sm lg:text-base leading-relaxed">
+                    Report issues like broken infrastructure, safety concerns, or environmental problems. Your reports help make our neighborhood better for everyone.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Report Form -->
+    <form id="issueForm" class="space-y-6" enctype="multipart/form-data">
+        
+        <!-- Photo Upload Section -->
+        <div class="bg-surface-light rounded-2xl p-5 lg:p-6 shadow-sm">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="material-symbols-rounded text-primary text-2xl lg:text-3xl">photo_camera</span>
+                <h3 class="font-semibold text-gray-900 text-base lg:text-lg">Add Photo</h3>
+                <span class="text-sm lg:text-base text-gray-500">(Optional)</span>
+            </div>
+            
+            <!-- Photo Preview Area -->
+            <div id="photoPreview" class="hidden mb-4">
+                <div class="relative rounded-xl overflow-hidden">
+                    <img id="previewImage" src="" alt="Preview" class="w-full h-64 lg:h-80 object-cover">
+                    <button type="button" onclick="removePhoto()" class="absolute top-3 right-3 bg-red-500 text-white rounded-full p-2 lg:p-3 shadow-lg hover:bg-red-600 transition-colors">
+                        <span class="material-symbols-rounded text-xl lg:text-2xl">close</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Upload Buttons -->
+            <div id="uploadButtons" class="grid grid-cols-2 gap-3 lg:gap-4">
+                <!-- Camera Button -->
+                <label class="flex flex-col items-center justify-center bg-gray-50 hover:bg-gray-100 border-2 border-dashed border-gray-300 rounded-xl p-6 lg:p-8 cursor-pointer transition-colors">
+                    <span class="material-symbols-rounded text-4xl lg:text-5xl text-gray-400 mb-3">photo_camera</span>
+                    <span class="text-sm lg:text-base font-medium text-gray-700">Take Photo</span>
+                    <input type="file" id="cameraInput" name="photo" accept="image/*" capture="environment" class="hidden" onchange="handlePhotoUpload(event)">
+                </label>
+
+                <!-- Gallery Button -->
+                <label class="flex flex-col items-center justify-center bg-gray-50 hover:bg-gray-100 border-2 border-dashed border-gray-300 rounded-xl p-6 lg:p-8 cursor-pointer transition-colors">
+                    <span class="material-symbols-rounded text-4xl lg:text-5xl text-gray-400 mb-3">photo_library</span>
+                    <span class="text-sm lg:text-base font-medium text-gray-700">Choose from Gallery</span>
+                    <input type="file" id="galleryInput" name="photo" accept="image/*" class="hidden" onchange="handlePhotoUpload(event)">
+                </label>
+            </div>
+        </div>
+
+        <!-- Category Selection -->
+        <div class="bg-surface-light rounded-2xl p-5 lg:p-6 shadow-sm">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="material-symbols-rounded text-primary text-2xl lg:text-3xl">category</span>
+                <label for="category" class="font-semibold text-gray-900 text-base lg:text-lg">Category</label>
+                <span class="text-sm lg:text-base text-red-500">*</span>
+            </div>
+            
+            <select id="category" name="category" required class="w-full px-4 lg:px-5 py-3 lg:py-4 text-base lg:text-lg bg-gray-50 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+                <option value="">Select a category</option>
+                <option value="infrastructure">🏗️ Infrastructure (Roads, Sidewalks)</option>
+                <option value="safety">⚠️ Safety Concerns</option>
+                <option value="environment">🌳 Environment (Trash, Pollution)</option>
+                <option value="lighting">💡 Street Lighting</option>
+                <option value="water">💧 Water Issues</option>
+                <option value="noise">🔊 Noise Complaints</option>
+                <option value="parks">🏞️ Parks & Recreation</option>
+                <option value="other">📋 Other</option>
+            </select>
+        </div>
+
+        <!-- Location -->
+        <div class="bg-surface-light rounded-2xl p-5 lg:p-6 shadow-sm">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="material-symbols-rounded text-primary text-2xl lg:text-3xl">location_on</span>
+                <label for="location" class="font-semibold text-gray-900 text-base lg:text-lg">Location</label>
+                <span class="text-sm lg:text-base text-red-500">*</span>
+            </div>
+            
+            <div class="space-y-3">
+                <input type="text" id="location" name="location" required placeholder="Enter address or location" class="w-full px-4 lg:px-5 py-3 lg:py-4 text-base lg:text-lg bg-gray-50 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+                
+                <button type="button" onclick="detectLocation()" class="flex items-center gap-2 text-primary hover:text-blue-700 text-sm lg:text-base font-medium">
+                    <span class="material-symbols-rounded text-xl lg:text-2xl">my_location</span>
+                    Use my current location
+                </button>
+            </div>
+        </div>
+
+        <!-- Description -->
+        <div class="bg-surface-light rounded-2xl p-5 lg:p-6 shadow-sm">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="material-symbols-rounded text-primary text-2xl lg:text-3xl">description</span>
+                <label for="description" class="font-semibold text-gray-900 text-base lg:text-lg">Description</label>
+                <span class="text-sm lg:text-base text-red-500">*</span>
+            </div>
+            
+            <textarea id="description" name="description" required rows="6" placeholder="Please describe the issue in detail..." class="w-full px-4 lg:px-5 py-3 lg:py-4 text-base lg:text-lg bg-gray-50 border border-gray-300 rounded-xl resize-none focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"></textarea>
+            
+            <div class="flex items-center justify-between mt-2">
+                <span class="text-sm lg:text-base text-gray-500">Minimum 20 characters</span>
+                <span id="charCount" class="text-sm lg:text-base text-gray-500">0 / 20</span>
+            </div>
+        </div>
+
+        <!-- Priority Level (Optional) -->
+        <div class="bg-surface-light rounded-2xl p-5 lg:p-6 shadow-sm">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="material-symbols-rounded text-primary text-2xl lg:text-3xl">priority_high</span>
+                <h3 class="font-semibold text-gray-900 text-base lg:text-lg">Priority Level</h3>
+                <span class="text-sm lg:text-base text-gray-500">(Optional)</span>
+            </div>
+            
+            <div class="grid grid-cols-3 gap-3">
+                <label class="relative">
+                    <input type="radio" name="priority" value="low" class="peer hidden" checked>
+                    <div class="flex flex-col items-center justify-center p-4 lg:p-5 bg-gray-50 border-2 border-gray-300 rounded-xl cursor-pointer peer-checked:border-green-500 peer-checked:bg-green-50 hover:bg-gray-100 transition-colors">
+                        <span class="text-2xl lg:text-3xl mb-2">🟢</span>
+                        <span class="text-sm lg:text-base font-medium text-gray-700 peer-checked:text-green-700">Low</span>
+                    </div>
+                </label>
+
+                <label class="relative">
+                    <input type="radio" name="priority" value="medium" class="peer hidden">
+                    <div class="flex flex-col items-center justify-center p-4 lg:p-5 bg-gray-50 border-2 border-gray-300 rounded-xl cursor-pointer peer-checked:border-yellow-500 peer-checked:bg-yellow-50 hover:bg-gray-100 transition-colors">
+                        <span class="text-2xl lg:text-3xl mb-2">🟡</span>
+                        <span class="text-sm lg:text-base font-medium text-gray-700 peer-checked:text-yellow-700">Medium</span>
+                    </div>
+                </label>
+
+                <label class="relative">
+                    <input type="radio" name="priority" value="high" class="peer hidden">
+                    <div class="flex flex-col items-center justify-center p-4 lg:p-5 bg-gray-50 border-2 border-gray-300 rounded-xl cursor-pointer peer-checked:border-red-500 peer-checked:bg-red-50 hover:bg-gray-100 transition-colors">
+                        <span class="text-2xl lg:text-3xl mb-2">🔴</span>
+                        <span class="text-sm lg:text-base font-medium text-gray-700 peer-checked:text-red-700">High</span>
+                    </div>
+                </label>
+            </div>
+        </div>
+
+        <!-- Contact Information (Optional) -->
+        <div class="bg-surface-light rounded-2xl p-5 lg:p-6 shadow-sm">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="material-symbols-rounded text-primary text-2xl lg:text-3xl">contact_phone</span>
+                <h3 class="font-semibold text-gray-900 text-base lg:text-lg">Contact Info</h3>
+                <span class="text-sm lg:text-base text-gray-500">(Optional)</span>
+            </div>
+            
+            <div class="space-y-3">
+                <input type="tel" id="phone" name="phone" placeholder="Phone number for updates" class="w-full px-4 lg:px-5 py-3 lg:py-4 text-base lg:text-lg bg-gray-50 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+                
+                <label class="flex items-center gap-3 cursor-pointer">
+                    <input type="checkbox" name="anonymous" class="w-5 h-5 lg:w-6 lg:h-6 text-primary rounded focus:ring-2 focus:ring-primary">
+                    <span class="text-sm lg:text-base text-gray-700">Submit anonymously</span>
+                </label>
+            </div>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="sticky bottom-20 lg:bottom-24 pt-4">
+            <button type="submit" id="submitBtn" class="w-full bg-primary hover:bg-blue-700 text-white font-semibold py-4 lg:py-5 px-6 rounded-2xl shadow-lg hover:shadow-xl transition-all text-base lg:text-lg flex items-center justify-center gap-2">
+                <span class="material-symbols-rounded text-2xl lg:text-3xl">send</span>
+                Submit Report
+            </button>
+        </div>
+
+    </form>
+
+</div>
+
+<!-- Bottom Navigation -->
+<div class="fixed bottom-0 left-0 right-0 bg-surface-light border-t border-gray-200 z-40">
+    <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-around items-center h-16 lg:h-20">
+            <a href="{{ url_for('main.dashboard') }}" class="flex flex-col items-center gap-1 text-gray-500 hover:text-primary transition-colors">
+                <span class="material-symbols-rounded text-2xl lg:text-3xl">home</span>
+                <span class="text-xs lg:text-sm font-medium">Home</span>
+            </a>
+            <a href="{{ url_for('events.list_events') }}" class="flex flex-col items-center gap-1 text-gray-500 hover:text-primary transition-colors">
+                <span class="material-symbols-rounded text-2xl lg:text-3xl">event</span>
+                <span class="text-xs lg:text-sm font-medium">Events</span>
+            </a>
+            <a href="{{ url_for('issues.report_issue') }}" class="flex flex-col items-center gap-1 text-primary transition-colors">
+                <span class="material-symbols-rounded text-2xl lg:text-3xl fill-current">report</span>
+                <span class="text-xs lg:text-sm font-medium">Report</span>
+            </a>
+            <a href="{{ url_for('groups.list_groups') }}" class="flex flex-col items-center gap-1 text-gray-500 hover:text-primary transition-colors">
+                <span class="material-symbols-rounded text-2xl lg:text-3xl">groups</span>
+                <span class="text-xs lg:text-sm font-medium">Groups</span>
+            </a>
+            <a href="{{ url_for('auth.logout') }}" class="flex flex-col items-center gap-1 text-gray-500 hover:text-red-500 transition-colors">
+                <span class="material-symbols-rounded text-2xl lg:text-3xl">logout</span>
+                <span class="text-xs lg:text-sm font-medium">Logout</span>
+            </a>
+        </div>
+    </nav>
+</div>
+
+<!-- Success Modal (Hidden by default) -->
+<div id="successModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl p-8 lg:p-10 max-w-md w-full text-center animate-bounce-in">
+        <div class="w-20 h-20 lg:w-24 lg:h-24 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+            <span class="material-symbols-rounded text-green-600 text-5xl lg:text-6xl">check_circle</span>
+        </div>
+        
+        <h2 class="text-2xl lg:text-3xl font-bold text-gray-900 mb-3">Report Submitted!</h2>
+        <p class="text-base lg:text-lg text-gray-600 mb-8">Thank you for helping improve our community. We'll review your report and take action soon.</p>
+        
+        <div class="flex flex-col gap-3">
+            <button onclick="viewMyReports()" class="w-full bg-primary hover:bg-blue-700 text-white font-semibold py-3 lg:py-4 rounded-xl transition-colors text-base lg:text-lg">
+                View My Reports
+            </button>
+            <button onclick="closeModal()" class="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold py-3 lg:py-4 rounded-xl transition-colors text-base lg:text-lg">
+                Back to Home
+            </button>
+        </div>
+    </div>
+</div>
+
+<style>
+    @keyframes bounce-in {
+        0% {
+            opacity: 0;
+            transform: scale(0.3);
+        }
+        50% {
+            opacity: 1;
+            transform: scale(1.05);
+        }
+        70% {
+            transform: scale(0.9);
+        }
+        100% {
+            transform: scale(1);
+        }
+    }
+    
+    .animate-bounce-in {
+        animation: bounce-in 0.5s ease-out;
+    }
+</style>
+
+<script>
+    // Photo upload handling
+    function handlePhotoUpload(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('previewImage').src = e.target.result;
+                document.getElementById('photoPreview').classList.remove('hidden');
+                document.getElementById('uploadButtons').classList.add('hidden');
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+
+    function removePhoto() {
+        document.getElementById('cameraInput').value = '';
+        document.getElementById('galleryInput').value = '';
+        document.getElementById('photoPreview').classList.add('hidden');
+        document.getElementById('uploadButtons').classList.remove('hidden');
+    }
+
+    // Character counter
+    const descriptionField = document.getElementById('description');
+    const charCount = document.getElementById('charCount');
+    
+    descriptionField.addEventListener('input', function() {
+        const length = this.value.length;
+        charCount.textContent = `${length} / 20`;
+        
+        if (length >= 20) {
+            charCount.classList.remove('text-gray-500');
+            charCount.classList.add('text-green-600');
+        } else {
+            charCount.classList.remove('text-green-600');
+            charCount.classList.add('text-gray-500');
+        }
+    });
+
+    // Location detection
+    function detectLocation() {
+        if (navigator.geolocation) {
+            const locationInput = document.getElementById('location');
+            locationInput.value = 'Detecting location...';
+            
+            navigator.geolocation.getCurrentPosition(
+                function(position) {
+                    // In production, use reverse geocoding API to get address
+                    const lat = position.coords.latitude.toFixed(6);
+                    const lng = position.coords.longitude.toFixed(6);
+                    locationInput.value = `Current Location (${lat}, ${lng})`;
+                },
+                function(error) {
+                    locationInput.value = '';
+                    alert('Unable to detect location. Please enter manually.');
+                }
+            );
+        } else {
+            alert('Geolocation is not supported by your browser.');
+        }
+    }
+
+    // Form submission
+    const form = document.getElementById('issueForm');
+    const submitBtn = document.getElementById('submitBtn');
+
+    form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+
+        // Validate description length
+        const description = document.getElementById('description').value;
+        if (description.length < 20) {
+            alert('Please provide a more detailed description (minimum 20 characters).');
+            return;
+        }
+
+        // Show loading state
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<span class="material-symbols-rounded text-2xl lg:text-3xl animate-spin">progress_activity</span> Submitting...';
+
+        // Prepare form data
+        const formData = new FormData(form);
+
+        try {
+            // TODO: Replace with actual API endpoint
+            // const response = await fetch('/api/issues/report', {
+            //     method: 'POST',
+            //     body: formData
+            // });
+
+            // Simulate API call
+            await new Promise(resolve => setTimeout(resolve, 1500));
+
+            // Show success modal
+            document.getElementById('successModal').classList.remove('hidden');
+
+            // Reset form
+            form.reset();
+            removePhoto();
+            charCount.textContent = '0 / 20';
+
+        } catch (error) {
+            console.error('Error submitting report:', error);
+            alert('Failed to submit report. Please try again.');
+        } finally {
+            // Reset button
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = '<span class="material-symbols-rounded text-2xl lg:text-3xl">send</span> Submit Report';
+        }
+    });
+
+    // Modal functions
+    function closeModal() {
+        document.getElementById('successModal').classList.add('hidden');
+        window.location.href = "{{ url_for('main.dashboard') }}";
+    }
+
+    function viewMyReports() {
+        document.getElementById('successModal').classList.add('hidden');
+        window.location.href = "{{ url_for('issues.list_issues') }}";
+    }
+</script>
+
+{% endblock %}

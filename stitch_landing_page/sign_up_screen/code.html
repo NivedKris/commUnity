@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Sign Up - Community App</title>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;family=Noto+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Theme Config -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#1392ec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101a22",
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans", "sans-serif"],
+                        "body": ["Noto Sans", "sans-serif"],
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar hide for interests */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white font-display antialiased">
+<div class="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden max-w-md mx-auto bg-white dark:bg-[#15202b] shadow-xl my-0 sm:my-8 sm:rounded-2xl border-slate-100 dark:border-slate-800 sm:border">
+<!-- Top App Bar -->
+<div class="flex items-center justify-between p-4 sticky top-0 z-10 bg-white/90 dark:bg-[#15202b]/90 backdrop-blur-sm">
+<button class="flex items-center justify-center w-10 h-10 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors text-slate-700 dark:text-slate-200">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<div class="flex-1"></div>
+<button class="text-sm font-semibold text-primary hover:text-blue-600 transition-colors">
+                Log In
+            </button>
+</div>
+<!-- Headline & Body -->
+<div class="px-6 pt-2 pb-6">
+<h1 class="text-slate-900 dark:text-white tracking-tight text-[32px] font-bold leading-tight text-left mb-2">Join the Network</h1>
+<p class="text-slate-500 dark:text-slate-400 text-base font-normal leading-relaxed">Connect with people who share your interests and grow your circle.</p>
+</div>
+<!-- Social Login Buttons -->
+<div class="flex flex-col gap-3 px-6">
+<button class="relative flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors text-slate-900 dark:text-white gap-3 px-4 text-sm font-bold leading-normal tracking-[0.015em] border border-transparent dark:border-slate-700">
+<!-- SVG for Google Brand -->
+<svg class="w-5 h-5" fill="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M23.766 12.2764C23.766 11.4607 23.6999 10.6406 23.5588 9.83807H12.24V14.4591H18.7217C18.4528 15.9494 17.5885 17.2678 16.323 18.1056V21.1039H20.19C22.4608 19.0139 23.766 15.9274 23.766 12.2764Z" fill="#4285F4"></path><path d="M12.24 24.0008C15.4765 24.0008 18.2059 22.9382 20.19 21.1039L16.323 18.1055C15.2517 18.8375 13.8627 19.252 12.24 19.252C9.11388 19.252 6.45946 17.1399 5.50705 14.2796H1.5166V17.3843C3.48665 21.2956 7.51478 24.0008 12.24 24.0008Z" fill="#34A853"></path><path d="M5.50711 14.2797C5.2635 13.5414 5.12643 12.7538 5.12643 11.9443C5.12643 11.1348 5.26636 10.3472 5.50711 9.60889V6.50415H1.51666C0.710729 8.11477 0.25592 9.96783 0.25592 11.9443C0.25592 13.9208 0.707869 15.7738 1.51666 17.3844L5.50711 14.2797Z" fill="#FBBC05"></path><path d="M12.24 4.63668C13.9995 4.63668 15.5843 5.24424 16.8291 6.43555L20.2794 2.99222C18.2029 1.05435 15.4735 0 12.24 0C7.51478 0 3.48665 2.70517 1.5166 6.61646L5.50705 9.72119C6.45946 6.8609 9.11388 4.63668 12.24 4.63668Z" fill="#EA4335"></path></svg>
+<span>Continue with Google</span>
+</button>
+<button class="relative flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors text-slate-900 dark:text-white gap-3 px-4 text-sm font-bold leading-normal tracking-[0.015em] border border-transparent dark:border-slate-700">
+<!-- SVG for Facebook Brand -->
+<svg class="w-5 h-5 text-[#1877F2]" fill="currentColor" viewbox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"></path></svg>
+<span>Continue with Facebook</span>
+</button>
+</div>
+<!-- Divider -->
+<div class="flex items-center gap-4 px-6 py-6">
+<div class="h-px bg-slate-200 dark:bg-slate-700 flex-1"></div>
+<span class="text-xs font-medium text-slate-400 dark:text-slate-500 uppercase tracking-wider">Or register with email</span>
+<div class="h-px bg-slate-200 dark:bg-slate-700 flex-1"></div>
+</div>
+<!-- Form Section -->
+<form class="flex flex-col gap-5 px-6 pb-8" onsubmit="event.preventDefault();">
+<!-- Name Input -->
+<div class="flex flex-col gap-1.5">
+<label class="text-sm font-semibold text-slate-700 dark:text-slate-300" for="name">Full Name</label>
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-4 text-slate-400 text-[20px]">person</span>
+<input class="w-full h-12 pl-11 pr-4 rounded-lg bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-base" id="name" placeholder="e.g. Alex Morgan" type="text"/>
+</div>
+</div>
+<!-- Email Input -->
+<div class="flex flex-col gap-1.5">
+<label class="text-sm font-semibold text-slate-700 dark:text-slate-300" for="email">Email Address</label>
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-4 text-slate-400 text-[20px]">mail</span>
+<input class="w-full h-12 pl-11 pr-4 rounded-lg bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-base" id="email" placeholder="name@example.com" type="email"/>
+</div>
+</div>
+<!-- Password Input -->
+<div class="flex flex-col gap-1.5">
+<label class="text-sm font-semibold text-slate-700 dark:text-slate-300" for="password">Password</label>
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-4 text-slate-400 text-[20px]">lock</span>
+<input class="w-full h-12 pl-11 pr-11 rounded-lg bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-base" id="password" placeholder="Create a password" type="password"/>
+<button class="absolute right-0 top-0 h-full px-4 flex items-center justify-center text-slate-400 hover:text-slate-600 dark:hover:text-slate-300" type="button">
+<span class="material-symbols-outlined text-[20px]">visibility</span>
+</button>
+</div>
+</div>
+<!-- Location Input -->
+<div class="flex flex-col gap-1.5">
+<label class="text-sm font-semibold text-slate-700 dark:text-slate-300" for="location">Location</label>
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-4 text-slate-400 text-[20px]">location_on</span>
+<input class="w-full h-12 pl-11 pr-11 rounded-lg bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-base" id="location" placeholder="City or Region" type="text"/>
+<button class="absolute right-0 top-0 h-full px-4 flex items-center justify-center text-primary hover:text-blue-600" type="button">
+<span class="material-symbols-outlined text-[20px]">my_location</span>
+</button>
+</div>
+</div>
+<!-- Interests Selection -->
+<div class="flex flex-col gap-2.5 mt-2">
+<label class="text-sm font-semibold text-slate-700 dark:text-slate-300">Your Interests</label>
+<div class="flex flex-wrap gap-2">
+<label class="cursor-pointer group">
+<input checked="" class="peer sr-only" type="checkbox"/>
+<div class="flex items-center gap-1.5 px-4 py-2 rounded-full border border-primary bg-primary/10 text-primary transition-all peer-checked:bg-primary peer-checked:text-white peer-checked:border-primary group-hover:bg-primary/20 peer-checked:group-hover:bg-primary/90">
+<span class="text-sm font-medium">Technology</span>
+<span class="material-symbols-outlined text-[16px] hidden peer-checked:block">check</span>
+</div>
+</label>
+<label class="cursor-pointer group">
+<input class="peer sr-only" type="checkbox"/>
+<div class="flex items-center gap-1.5 px-4 py-2 rounded-full border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-400 transition-all peer-checked:bg-primary peer-checked:text-white peer-checked:border-primary group-hover:border-primary/50">
+<span class="text-sm font-medium">Design</span>
+<span class="material-symbols-outlined text-[16px] hidden peer-checked:block">check</span>
+</div>
+</label>
+<label class="cursor-pointer group">
+<input class="peer sr-only" type="checkbox"/>
+<div class="flex items-center gap-1.5 px-4 py-2 rounded-full border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-400 transition-all peer-checked:bg-primary peer-checked:text-white peer-checked:border-primary group-hover:border-primary/50">
+<span class="text-sm font-medium">Business</span>
+<span class="material-symbols-outlined text-[16px] hidden peer-checked:block">check</span>
+</div>
+</label>
+<label class="cursor-pointer group">
+<input class="peer sr-only" type="checkbox"/>
+<div class="flex items-center gap-1.5 px-4 py-2 rounded-full border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-400 transition-all peer-checked:bg-primary peer-checked:text-white peer-checked:border-primary group-hover:border-primary/50">
+<span class="text-sm font-medium">Art</span>
+<span class="material-symbols-outlined text-[16px] hidden peer-checked:block">check</span>
+</div>
+</label>
+<label class="cursor-pointer group">
+<input class="peer sr-only" type="checkbox"/>
+<div class="flex items-center gap-1.5 px-4 py-2 rounded-full border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-400 transition-all peer-checked:bg-primary peer-checked:text-white peer-checked:border-primary group-hover:border-primary/50">
+<span class="text-sm font-medium">Photography</span>
+<span class="material-symbols-outlined text-[16px] hidden peer-checked:block">check</span>
+</div>
+</label>
+</div>
+</div>
+<!-- Submit Button -->
+<div class="pt-4">
+<button class="flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-xl h-12 bg-primary hover:bg-blue-600 text-white gap-2 px-6 text-base font-bold leading-normal tracking-wide shadow-lg shadow-blue-500/30 transition-all transform active:scale-[0.98]" type="submit">
+<span class="truncate">Create Account</span>
+<span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+</button>
+</div>
+<!-- Footer / Legal -->
+<p class="text-center text-xs text-slate-400 dark:text-slate-500 mt-2 px-4 leading-relaxed">
+                By signing up, you agree to our <a class="underline hover:text-slate-600 dark:hover:text-slate-300" href="#">Terms of Service</a> and <a class="underline hover:text-slate-600 dark:hover:text-slate-300" href="#">Privacy Policy</a>.
+            </p>
+</form>
+<div class="h-6 bg-transparent"></div>
+</div>
+</body></html>

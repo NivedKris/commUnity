@@ -1,0 +1,535 @@
+{% extends "base.html" %}
+
+{% block title %}{{ event.title }} - CommUnity{% endblock %}
+
+{% block content %}
+<div class="relative flex h-full w-full flex-col min-h-screen pb-24 bg-background-light dark:bg-background-dark overflow-hidden">
+    <!-- Hero Image -->
+    <div class="relative h-64 lg:h-96 overflow-hidden">
+        <img src="{{ event.image_url or 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=1600' }}" alt="{{ event.title }}" class="w-full h-full object-cover">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
+        
+        <!-- Back Button -->
+        <a href="/events" class="absolute top-4 left-4 flex items-center justify-center w-10 h-10 lg:w-12 lg:h-12 rounded-full bg-white/90 dark:bg-black/80 backdrop-blur-sm hover:bg-white transition-colors shadow-lg">
+            <span class="material-symbols-outlined text-slate-900 dark:text-white">arrow_back</span>
+        </a>
+        
+        <!-- Action Buttons -->
+        <div class="absolute top-4 right-4 flex gap-2">
+            {% if current_user.id|string == event.organizer_id|string %}
+            <!-- Edit Button (Organizer Only) -->
+            <a href="{{ url_for('events.edit_event_form', event_id=event.id) }}" class="flex items-center justify-center w-10 h-10 lg:w-12 lg:h-12 rounded-full bg-white/90 dark:bg-black/80 backdrop-blur-sm hover:bg-white transition-colors shadow-lg">
+                <span class="material-symbols-outlined text-slate-900 dark:text-white">edit</span>
+            </a>
+            <!-- Delete Button (Organizer Only) -->
+            <button onclick="confirmDelete()" class="flex items-center justify-center w-10 h-10 lg:w-12 lg:h-12 rounded-full bg-red-500/90 backdrop-blur-sm hover:bg-red-500 transition-colors shadow-lg">
+                <span class="material-symbols-outlined text-white">delete</span>
+            </button>
+            {% endif %}
+            <!-- Share Button -->
+            <button onclick="shareEvent()" class="flex items-center justify-center w-10 h-10 lg:w-12 lg:h-12 rounded-full bg-white/90 dark:bg-black/80 backdrop-blur-sm hover:bg-white transition-colors shadow-lg">
+                <span class="material-symbols-outlined text-slate-900 dark:text-white">share</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Content -->
+    <div class="flex-1 overflow-y-auto">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-8">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
+                <!-- Main Content -->
+                <div class="lg:col-span-2 space-y-6">
+                    <!-- Event Header -->
+                    <div class="bg-white dark:bg-surface-dark rounded-2xl lg:rounded-3xl border border-slate-100 dark:border-slate-700 p-5 lg:p-6 shadow-sm">
+                        <div class="flex items-center gap-2 mb-3">
+                            <span class="px-3 py-1.5 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 text-sm font-bold">{{ event.category }}</span>
+                            <span class="px-3 py-1.5 rounded-full bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 text-sm font-bold">Free</span>
+                        </div>
+                        <h1 class="text-2xl lg:text-4xl font-bold text-slate-900 dark:text-white mb-3">{{ event.title }}</h1>
+                        <p class="text-base lg:text-lg text-slate-600 dark:text-slate-400">{{ event.description[:150] }}...</p>
+                    </div>
+
+                    <!-- Event Details -->
+                    <div class="bg-white dark:bg-surface-dark rounded-2xl lg:rounded-3xl border border-slate-100 dark:border-slate-700 p-5 lg:p-6 shadow-sm">
+                        <h2 class="text-xl lg:text-2xl font-bold text-slate-900 dark:text-white mb-4">Event Details</h2>
+                        <div class="space-y-4">
+                            <div class="flex items-start gap-4">
+                                <div class="flex items-center justify-center w-12 h-12 rounded-full bg-primary/10 text-primary flex-shrink-0">
+                                    <span class="material-symbols-outlined text-2xl">schedule</span>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-slate-500 dark:text-slate-400 font-semibold">Date & Time</p>
+                                    <p class="text-base lg:text-lg font-bold text-slate-900 dark:text-white">{{ event.date_time.strftime('%B %d, %Y') }}</p>
+                                    <p class="text-base text-slate-600 dark:text-slate-300">{{ event.date_time.strftime('%I:%M %p') }} IST</p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start gap-4">
+                                <div class="flex items-center justify-center w-12 h-12 rounded-full bg-primary/10 text-primary flex-shrink-0">
+                                    <span class="material-symbols-outlined text-2xl">location_on</span>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-slate-500 dark:text-slate-400 font-semibold">Location</p>
+                                    <p class="text-base lg:text-lg font-bold text-slate-900 dark:text-white">{{ event.location }}</p>
+                                    {% if event.latitude and event.longitude %}
+                                    <a href="https://maps.google.com/?q={{ event.latitude }},{{ event.longitude }}" target="_blank" class="mt-2 text-sm font-semibold text-primary hover:text-primary/80 inline-block">View on Map</a>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <div class="flex items-start gap-4">
+                                <div class="flex items-center justify-center w-12 h-12 rounded-full bg-primary/10 text-primary flex-shrink-0">
+                                    <span class="material-symbols-outlined text-2xl">person</span>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-slate-500 dark:text-slate-400 font-semibold">Organized by</p>
+                                    <p class="text-base lg:text-lg font-bold text-slate-900 dark:text-white">{{ event.organizer.name }}</p>
+                                    <a href="/profile/{{ event.organizer.id }}" class="mt-2 text-sm font-semibold text-primary hover:text-primary/80 inline-block">View Profile</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- About Event -->
+                    <div class="bg-white dark:bg-surface-dark rounded-2xl lg:rounded-3xl border border-slate-100 dark:border-slate-700 p-5 lg:p-6 shadow-sm">
+                        <h2 class="text-xl lg:text-2xl font-bold text-slate-900 dark:text-white mb-4">About This Event</h2>
+                        <div class="prose prose-slate dark:prose-invert max-w-none">
+                            <p class="text-base text-slate-600 dark:text-slate-300 leading-relaxed whitespace-pre-wrap">{{ event.description }}</p>
+                            {% if event.max_participants %}
+                            <p class="text-sm text-slate-500 dark:text-slate-400 mt-4">
+                                <strong>Max Participants:</strong> {{ event.max_participants }}
+                            </p>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- Location Map -->
+                    {% if event.latitude and event.longitude %}
+                    <div class="bg-white dark:bg-surface-dark rounded-2xl lg:rounded-3xl border border-slate-100 dark:border-slate-700 overflow-hidden shadow-sm">
+                        <div class="p-5 lg:p-6 border-b border-slate-100 dark:border-slate-700">
+                            <h2 class="text-xl lg:text-2xl font-bold text-slate-900 dark:text-white">Location</h2>
+                        </div>
+                        <div class="relative h-64 lg:h-80">
+                            <iframe
+                                width="100%"
+                                height="100%"
+                                frameborder="0"
+                                style="border:0"
+                                referrerpolicy="no-referrer-when-downgrade"
+                                src="https://www.google.com/maps/embed/v1/place?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8&q={{ event.latitude }},{{ event.longitude }}&zoom=15"
+                                allowfullscreen>
+                            </iframe>
+                        </div>
+                        <div class="p-5 lg:p-6 border-t border-slate-100 dark:border-slate-700">
+                            <div class="flex items-start gap-3">
+                                <span class="material-symbols-outlined text-primary text-2xl mt-0.5">location_on</span>
+                                <div class="flex-1">
+                                    <p class="font-bold text-slate-900 dark:text-white mb-1">{{ event.location }}</p>
+                                    <a href="https://www.google.com/maps/dir/?api=1&destination={{ event.latitude }},{{ event.longitude }}" target="_blank" class="inline-flex items-center gap-1 text-sm font-semibold text-primary hover:text-primary/80 transition-colors">
+                                        <span>Get Directions</span>
+                                        <span class="material-symbols-outlined text-base">arrow_forward</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <!-- Comments Section -->
+                    <div class="bg-white dark:bg-surface-dark rounded-2xl lg:rounded-3xl border border-slate-100 dark:border-slate-700 p-5 lg:p-6 shadow-sm">
+                        <h2 class="text-xl lg:text-2xl font-bold text-slate-900 dark:text-white mb-4">Discussion ({{ event.comments|length }})</h2>
+                        <div class="space-y-4" id="comments-list">
+                            {% if event.comments %}
+                                {% for comment in event.comments %}
+                                <!-- Comment -->
+                                <div class="flex gap-3">
+                                    <img src="{{ comment.user_picture or 'https://ui-avatars.com/api/?name=' + comment.user_name|urlencode + '&background=1392ec&color=fff' }}" alt="{{ comment.user_name }}" class="w-10 h-10 rounded-full flex-shrink-0">
+                                    <div class="flex-1">
+                                        <div class="flex items-center gap-2 mb-1">
+                                            <p class="font-bold text-slate-900 dark:text-white">{{ comment.user_name }}</p>
+                                            <span class="text-xs text-slate-500">{{ comment.created_at.strftime('%b %d, %I:%M %p') }}</span>
+                                        </div>
+                                        <p class="text-sm text-slate-600 dark:text-slate-300">{{ comment.content }}</p>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            {% else %}
+                                <p class="text-sm text-slate-500 dark:text-slate-400 text-center py-4">No comments yet. Be the first to comment!</p>
+                            {% endif %}
+
+                            <!-- Add Comment -->
+                            <div class="pt-4 border-t border-slate-100 dark:border-slate-700">
+                                <textarea id="comment-input" class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-surface-dark text-slate-900 dark:text-white placeholder:text-slate-400 focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all resize-none" rows="3" placeholder="Write a comment..."></textarea>
+                                <button onclick="postComment()" id="post-comment-btn" class="mt-3 px-6 py-2.5 bg-primary hover:bg-primary/90 text-white font-bold text-sm rounded-xl transition-colors">
+                                    Post Comment
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sidebar -->
+                <div class="lg:col-span-1 space-y-6">
+                    <!-- RSVP Card -->
+                    <div class="bg-white dark:bg-surface-dark rounded-2xl lg:rounded-3xl border border-slate-100 dark:border-slate-700 p-5 lg:p-6 shadow-sm sticky top-4">
+                        <div class="text-center mb-4">
+                            <p id="attendee-count" class="text-3xl lg:text-4xl font-bold text-primary mb-1">{{ event.attendee_count }}</p>
+                            <p class="text-sm text-slate-500 dark:text-slate-400">people going</p>
+                        </div>
+                        
+                        <button id="btn-going" onclick="handleRSVP('going')" class="w-full py-3 lg:py-4 {% if event.user_rsvp == 'going' %}bg-primary{% else %}bg-slate-100 dark:bg-slate-800{% endif %} hover:bg-primary/90 {% if event.user_rsvp == 'going' %}text-white{% else %}text-slate-900 dark:text-white{% endif %} font-bold text-base lg:text-lg rounded-xl transition-colors shadow-lg mb-3">
+                            {% if event.user_rsvp == 'going' %}✓ I'm Going!{% else %}I'm Going!{% endif %}
+                        </button>
+                        
+                        <button id="btn-interested" onclick="handleRSVP('interested')" class="w-full py-3 {% if event.user_rsvp == 'interested' %}bg-primary text-white{% else %}bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white{% endif %} hover:bg-slate-200 dark:hover:bg-slate-700 font-semibold text-sm rounded-xl transition-colors">
+                            {% if event.user_rsvp == 'interested' %}✓ Interested{% else %}Interested{% endif %}
+                        </button>
+
+                        <div class="mt-6 pt-6 border-t border-slate-100 dark:border-slate-700">
+                            <p class="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-3">Share this event</p>
+                            <div class="flex gap-2">
+                                <button onclick="shareEvent()" class="flex-1 flex items-center justify-center gap-2 py-2 bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors">
+                                    <span class="material-symbols-outlined text-xl">share</span>
+                                    <span class="text-xs font-semibold">Share</span>
+                                </button>
+                                <button onclick="saveEvent()" id="save-btn" class="flex-1 flex items-center justify-center gap-2 py-2 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 rounded-lg hover:bg-red-100 dark:hover:bg-red-900/30 transition-colors">
+                                    <span class="material-symbols-outlined text-xl">favorite</span>
+                                    <span class="text-xs font-semibold">Save</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Attendees -->
+                    <div class="bg-white dark:bg-surface-dark rounded-2xl lg:rounded-3xl border border-slate-100 dark:border-slate-700 p-5 lg:p-6 shadow-sm">
+                        <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-4">Attendees</h3>
+                        <div class="space-y-3">
+                            <!-- Organizer First -->
+                            <a href="/profile/{{ event.organizer.id }}" class="flex items-center gap-3 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg p-2 -m-2 transition-colors">
+                                <img src="{{ event.organizer.profile_picture or 'https://ui-avatars.com/api/?name=' + event.organizer.name|urlencode + '&background=1392ec&color=fff' }}" alt="{{ event.organizer.name }}" class="w-10 h-10 rounded-full">
+                                <div class="flex-1">
+                                    <p class="font-semibold text-sm text-slate-900 dark:text-white">{{ event.organizer.name }}</p>
+                                    <p class="text-xs text-slate-500">Organizer</p>
+                                </div>
+                            </a>
+                            {% for attendee in event.attendees %}
+                            {% if attendee.id != event.organizer.id %}
+                            <a href="/profile/{{ attendee.id }}" class="flex items-center gap-3 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg p-2 -m-2 transition-colors">
+                                <img src="{{ attendee.profile_picture or 'https://ui-avatars.com/api/?name=' + attendee.name|urlencode + '&background=random&color=fff' }}" alt="{{ attendee.name }}" class="w-10 h-10 rounded-full">
+                                <div class="flex-1">
+                                    <p class="font-semibold text-sm text-slate-900 dark:text-white">{{ attendee.name }}</p>
+                                    <p class="text-xs text-slate-500">Going</p>
+                                </div>
+                            </a>
+                            {% endif %}
+                            {% endfor %}
+                        </div>
+                        {% if event.attendee_count > 10 %}
+                        <button class="w-full mt-4 py-2 text-sm font-semibold text-primary hover:text-primary/80 transition-colors">
+                            View all {{ event.attendee_count }} attendees
+                        </button>
+                        {% endif %}
+                    </div>
+
+                    <!-- Similar Events -->
+                    <div class="bg-white dark:bg-surface-dark rounded-2xl lg:rounded-3xl border border-slate-100 dark:border-slate-700 p-5 lg:p-6 shadow-sm">
+                        <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-4">Similar Events</h3>
+                        <div class="space-y-3">
+                            {% if event.similar_events %}
+                                {% for similar in event.similar_events %}
+                                <a href="/events/{{ similar.id }}" class="block group">
+                                    <div class="flex gap-3">
+                                        <img src="{{ similar.image_url or 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=200' }}" alt="{{ similar.title }}" class="w-20 h-20 rounded-lg object-cover group-hover:scale-105 transition-transform">
+                                        <div class="flex-1">
+                                            <p class="font-semibold text-sm text-slate-900 dark:text-white line-clamp-2 group-hover:text-primary transition-colors">{{ similar.title }}</p>
+                                            <p class="text-xs text-slate-500 mt-1">{{ similar.date_time.strftime('%b %d, %I:%M %p') }}</p>
+                                        </div>
+                                    </div>
+                                </a>
+                                {% endfor %}
+                            {% else %}
+                                <p class="text-sm text-slate-500 dark:text-slate-400 text-center py-4">No similar events found</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="fixed bottom-0 z-40 w-full bg-white/90 dark:bg-surface-dark/90 backdrop-blur-lg border-t border-slate-200 dark:border-slate-800 pb-safe">
+        <div class="flex items-center justify-around h-16 lg:h-20 px-2 lg:px-4 max-w-7xl mx-auto">
+            <a href="/dashboard" class="flex flex-col items-center justify-center w-full h-full gap-1 text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300">
+                <span class="material-symbols-outlined text-2xl lg:text-3xl">home</span>
+                <span class="text-[10px] lg:text-xs font-medium">Home</span>
+            </a>
+            <a href="/events" class="flex flex-col items-center justify-center w-full h-full gap-1 text-primary">
+                <span class="material-symbols-outlined filled text-2xl lg:text-3xl" style="font-variation-settings: 'FILL' 1;">explore</span>
+                <span class="text-[10px] lg:text-xs font-bold">Explore</span>
+            </a>
+            <a href="/chat" class="flex flex-col items-center justify-center w-full h-full gap-1 text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300">
+                <div class="relative">
+                    <span class="material-symbols-outlined text-2xl lg:text-3xl">chat</span>
+                    <span class="absolute -top-1 -right-1 size-2.5 bg-red-500 rounded-full border-2 border-white dark:border-surface-dark"></span>
+                </div>
+                <span class="text-[10px] lg:text-xs font-medium">Chat</span>
+            </a>
+            <a href="/profile" class="flex flex-col items-center justify-center w-full h-full gap-1 text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300">
+                <span class="material-symbols-outlined text-2xl lg:text-3xl">person</span>
+                <span class="text-[10px] lg:text-xs font-medium">Profile</span>
+            </a>
+            <a href="/auth/logout" class="flex flex-col items-center justify-center w-full h-full gap-1 text-slate-400 dark:text-slate-500 hover:text-red-500 dark:hover:text-red-400 transition-colors">
+                <span class="material-symbols-outlined text-2xl lg:text-3xl">logout</span>
+                <span class="text-[10px] lg:text-xs font-medium">Logout</span>
+            </a>
+        </div>
+    </nav>
+</div>
+
+<script>
+const eventId = '{{ event.id }}';
+
+async function handleRSVP(status) {
+    try {
+        const btnGoing = document.getElementById('btn-going');
+        const btnInterested = document.getElementById('btn-interested');
+        
+        // Disable buttons during request
+        btnGoing.disabled = true;
+        btnInterested.disabled = true;
+        
+        const response = await fetch(`/events/api/${eventId}/rsvp`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ status: status })
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            // Update attendee count
+            document.getElementById('attendee-count').textContent = data.attendee_count;
+            
+            // Update button styles
+            if (status === 'going') {
+                btnGoing.className = 'w-full py-3 lg:py-4 bg-primary hover:bg-primary/90 text-white font-bold text-base lg:text-lg rounded-xl transition-colors shadow-lg mb-3';
+                btnGoing.innerHTML = '✓ I\'m Going!';
+                btnInterested.className = 'w-full py-3 bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white hover:bg-slate-200 dark:hover:bg-slate-700 font-semibold text-sm rounded-xl transition-colors';
+                btnInterested.innerHTML = 'Interested';
+            } else if (status === 'interested') {
+                btnInterested.className = 'w-full py-3 bg-primary text-white hover:bg-primary/90 font-semibold text-sm rounded-xl transition-colors';
+                btnInterested.innerHTML = '✓ Interested';
+                btnGoing.className = 'w-full py-3 lg:py-4 bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white hover:bg-primary/90 font-bold text-base lg:text-lg rounded-xl transition-colors shadow-lg mb-3';
+                btnGoing.innerHTML = 'I\'m Going!';
+            }
+            
+            // Show success message
+            showNotification('RSVP updated successfully!', 'success');
+        } else {
+            showNotification(data.message || 'Failed to update RSVP', 'error');
+        }
+    } catch (error) {
+        console.error('Error updating RSVP:', error);
+        showNotification('Failed to update RSVP. Please try again.', 'error');
+    } finally {
+        // Re-enable buttons
+        const btnGoing = document.getElementById('btn-going');
+        const btnInterested = document.getElementById('btn-interested');
+        btnGoing.disabled = false;
+        btnInterested.disabled = false;
+    }
+}
+
+async function postComment() {
+    const input = document.getElementById('comment-input');
+    const btn = document.getElementById('post-comment-btn');
+    const content = input.value.trim();
+    
+    if (!content) {
+        showNotification('Please enter a comment', 'error');
+        return;
+    }
+    
+    // Disable input during request
+    input.disabled = true;
+    btn.disabled = true;
+    btn.textContent = 'Posting...';
+    
+    try {
+        const response = await fetch(`/events/api/${eventId}/comment`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ content: content })
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            // Add comment to list
+            const commentsList = document.getElementById('comments-list');
+            const commentHTML = `
+                <div class="flex gap-3">
+                    <img src="${data.comment.user_picture || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(data.comment.user_name) + '&background=1392ec&color=fff'}" alt="${data.comment.user_name}" class="w-10 h-10 rounded-full flex-shrink-0">
+                    <div class="flex-1">
+                        <div class="flex items-center gap-2 mb-1">
+                            <p class="font-bold text-slate-900 dark:text-white">${data.comment.user_name}</p>
+                            <span class="text-xs text-slate-500">Just now</span>
+                        </div>
+                        <p class="text-sm text-slate-600 dark:text-slate-300">${data.comment.content}</p>
+                    </div>
+                </div>
+            `;
+            
+            // Insert before the "Add Comment" form
+            const addCommentForm = commentsList.querySelector('.pt-4.border-t');
+            if (addCommentForm) {
+                addCommentForm.insertAdjacentHTML('beforebegin', commentHTML);
+            } else {
+                // If no form found, append to list
+                commentsList.insertAdjacentHTML('beforeend', commentHTML);
+            }
+            
+            // Clear input
+            input.value = '';
+            
+            // Update comment count in heading
+            const heading = commentsList.closest('.bg-white, .bg-surface-dark').querySelector('h2');
+            if (heading) {
+                const match = heading.textContent.match(/\d+/);
+                const currentCount = match ? parseInt(match[0]) : 0;
+                heading.textContent = `Discussion (${currentCount + 1})`;
+            }
+            
+            showNotification('Comment posted successfully!', 'success');
+        } else {
+            showNotification(data.error || 'Failed to post comment', 'error');
+        }
+    } catch (error) {
+        console.error('Error posting comment:', error);
+        showNotification('Failed to post comment. Please try again.', 'error');
+    } finally {
+        // Re-enable input
+        input.disabled = false;
+        btn.disabled = false;
+        btn.textContent = 'Post Comment';
+    }
+}
+
+async function saveEvent() {
+    try {
+        const response = await fetch(`/events/api/${eventId}/save`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            showNotification(data.saved ? 'Event saved!' : 'Event unsaved', 'success');
+            // Update save button UI if needed
+            const saveBtn = document.getElementById('save-btn');
+            if (saveBtn) {
+                const icon = saveBtn.querySelector('.material-symbols-outlined');
+                if (data.saved) {
+                    icon.style.fontVariationSettings = "'FILL' 1";
+                    icon.classList.add('text-red-600', 'dark:text-red-400');
+                } else {
+                    icon.style.fontVariationSettings = "'FILL' 0";
+                    icon.classList.remove('text-red-600', 'dark:text-red-400');
+                }
+            }
+        } else {
+            showNotification(data.error || 'Failed to save event', 'error');
+        }
+    } catch (error) {
+        console.error('Error saving event:', error);
+        showNotification('Failed to save event. Please try again.', 'error');
+    }
+}
+
+function shareEvent() {
+    const url = window.location.href;
+    const title = '{{ event.title }}';
+    const text = `Check out "${title}" on CommUnity! Join us for this amazing event.`;
+    
+    if (navigator.share) {
+        navigator.share({
+            title: title,
+            text: text,
+            url: url
+        }).then(() => {
+            showNotification('Event shared successfully!', 'success');
+        }).catch(err => {
+            if (err.name !== 'AbortError') {
+                console.log('Error sharing:', err);
+                // Fallback to copy
+                copyToClipboard(url);
+            }
+        });
+    } else {
+        // Fallback: copy to clipboard
+        copyToClipboard(url);
+    }
+}
+
+function copyToClipboard(text) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(() => {
+            showNotification('Event link copied to clipboard!', 'success');
+        }).catch(err => {
+            console.error('Failed to copy:', err);
+            showNotification('Failed to copy link', 'error');
+        });
+    } else {
+        // Fallback for older browsers
+        const textArea = document.createElement('textarea');
+        textArea.value = text;
+        textArea.style.position = 'fixed';
+        textArea.style.left = '-999999px';
+        document.body.appendChild(textArea);
+        textArea.select();
+        try {
+            document.execCommand('copy');
+            showNotification('Event link copied to clipboard!', 'success');
+        } catch (err) {
+            console.error('Failed to copy:', err);
+            showNotification('Failed to copy link', 'error');
+        }
+        document.body.removeChild(textArea);
+    }
+}
+
+function showNotification(message, type) {
+    // Create notification element
+    const notification = document.createElement('div');
+    notification.className = `fixed top-4 right-4 z-50 px-6 py-3 rounded-xl shadow-lg text-white font-semibold ${type === 'success' ? 'bg-green-500' : 'bg-red-500'} animate-slide-in`;
+    notification.textContent = message;
+    document.body.appendChild(notification);
+    
+    // Remove after 3 seconds
+    setTimeout(() => {
+        notification.classList.add('animate-slide-out');
+        setTimeout(() => notification.remove(), 300);
+    }, 3000);
+}
+
+function confirmDelete() {
+    if (confirm('Are you sure you want to delete this event? This action cannot be undone.')) {
+        // Create form and submit
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '{{ url_for("events.delete_event", event_id=event.id) }}';
+        document.body.appendChild(form);
+        form.submit();
+    }
+}
+
+</script>
+{% endblock %}

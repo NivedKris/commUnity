@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Event Discovery</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#1392ec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101a22",
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#1A2633",
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-50 antialiased overflow-x-hidden">
+<div class="relative flex min-h-screen w-full flex-col max-w-md mx-auto bg-background-light dark:bg-background-dark shadow-2xl overflow-hidden pb-24">
+<!-- Header Section -->
+<header class="sticky top-0 z-20 bg-background-light/95 dark:bg-background-dark/95 backdrop-blur-sm">
+<!-- Top Bar -->
+<div class="flex items-center justify-between p-4 pb-2 pt-6">
+<div class="flex items-center gap-2 text-slate-500 dark:text-slate-400">
+<span class="material-symbols-outlined text-[20px]">location_on</span>
+<span class="text-sm font-medium">San Francisco, CA</span>
+<span class="material-symbols-outlined text-[16px]">expand_more</span>
+</div>
+<div class="h-10 w-10 rounded-full bg-cover bg-center ring-2 ring-primary/20" data-alt="User profile picture showing a smiling woman" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDXO2Y3vt3tYqdfqJS3X0b_UoS9NVgg1LA8wixD1ien85fWyYZ0-n_W-juMQPLdmzuKq4DS8Cpg6YgwL2kLPHdbp5paC0ArGrbyEVEBPYGSxEl5rbhRTCCl_5gCyawgbmOkGKHy3uXoShu_gJzo7OfsKxKvfJ1CqLPeUkVXQvMWFaCAInYb-7gT9sRTGKNQ0CYNZBU5yy5nuBglfan8aZhg-3JVQNOXLiVb-X9tz4346TKhsfJHG1pqYdbM2M-QZAYbt1LBVRuMFzIn');">
+</div>
+</div>
+<!-- Headline -->
+<h1 class="text-slate-900 dark:text-white tracking-tight text-[32px] font-bold leading-tight px-4 text-left pb-3">
+                Discover Events
+            </h1>
+<!-- Search Bar -->
+<div class="px-4 pb-4">
+<label class="flex flex-col h-12 w-full">
+<div class="flex w-full flex-1 items-stretch rounded-xl h-full shadow-sm">
+<div class="text-slate-400 dark:text-slate-500 flex border-none bg-white dark:bg-surface-dark items-center justify-center pl-4 rounded-l-xl">
+<span class="material-symbols-outlined">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-slate-900 dark:text-white focus:outline-0 focus:ring-0 border-none bg-white dark:bg-surface-dark focus:border-none h-full placeholder:text-slate-400 dark:placeholder:text-slate-500 px-4 rounded-l-none pl-2 text-base font-normal leading-normal" placeholder="Search events, topics, or places..." value=""/>
+<div class="text-primary flex border-none bg-white dark:bg-surface-dark items-center justify-center pr-4 rounded-r-xl border-l border-slate-100 dark:border-slate-700">
+<span class="material-symbols-outlined cursor-pointer">tune</span>
+</div>
+</div>
+</label>
+</div>
+<!-- Filter Chips -->
+<div class="flex gap-3 px-4 pb-4 overflow-x-auto hide-scrollbar w-full">
+<!-- Active Chip -->
+<button class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-full bg-primary px-4 shadow-sm shadow-primary/30 transition-transform active:scale-95">
+<span class="material-symbols-outlined text-white text-[18px]">star</span>
+<p class="text-white text-sm font-medium whitespace-nowrap">All</p>
+</button>
+<!-- Inactive Chips -->
+<button class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-full bg-white dark:bg-surface-dark border border-slate-100 dark:border-slate-700 px-4 transition-transform active:scale-95">
+<span class="material-symbols-outlined text-slate-500 text-[18px]">work</span>
+<p class="text-slate-700 dark:text-slate-300 text-sm font-medium whitespace-nowrap">Career</p>
+</button>
+<button class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-full bg-white dark:bg-surface-dark border border-slate-100 dark:border-slate-700 px-4 transition-transform active:scale-95">
+<span class="material-symbols-outlined text-slate-500 text-[18px]">music_note</span>
+<p class="text-slate-700 dark:text-slate-300 text-sm font-medium whitespace-nowrap">Music</p>
+</button>
+<button class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-full bg-white dark:bg-surface-dark border border-slate-100 dark:border-slate-700 px-4 transition-transform active:scale-95">
+<span class="material-symbols-outlined text-slate-500 text-[18px]">palette</span>
+<p class="text-slate-700 dark:text-slate-300 text-sm font-medium whitespace-nowrap">Art</p>
+</button>
+<button class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-full bg-white dark:bg-surface-dark border border-slate-100 dark:border-slate-700 px-4 transition-transform active:scale-95">
+<span class="material-symbols-outlined text-slate-500 text-[18px]">fitness_center</span>
+<p class="text-slate-700 dark:text-slate-300 text-sm font-medium whitespace-nowrap">Sports</p>
+</button>
+</div>
+</header>
+<!-- Main Content Feed -->
+<main class="flex flex-col gap-5 px-4 pt-2">
+<!-- Section Header -->
+<div class="flex items-center justify-between">
+<h2 class="text-lg font-bold text-slate-900 dark:text-white">Upcoming Events</h2>
+<button class="text-primary text-sm font-semibold">See All</button>
+</div>
+<!-- Card 1 -->
+<div class="@container">
+<div class="flex flex-col items-stretch justify-start rounded-2xl shadow-sm bg-surface-light dark:bg-surface-dark overflow-hidden transition-all hover:shadow-md">
+<div class="relative w-full aspect-video bg-cover bg-center" data-alt="People sitting around a table with laptops having a discussion" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBZfbRtB7PXEipSorJTBcOiU6SVqLA2MvBTl0X2qEZgUxvQKrvisgCmbmVbyWDn2sYPr1r8hxf2fJXRoMhfUFgTci6m3fOr726tlOqdXqFh-xtOfHil2po_XZyG0duVp1nud2nNRjsTaoti2lsQjGZFQT-4m0a77C9SmQxPqvt1hQYJpucq5Gym4X25fF3CvwE6YbUfs51_Gj_rQSkncjO9-OynAevL7Ae_keBIKQl_lb5u9GYNRgyYGFL0FW-LTdVnraKk42L3rsdm");'>
+<div class="absolute top-3 left-3 bg-white/90 dark:bg-black/80 backdrop-blur-sm px-2.5 py-1 rounded-lg flex flex-col items-center shadow-sm">
+<span class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase">Oct</span>
+<span class="text-lg font-bold text-slate-900 dark:text-white leading-none">24</span>
+</div>
+<div class="absolute top-3 right-3 p-2 rounded-full bg-white/20 backdrop-blur-md text-white">
+<span class="material-symbols-outlined text-[20px]">favorite</span>
+</div>
+</div>
+<div class="flex w-full flex-col gap-3 p-4">
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 rounded-md bg-primary/10 text-primary text-xs font-bold uppercase tracking-wide">Career</span>
+<span class="text-slate-400 dark:text-slate-500 text-xs">• 25 spots left</span>
+</div>
+<h3 class="text-slate-900 dark:text-white text-xl font-bold leading-tight tracking-tight">Tech Networking Mixer</h3>
+<div class="flex flex-col gap-2">
+<div class="flex items-center gap-2 text-slate-500 dark:text-slate-400">
+<span class="material-symbols-outlined text-[18px]">schedule</span>
+<p class="text-sm font-medium">Tue, 6:00 PM - 9:00 PM</p>
+</div>
+<div class="flex items-center gap-2 text-slate-500 dark:text-slate-400">
+<span class="material-symbols-outlined text-[18px]">location_on</span>
+<p class="text-sm font-medium">Downtown Innovation Hub</p>
+</div>
+</div>
+<div class="pt-2 flex items-center justify-between mt-auto">
+<div class="flex -space-x-2 overflow-hidden">
+<img alt="Attendee" class="inline-block h-8 w-8 rounded-full ring-2 ring-white dark:ring-surface-dark object-cover" data-alt="Profile picture of an attendee" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBrGm8q8qf30L9yySwSYtw0lGs_tcGw9d_olDBYwO3SlugN8l0FRcFseuNdlu2ECk2njIYv4aZUbuThoAxanK01hLvm3UdiAwmflzrPNvwV6nhwNJa4sUGftnmEheeVgYFkrJ3GW-KhHHCOB3TaQNE4Ag2x58A0oFPDD8gVV4Drb-t2xkene3XsYDnMs0o4TliFbrAeAcwpNuYDeTNmQSAagvLVs4-wSx9eytMjjvLTCvrMFRKX3cpAQGvPS1DI0C2hdMaAd7eVb_MX"/>
+<img alt="Attendee" class="inline-block h-8 w-8 rounded-full ring-2 ring-white dark:ring-surface-dark object-cover" data-alt="Profile picture of an attendee" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCOzhtQgMK9ci6T6OQtr561rMDzadJAepqMcfGTg3EUvHuFFeoPb34QobaJZj5ZidVIauYdv9KJ7kv7WkdPnylQKHl3vU7MYfwRntsNh80LVo1Y2rFNcPshSVCuuQfE9T05dVXDqgxmUHNxYJlfutj82lu6f5ydWWyBNoBHfF8kgwgX8QS0w-5ycBVM6O4l4skqX4yM2bm0M8tvjDEIMrxY9esmBzrCnkT-IqSfjXHhcHBElUcz6lK3Z5q65AsOe0-17jAYONGvEVrY"/>
+<div class="flex h-8 w-8 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-700 ring-2 ring-white dark:ring-surface-dark">
+<span class="text-[10px] font-bold text-slate-500 dark:text-slate-300">+42</span>
+</div>
+</div>
+<button class="flex cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-6 bg-primary hover:bg-primary/90 transition-colors text-white text-sm font-bold leading-normal shadow-lg shadow-primary/20">
+                                RSVP
+                            </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="@container">
+<div class="flex flex-col items-stretch justify-start rounded-2xl shadow-sm bg-surface-light dark:bg-surface-dark overflow-hidden transition-all hover:shadow-md">
+<div class="relative w-full aspect-video bg-cover bg-center" data-alt="Abstract colorful neon light patterns representing a music event" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC7ycKhLgwgUL6Jxjqju_G355w0XRBq_rhkzHqQP2cmYmfn7N6eOuRbSmhH7qlaaxH2zvqnXVQ70wJdvyJWA--yNpLTLCcetx7qN4bUdMz1Q-HFLv6YXe7CEOrTA0HGmghuOnRNeDshqu9q39jSIzvW1ut8d_c6Zd5OfEj87UCMCG9IyF9TlZfGbuJF-p4HuHCIvXyFXGd3i9FNIWqbEad8LAqpt-658mRLNRyupPVgFONfU9ALlXI8N6MQ3xsY9ZrHmCW0v6JEFQiK");'>
+<div class="absolute top-3 left-3 bg-white/90 dark:bg-black/80 backdrop-blur-sm px-2.5 py-1 rounded-lg flex flex-col items-center shadow-sm">
+<span class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase">Oct</span>
+<span class="text-lg font-bold text-slate-900 dark:text-white leading-none">28</span>
+</div>
+<div class="absolute top-3 right-3 p-2 rounded-full bg-white/20 backdrop-blur-md text-white">
+<span class="material-symbols-outlined text-[20px]">favorite</span>
+</div>
+</div>
+<div class="flex w-full flex-col gap-3 p-4">
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 rounded-md bg-purple-500/10 text-purple-600 dark:text-purple-400 text-xs font-bold uppercase tracking-wide">Music</span>
+<span class="text-slate-400 dark:text-slate-500 text-xs">• Popular</span>
+</div>
+<h3 class="text-slate-900 dark:text-white text-xl font-bold leading-tight tracking-tight">Indie Rock Night</h3>
+<div class="flex flex-col gap-2">
+<div class="flex items-center gap-2 text-slate-500 dark:text-slate-400">
+<span class="material-symbols-outlined text-[18px]">schedule</span>
+<p class="text-sm font-medium">Sat, 8:00 PM - Late</p>
+</div>
+<div class="flex items-center gap-2 text-slate-500 dark:text-slate-400">
+<span class="material-symbols-outlined text-[18px]">location_on</span>
+<p class="text-sm font-medium">The Velvet Lounge</p>
+</div>
+</div>
+<div class="pt-2 flex items-center justify-between mt-auto">
+<div class="flex -space-x-2 overflow-hidden">
+<img alt="Attendee" class="inline-block h-8 w-8 rounded-full ring-2 ring-white dark:ring-surface-dark object-cover" data-alt="Profile picture of an attendee" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDjDEAkzhV3lJBtrieKLMqWvCWyWYiKf811U4JF16giBZ-WUp_O1S6FkZf37wHo9JcPGh6XnZaVd0WT5W_Jb27ooUI9h5EcL-8Xg98WW9csLalkApdv_-RKa0qeS_URt-Mq8AClTvKzGxve7eh8cLH5_YcZLsxOhSco8hUA1M5PvabIj0lpUHtyE1ntlaE5lmsOpKGy9FZibGxT3WXwa9b1xIVZg5WKuHTY0Spuzwiz-9S1361sdvKeiAH32iDA6FQnvmjz9KKVDsiI"/>
+<div class="flex h-8 w-8 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-700 ring-2 ring-white dark:ring-surface-dark">
+<span class="text-[10px] font-bold text-slate-500 dark:text-slate-300">+128</span>
+</div>
+</div>
+<button class="flex cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-6 bg-primary hover:bg-primary/90 transition-colors text-white text-sm font-bold leading-normal shadow-lg shadow-primary/20">
+                                RSVP
+                            </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="@container">
+<div class="flex flex-col items-stretch justify-start rounded-2xl shadow-sm bg-surface-light dark:bg-surface-dark overflow-hidden transition-all hover:shadow-md">
+<div class="relative w-full aspect-video bg-cover bg-center" data-alt="Close up of a latte art coffee cup on a wooden table" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBLJsgWN0RXW0HXvnxNxDr_X5orWNcMgCriW-iVWgkd-ZJtSqwfnn_BNXa51rc5EMy_wW2rTSZnXxsDggkRArXTCn2fQM0hl3Un9uDtBWHXaVC_-R0rjTDfF6hmGdX-BW8zfgIuqsL5oeXETyk4Saik7qAZIPgkgg-EMfbSJ4REGsjXbpaM2FBh59GAH-S6jTnDZ9UhkvN0U4dPAbce7SUt-GCHex2U1fagw5Q_kuvE4elLabY76AK9_lLfU15ZIEHfqPEvlIlzSKS2");'>
+<div class="absolute top-3 left-3 bg-white/90 dark:bg-black/80 backdrop-blur-sm px-2.5 py-1 rounded-lg flex flex-col items-center shadow-sm">
+<span class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase">Oct</span>
+<span class="text-lg font-bold text-slate-900 dark:text-white leading-none">29</span>
+</div>
+<div class="absolute top-3 right-3 p-2 rounded-full bg-white/20 backdrop-blur-md text-white">
+<span class="material-symbols-outlined text-[20px]">favorite</span>
+</div>
+</div>
+<div class="flex w-full flex-col gap-3 p-4">
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 rounded-md bg-orange-500/10 text-orange-600 dark:text-orange-400 text-xs font-bold uppercase tracking-wide">Social</span>
+</div>
+<h3 class="text-slate-900 dark:text-white text-xl font-bold leading-tight tracking-tight">Sunday Coffee &amp; Code</h3>
+<div class="flex flex-col gap-2">
+<div class="flex items-center gap-2 text-slate-500 dark:text-slate-400">
+<span class="material-symbols-outlined text-[18px]">schedule</span>
+<p class="text-sm font-medium">Sun, 10:00 AM - 12:00 PM</p>
+</div>
+<div class="flex items-center gap-2 text-slate-500 dark:text-slate-400">
+<span class="material-symbols-outlined text-[18px]">location_on</span>
+<p class="text-sm font-medium">Blue Bottle Coffee, Hayes</p>
+</div>
+</div>
+<div class="pt-2 flex items-center justify-between mt-auto">
+<div class="flex -space-x-2 overflow-hidden">
+<img alt="Attendee" class="inline-block h-8 w-8 rounded-full ring-2 ring-white dark:ring-surface-dark object-cover" data-alt="Profile picture of an attendee" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAwc3_idbBYhVg8BK1ck8kVf2ZBvLPg3g9I8ciTladK6jSb3VZjj5XqXlLb8_YFKFWtCMz8jPTHYoWZJHgG30GSExXHhxewOdXCuw5RIt2v-zTLgB0J8yvWZyrZZ4f4K_Lk4Cze5vln6k2_chuMTiZNGex9UsICXvKwzFG8aBHkmXSxnM5oSC2gSfsAyXptqws6McnlQyROB-YIDEqqCvJAyhCu7jJI2zFcaW3mWyc9y0YvP11e1A22a6YGVBoTy3WlTLIan9JofrKq"/>
+<img alt="Attendee" class="inline-block h-8 w-8 rounded-full ring-2 ring-white dark:ring-surface-dark object-cover" data-alt="Profile picture of an attendee" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA7iIqY3KhUrmDa-Vu6ERcyMvbwTCWMovkvMyQSvUeu6GRdDORSot28HU43OZm34IfmSPppHwKJGsqGfzOatRIuQH18i8sGtDqqpfBZTaWOmzbkqFCSkEbSvE5CTZiLx3_SjZpqe0mgEZCFP9m6QafHn1fJPv8hAV96-bxCViH-Ce2AwQVm4wN9IAinNgbDhlbkCaLy0KAPc6k0uD2kBUAfgqUjBa6W4SF5xow_SXJSlemzsL6rzH5Ss41Fw7lDQ28lLM0Rg_OEXu_W"/>
+<div class="flex h-8 w-8 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-700 ring-2 ring-white dark:ring-surface-dark">
+<span class="text-[10px] font-bold text-slate-500 dark:text-slate-300">+8</span>
+</div>
+</div>
+<button class="flex cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-6 bg-primary hover:bg-primary/90 transition-colors text-white text-sm font-bold leading-normal shadow-lg shadow-primary/20">
+                                RSVP
+                            </button>
+</div>
+</div>
+</div>
+</div>
+<div class="h-10"></div> <!-- Spacer -->
+</main>
+<!-- Bottom Navigation -->
+<nav class="fixed bottom-0 left-0 right-0 z-50 bg-white/95 dark:bg-surface-dark/95 backdrop-blur-lg border-t border-slate-100 dark:border-slate-800 pb-safe">
+<div class="max-w-md mx-auto flex items-center justify-around h-16 pb-1">
+<button class="flex flex-col items-center justify-center gap-1 p-2 w-16 text-primary">
+<span class="material-symbols-outlined text-[24px] font-semibold">explore</span>
+<span class="text-[10px] font-bold">Explore</span>
+</button>
+<button class="flex flex-col items-center justify-center gap-1 p-2 w-16 text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300">
+<span class="material-symbols-outlined text-[24px]">map</span>
+<span class="text-[10px] font-medium">Map</span>
+</button>
+<div class="relative -top-6">
+<button class="flex items-center justify-center h-14 w-14 rounded-full bg-primary text-white shadow-lg shadow-primary/40 active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-[28px]">add</span>
+</button>
+</div>
+<button class="flex flex-col items-center justify-center gap-1 p-2 w-16 text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300">
+<span class="material-symbols-outlined text-[24px]">confirmation_number</span>
+<span class="text-[10px] font-medium">Tickets</span>
+</button>
+<button class="flex flex-col items-center justify-center gap-1 p-2 w-16 text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300">
+<span class="material-symbols-outlined text-[24px]">person</span>
+<span class="text-[10px] font-medium">Profile</span>
+</button>
+</div>
+</nav>
+</div>
+</body></html>

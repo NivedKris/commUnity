@@ -1,0 +1,38 @@
+# Flask Core
+Flask==3.0.0
+Flask-Login==0.6.3
+
+# Firebase
+firebase-admin==6.3.0
+
+# Supabase
+supabase==2.10.0
+websockets==13.1
+
+# Database & ORM
+psycopg2-binary==2.9.9
+
+# Environment Variables
+python-dotenv==1.0.0
+
+# Security & Password Hashing
+Werkzeug==3.0.1
+
+# Image Processing
+Pillow==10.1.0
+
+# Date & Time
+python-dateutil==2.8.2
+
+# HTTP Requests
+requests==2.31.0
+
+# Forms & Validation
+WTForms==3.1.1
+email-validator==2.1.0
+
+# JSON Web Tokens
+PyJWT==2.8.0
+
+# Utilities
+phonenumbers==8.13.27

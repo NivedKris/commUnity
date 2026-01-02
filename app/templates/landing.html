@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+
+{% block title %}CommUnity - Your Local Community Hub{% endblock %}
+
+{% block content %}
+<!-- Header -->
+<header class="flex items-center px-4 lg:px-8 xl:px-16 py-4 justify-between sticky top-0 z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800">
+    <div class="flex items-center gap-2">
+        <div class="flex items-center justify-center w-8 h-8 lg:w-10 lg:h-10 rounded-lg bg-primary/10 text-primary">
+            <span class="material-symbols-outlined text-xl lg:text-2xl">diversity_3</span>
+        </div>
+        <h2 class="text-[#0d161b] dark:text-white text-lg lg:text-xl font-bold leading-tight tracking-[-0.015em]">CommUnity</h2>
+    </div>
+    <button class="text-sm lg:text-base font-semibold text-primary hover:text-primary/80 transition-colors">Help</button>
+</header>
+
+<!-- Hero Section -->
+<section class="flex flex-col items-center px-6 lg:px-16 xl:px-32 pt-12 lg:pt-20 pb-12 max-w-7xl mx-auto">
+    <div class="w-full max-w-4xl aspect-[16/9] lg:aspect-[21/9] bg-center bg-no-repeat bg-cover rounded-3xl mb-10 lg:mb-16 shadow-lg overflow-hidden relative" style='background-image: url("https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=1600&q=80");'>
+        <div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
+    </div>
+    <h1 class="text-[#0d161b] dark:text-white tracking-tight text-4xl lg:text-6xl xl:text-7xl font-extrabold leading-[1.1] text-center mb-6 lg:mb-8">
+        Connect. Share.<br/><span class="text-primary">Thrive Together.</span>
+    </h1>
+    <p class="text-slate-600 dark:text-slate-400 text-lg lg:text-xl xl:text-2xl font-normal leading-relaxed text-center max-w-3xl mb-10 lg:mb-12">
+        Your local community in the palm of your hand. Discover events, meet neighbors, and build lasting connections today.
+    </p>
+    <div class="flex flex-col sm:flex-row w-full max-w-lg gap-4">
+        <a href="{{ url_for('auth.signup') }}" class="flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-xl h-14 lg:h-16 px-8 bg-primary hover:bg-primary/90 transition-colors text-white text-lg lg:text-xl font-bold leading-normal tracking-[0.015em] shadow-lg shadow-primary/20">
+            <span class="truncate">Sign Up</span>
+        </a>
+        <a href="{{ url_for('auth.login') }}" class="flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-xl h-14 lg:h-16 px-8 bg-primary/10 hover:bg-primary/20 transition-colors text-primary dark:text-primary-light text-lg lg:text-xl font-bold leading-normal tracking-[0.015em]">
+            <span class="truncate">Log In</span>
+        </a>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="px-6 lg:px-16 xl:px-32 py-16 lg:py-24 bg-slate-50 dark:bg-slate-800/50">
+    <div class="max-w-7xl mx-auto">
+        <h3 class="text-[#0d161b] dark:text-white text-2xl lg:text-4xl font-bold mb-10 lg:mb-16 text-center">Explore Features</h3>
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+            <!-- Feature 1 -->
+            <div class="flex flex-col items-center justify-center p-6 lg:p-8 bg-white dark:bg-slate-800 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-700 hover:border-primary/30 hover:shadow-xl transition-all cursor-pointer group">
+                <div class="w-16 h-16 lg:w-20 lg:h-20 rounded-full bg-blue-50 dark:bg-blue-900/30 flex items-center justify-center mb-4 lg:mb-6 group-hover:scale-110 transition-transform duration-300">
+                    <span class="material-symbols-outlined text-primary text-3xl lg:text-4xl">event</span>
+                </div>
+                <span class="text-base lg:text-lg font-bold text-slate-900 dark:text-slate-100 text-center">Discover Events</span>
+            </div>
+            <!-- Feature 2 -->
+            <div class="flex flex-col items-center justify-center p-6 lg:p-8 bg-white dark:bg-slate-800 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-700 hover:border-primary/30 hover:shadow-xl transition-all cursor-pointer group">
+                <div class="w-16 h-16 lg:w-20 lg:h-20 rounded-full bg-blue-50 dark:bg-blue-900/30 flex items-center justify-center mb-4 lg:mb-6 group-hover:scale-110 transition-transform duration-300">
+                    <span class="material-symbols-outlined text-primary text-3xl lg:text-4xl">groups</span>
+                </div>
+                <span class="text-base lg:text-lg font-bold text-slate-900 dark:text-slate-100 text-center">Join Groups</span>
+            </div>
+            <!-- Feature 3 -->
+            <div class="flex flex-col items-center justify-center p-6 lg:p-8 bg-white dark:bg-slate-800 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-700 hover:border-primary/30 hover:shadow-xl transition-all cursor-pointer group">
+                <div class="w-16 h-16 lg:w-20 lg:h-20 rounded-full bg-blue-50 dark:bg-blue-900/30 flex items-center justify-center mb-4 lg:mb-6 group-hover:scale-110 transition-transform duration-300">
+                    <span class="material-symbols-outlined text-primary text-3xl lg:text-4xl">report_problem</span>
+                </div>
+                <span class="text-base lg:text-lg font-bold text-slate-900 dark:text-slate-100 text-center">Report Issues</span>
+            </div>
+            <!-- Feature 4 -->
+            <div class="flex flex-col items-center justify-center p-6 lg:p-8 bg-white dark:bg-slate-800 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-700 hover:border-primary/30 hover:shadow-xl transition-all cursor-pointer group">
+                <div class="w-16 h-16 lg:w-20 lg:h-20 rounded-full bg-blue-50 dark:bg-blue-900/30 flex items-center justify-center mb-4 lg:mb-6 group-hover:scale-110 transition-transform duration-300">
+                    <span class="material-symbols-outlined text-primary text-3xl lg:text-4xl">location_on</span>
+                </div>
+                <span class="text-base lg:text-lg font-bold text-slate-900 dark:text-slate-100 text-center">Connect Locally</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Community Highlights -->
+<section class="px-6 lg:px-16 xl:px-32 py-16 lg:py-24 bg-white dark:bg-slate-900">
+    <div class="max-w-7xl mx-auto">
+        <div class="flex justify-between items-end mb-10 lg:mb-16">
+            <h3 class="text-[#0d161b] dark:text-white text-2xl lg:text-4xl font-bold">Community Voices</h3>
+        </div>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-10">
+            <!-- Testimonial 1 -->
+            <div class="p-6 lg:p-10 rounded-3xl bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-700 hover:shadow-lg transition-shadow">
+                <div class="flex items-center gap-4 mb-4 lg:mb-6">
+                    <div class="w-14 h-14 lg:w-16 lg:h-16 rounded-full bg-primary/20 flex items-center justify-center">
+                        <span class="material-symbols-outlined text-primary text-2xl lg:text-3xl">person</span>
+                    </div>
+                    <div>
+                        <p class="text-base lg:text-lg font-bold text-slate-900 dark:text-white">Sarah Jenkins</p>
+                        <p class="text-sm lg:text-base text-slate-500 dark:text-slate-400">Greenwood Neighbor</p>
+                    </div>
+                </div>
+                <p class="text-base lg:text-lg text-slate-600 dark:text-slate-300 italic leading-relaxed">"I found my running group here in just two days! It's amazing to connect with people so close to home."</p>
+            </div>
+            <!-- Testimonial 2 -->
+            <div class="p-6 lg:p-10 rounded-3xl bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-700 hover:shadow-lg transition-shadow">
+                <div class="flex items-center gap-4 mb-4 lg:mb-6">
+                    <div class="w-14 h-14 lg:w-16 lg:h-16 rounded-full bg-primary/20 flex items-center justify-center">
+                        <span class="material-symbols-outlined text-primary text-2xl lg:text-3xl">person</span>
+                    </div>
+                    <div>
+                        <p class="text-base lg:text-lg font-bold text-slate-900 dark:text-white">Marcus Chen</p>
+                        <p class="text-sm lg:text-base text-slate-500 dark:text-slate-400">Downtown Resident</p>
+                    </div>
+                </div>
+                <p class="text-base lg:text-lg text-slate-600 dark:text-slate-300 italic leading-relaxed">"Reporting that pothole on Main St. was actually easy, and it got fixed within a week. Great tool."</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Bottom CTA -->
+<div class="px-6 lg:px-16 xl:px-32 py-16 lg:py-24 bg-gradient-to-br from-primary/10 to-blue-50 dark:from-slate-800 dark:to-slate-900">
+    <div class="max-w-3xl mx-auto">
+        <div class="rounded-3xl bg-primary p-10 lg:p-16 text-center text-white relative overflow-hidden">
+            <div class="absolute top-[-40px] right-[-40px] w-40 h-40 lg:w-56 lg:h-56 rounded-full bg-white/10 blur-3xl"></div>
+            <div class="absolute bottom-[-20px] left-[-20px] w-32 h-32 lg:w-40 lg:h-40 rounded-full bg-white/10 blur-2xl"></div>
+            <span class="material-symbols-outlined text-5xl lg:text-7xl mb-4 lg:mb-6 block mx-auto relative z-10">rocket_launch</span>
+            <h3 class="text-2xl lg:text-4xl font-bold mb-4 lg:mb-6 relative z-10">Ready to join in?</h3>
+            <p class="text-base lg:text-xl text-white/90 mb-6 lg:mb-8 relative z-10">Start connecting with your local community today.</p>
+            <a href="{{ url_for('auth.signup') }}" class="inline-block w-full sm:w-auto px-12 lg:px-16 bg-white text-primary font-bold py-4 lg:py-5 rounded-xl text-base lg:text-lg hover:bg-slate-50 transition-colors relative z-10 shadow-xl">
+                Get Started Now
+            </a>
+        </div>
+    </div>
+</div>
+<div class="h-16 bg-white dark:bg-slate-900"></div>
+<div class="h-8 bg-white dark:bg-slate-900"></div>
+{% endblock %}

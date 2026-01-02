@@ -1,0 +1,189 @@
+{% extends "base.html" %}
+
+{% block title %}Groups - CommUnity{% endblock %}
+
+{% block content %}
+<div class="relative flex h-full w-full flex-col min-h-screen pb-24 bg-background-light dark:bg-background-dark overflow-hidden">
+    <!-- TopAppBar -->
+    <header class="sticky top-0 z-30 flex items-center bg-background-light/95 dark:bg-background-dark/95 backdrop-blur-md px-4 sm:px-6 lg:px-8 py-3 lg:py-4 justify-between border-b border-slate-200 dark:border-slate-800">
+        <button onclick="window.location.href='/dashboard'" class="flex items-center justify-center w-10 h-10 lg:w-12 lg:h-12 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+            <span class="material-symbols-outlined text-slate-700 dark:text-slate-200">arrow_back</span>
+        </button>
+        <h2 class="text-slate-900 dark:text-white text-lg lg:text-xl font-bold leading-tight tracking-tight flex-1 text-center">Discover Groups</h2>
+        <a href="/groups/create" class="flex items-center justify-center w-10 h-10 lg:w-12 lg:h-12 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+            <span class="material-symbols-outlined text-slate-700 dark:text-slate-200">add</span>
+        </a>
+    </header>
+    
+    <!-- SearchBar -->
+    <div class="px-4 sm:px-6 lg:px-8 pt-3 pb-2">
+        <div class="flex w-full items-center rounded-xl bg-surface-light dark:bg-surface-dark border border-slate-100 dark:border-slate-700 overflow-hidden focus-within:ring-2 focus-within:ring-primary/50 transition-all">
+            <div class="flex items-center justify-center pl-4 text-slate-500 dark:text-slate-400">
+                <span class="material-symbols-outlined" style="font-size: 20px;">search</span>
+            </div>
+            <input class="w-full bg-transparent border-none text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 px-3 py-2.5 focus:ring-0 text-sm font-medium" placeholder="Search for topics..."/>
+        </div>
+    </div>
+    
+    <!-- Segmented Control -->
+    <div class="px-4 sm:px-6 lg:px-8 py-4">
+        <div class="flex h-10 w-full items-center justify-center rounded-lg bg-surface-light dark:bg-surface-dark p-1">
+            <a href="/groups" class="flex cursor-pointer h-full flex-1 items-center justify-center overflow-hidden rounded-md transition-all {% if not request.args.get('my_groups') %}bg-white dark:bg-slate-700 shadow-sm text-primary{% else %}text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200{% endif %} text-sm font-semibold leading-normal">
+                <span class="truncate">Explore</span>
+            </a>
+            <a href="/groups?my_groups=true" class="flex cursor-pointer h-full flex-1 items-center justify-center overflow-hidden rounded-md transition-all {% if request.args.get('my_groups') %}bg-white dark:bg-slate-700 shadow-sm text-primary{% else %}text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200{% endif %} text-sm font-semibold leading-normal">
+                <span class="truncate">My Groups</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Category Chips -->
+    <div class="flex gap-2 px-4 sm:px-6 lg:px-8 pb-6 overflow-x-auto hide-scrollbar">
+        <a href="/groups" class="flex h-8 shrink-0 items-center justify-center gap-x-1.5 rounded-full {% if not request.args.get('category') %}bg-primary text-white{% else %}bg-surface-light dark:bg-surface-dark text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700{% endif %} px-4 transition-colors">
+            <span class="text-sm font-medium whitespace-nowrap">All</span>
+        </a>
+        <a href="/groups?category=Technology" class="flex h-8 shrink-0 items-center justify-center gap-x-1.5 rounded-full {% if request.args.get('category') == 'Technology' %}bg-primary text-white{% else %}bg-surface-light dark:bg-surface-dark text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700{% endif %} px-4 transition-colors">
+            <span class="text-sm font-medium whitespace-nowrap">Tech</span>
+        </a>
+        <a href="/groups?category=Environment" class="flex h-8 shrink-0 items-center justify-center gap-x-1.5 rounded-full {% if request.args.get('category') == 'Environment' %}bg-primary text-white{% else %}bg-surface-light dark:bg-surface-dark text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700{% endif %} px-4 transition-colors">
+            <span class="text-sm font-medium whitespace-nowrap">Environment</span>
+        </a>
+        <a href="/groups?category=Arts & Culture" class="flex h-8 shrink-0 items-center justify-center gap-x-1.5 rounded-full {% if request.args.get('category') == 'Arts & Culture' %}bg-primary text-white{% else %}bg-surface-light dark:bg-surface-dark text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700{% endif %} px-4 transition-colors">
+            <span class="text-sm font-medium whitespace-nowrap">Arts</span>
+        </a>
+        <a href="/groups?category=Sports & Fitness" class="flex h-8 shrink-0 items-center justify-center gap-x-1.5 rounded-full {% if request.args.get('category') == 'Sports & Fitness' %}bg-primary text-white{% else %}bg-surface-light dark:bg-surface-dark text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700{% endif %} px-4 transition-colors">
+            <span class="text-sm font-medium whitespace-nowrap">Sports</span>
+        </a>
+        <a href="/groups?category=Education" class="flex h-8 shrink-0 items-center justify-center gap-x-1.5 rounded-full {% if request.args.get('category') == 'Education' %}bg-primary text-white{% else %}bg-surface-light dark:bg-surface-dark text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700{% endif %} px-4 transition-colors">
+            <span class="text-sm font-medium whitespace-nowrap">Education</span>
+        </a>
+    </div>
+
+    <!-- Groups List -->
+    <div class="flex-1 overflow-y-auto pb-4">
+        <div class="px-4 sm:px-6 lg:px-8 space-y-6">
+            {% if groups %}
+                <!-- Groups Cards -->
+                <div class="space-y-3">
+                    {% for group in groups %}
+                    <a href="/groups/{{ group.id }}" class="flex gap-3 items-center p-3 bg-white dark:bg-surface-dark rounded-2xl border border-slate-100 dark:border-slate-700 hover:shadow-md transition-shadow">
+                        <!-- Group Image -->
+                        <div class="shrink-0">
+                            <div class="h-14 w-14 rounded-xl overflow-hidden bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
+                                {% if group.image_url %}
+                                <img src="{{ group.image_url }}" alt="{{ group.name }}" class="w-full h-full object-cover">
+                                {% else %}
+                                <span class="material-symbols-outlined text-white text-2xl">groups</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <!-- Group Info -->
+                        <div class="flex-1 min-w-0">
+                            <h3 class="text-base font-bold text-slate-900 dark:text-white truncate">{{ group.name }}</h3>
+                            <p class="text-sm text-slate-600 dark:text-slate-400 line-clamp-1 mb-1">{{ group.description }}</p>
+                            <div class="flex items-center gap-1 text-xs text-slate-500 dark:text-slate-400">
+                                <span class="material-symbols-outlined" style="font-size: 16px;">group</span>
+                                <span>{{ group.member_count }} member{{ 's' if group.member_count != 1 else '' }}</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Join/Member Button -->
+                        <div class="shrink-0">
+                            {% if group.is_member %}
+                            <div class="h-8 px-4 rounded-full bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 text-sm font-semibold flex items-center justify-center">
+                                Member
+                            </div>
+                            {% else %}
+                            <button onclick="event.preventDefault(); joinGroup('{{ group.id }}', this)" class="h-8 px-4 rounded-full bg-primary text-white text-sm font-semibold hover:opacity-90 transition-opacity">
+                                Join
+                            </button>
+                            {% endif %}
+                        </div>
+                    </a>
+                    {% endfor %}
+                </div>
+            {% else %}
+            <!-- Empty State -->
+            <div class="text-center py-12">
+                <div class="flex justify-center mb-4">
+                    <div class="flex items-center justify-center w-20 h-20 rounded-full bg-slate-100 dark:bg-slate-800">
+                        <span class="material-symbols-outlined text-4xl text-slate-400">groups</span>
+                    </div>
+                </div>
+                <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-2">No groups found</h3>
+                <p class="text-slate-500 dark:text-slate-400 mb-6">Be the first to create a group and start building community!</p>
+                <a href="/groups/create" class="inline-flex items-center gap-2 px-6 py-3 bg-primary hover:bg-primary/90 text-white font-semibold rounded-xl transition-colors">
+                    <span class="material-symbols-outlined">add</span>
+                    Create Group
+                </a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="fixed bottom-0 z-40 w-full bg-white/90 dark:bg-surface-dark/90 backdrop-blur-lg border-t border-slate-200 dark:border-slate-800 pb-safe">
+        <div class="flex items-center justify-around h-16 lg:h-20 px-2 lg:px-4 max-w-7xl mx-auto">
+            <a href="/dashboard" class="flex flex-col items-center justify-center w-full h-full gap-1 text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300">
+                <span class="material-symbols-outlined text-2xl lg:text-3xl">home</span>
+                <span class="text-[10px] lg:text-xs font-medium">Home</span>
+            </a>
+            <a href="/events" class="flex flex-col items-center justify-center w-full h-full gap-1 text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300">
+                <span class="material-symbols-outlined text-2xl lg:text-3xl">explore</span>
+                <span class="text-[10px] lg:text-xs font-medium">Explore</span>
+            </a>
+            <a href="/chat" class="flex flex-col items-center justify-center w-full h-full gap-1 text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300">
+                <div class="relative">
+                    <span class="material-symbols-outlined text-2xl lg:text-3xl">chat</span>
+                    <span class="absolute -top-1 -right-1 size-2.5 bg-red-500 rounded-full border-2 border-white dark:border-surface-dark"></span>
+                </div>
+                <span class="text-[10px] lg:text-xs font-medium">Chat</span>
+            </a>
+            <a href="/profile" class="flex flex-col items-center justify-center w-full h-full gap-1 text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300">
+                <span class="material-symbols-outlined text-2xl lg:text-3xl">person</span>
+                <span class="text-[10px] lg:text-xs font-medium">Profile</span>
+            </a>
+            <a href="/auth/logout" class="flex flex-col items-center justify-center w-full h-full gap-1 text-slate-400 dark:text-slate-500 hover:text-red-500 dark:hover:text-red-400 transition-colors">
+                <span class="material-symbols-outlined text-2xl lg:text-3xl">logout</span>
+                <span class="text-[10px] lg:text-xs font-medium">Logout</span>
+            </a>
+        </div>
+    </nav>
+</div>
+
+<style>
+.hide-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+.hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+</style>
+
+<script>
+async function joinGroup(groupId, button) {
+    try {
+        const response = await fetch(`/groups/${groupId}/join`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        });
+        
+        const data = await response.json();
+        
+        if (response.ok) {
+            // Update button to show "Member" status
+            button.outerHTML = '<div class="h-8 px-4 rounded-full bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 text-sm font-semibold flex items-center justify-center">Member</div>';
+        } else {
+            alert(data.error || 'Failed to join group');
+        }
+    } catch (error) {
+        console.error('Error joining group:', error);
+        alert('Failed to join group');
+    }
+}
+</script>
+{% endblock %}

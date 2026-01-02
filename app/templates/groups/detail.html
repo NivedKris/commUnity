@@ -1,0 +1,314 @@
+{% extends "base.html" %}
+
+{% block title %}{{ group.name }} - CommUnity{% endblock %}
+
+{% block content %}
+<div class="relative flex h-full w-full flex-col min-h-screen pb-24 bg-background-light dark:bg-background-dark overflow-hidden">
+    <!-- Sticky Header -->
+    <div class="sticky top-0 z-50 flex items-center justify-between bg-background-light/90 dark:bg-background-dark/90 px-4 py-3 backdrop-blur-md border-b border-slate-200 dark:border-slate-800">
+        <button onclick="window.location.href='/groups'" class="flex size-10 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+            <span class="material-symbols-outlined">arrow_back</span>
+        </button>
+        <div class="flex items-center gap-3">
+            {% if current_user.id|string == group.creator_id|string or group.user_role == 'admin' %}
+            <a href="{{ url_for('groups.edit_group_form', group_id=group.id) }}" class="flex size-10 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+                <span class="material-symbols-outlined">edit</span>
+            </a>
+            {% endif %}
+            {% if current_user.id|string == group.creator_id|string %}
+            <button onclick="confirmDelete()" class="flex size-10 items-center justify-center rounded-full bg-red-500 text-white hover:bg-red-600 transition-colors">
+                <span class="material-symbols-outlined">delete</span>
+            </button>
+            {% endif %}
+            <button class="flex size-10 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+                <span class="material-symbols-outlined">more_vert</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="flex-1 overflow-y-auto">
+        <!-- Hero Section -->
+        <div class="px-4 sm:px-6 lg:px-8 pt-6 pb-4">
+            <div class="flex flex-col items-center text-center">
+                <!-- Group Icon -->
+                <div class="h-24 w-24 rounded-2xl overflow-hidden bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center mb-4 shadow-lg">
+                    {% if group.image_url %}
+                    <img src="{{ group.image_url }}" alt="{{ group.name }}" class="w-full h-full object-cover">
+                    {% else %}
+                    <span class="material-symbols-outlined text-white text-5xl">groups</span>
+                    {% endif %}
+                </div>
+                
+                <!-- Group Name & Info -->
+                <h1 class="text-2xl font-bold text-slate-900 dark:text-white mb-2">{{ group.name }}</h1>
+                <div class="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400 mb-3">
+                    <div class="flex items-center gap-1">
+                        <span class="material-symbols-outlined text-base">group</span>
+                        <span>{{ group.member_count }} members</span>
+                    </div>
+                    <span>•</span>
+                    <span>{% if group.is_private %}Private{% else %}Public{% endif %}</span>
+                </div>
+                
+                <!-- Description -->
+                <p class="text-slate-600 dark:text-slate-400 max-w-2xl line-clamp-3 mb-4">{{ group.description }}</p>
+                
+                <!-- Action Buttons -->
+                <div class="flex items-center gap-3 w-full max-w-md">
+                    {% if group.is_member %}
+                    {% if current_user.id|string != group.creator_id|string %}
+                    <button onclick="handleLeave()" class="flex-1 h-10 px-6 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white font-semibold hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+                        Leave
+                    </button>
+                    {% else %}
+                    <div class="flex-1 h-10 px-6 rounded-xl bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 font-semibold flex items-center justify-center gap-2">
+                        <span class="material-symbols-outlined text-base">verified</span>
+                        Creator
+                    </div>
+                    {% endif %}
+                    {% else %}
+                    <button onclick="handleJoin()" class="flex-1 h-10 px-6 rounded-xl bg-primary text-white font-semibold hover:opacity-90 transition-opacity">
+                        Join Group
+                    </button>
+                    {% endif %}
+                    <button class="flex size-10 items-center justify-center rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+                        <span class="material-symbols-outlined">notifications</span>
+                    </button>
+                    <button class="flex size-10 items-center justify-center rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+                        <span class="material-symbols-outlined">search</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabs Navigation -->
+        <div class="sticky top-[64px] z-40 bg-background-light dark:bg-background-dark border-b border-slate-200 dark:border-slate-800">
+            <div class="flex items-center justify-around px-4 sm:px-6 lg:px-8">
+                <button onclick="switchTab('discussions')" id="tab-discussions" class="flex-1 py-3 text-sm font-semibold text-primary border-b-2 border-primary transition-colors">
+                    Discussions
+                </button>
+                <button onclick="switchTab('polls')" id="tab-polls" class="flex-1 py-3 text-sm font-semibold text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 border-b-2 border-transparent transition-colors">
+                    Polls
+                </button>
+                <button onclick="switchTab('files')" id="tab-files" class="flex-1 py-3 text-sm font-semibold text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 border-b-2 border-transparent transition-colors">
+                    Files
+                </button>
+                <button onclick="switchTab('members')" id="tab-members" class="flex-1 py-3 text-sm font-semibold text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 border-b-2 border-transparent transition-colors">
+                    Members
+                </button>
+            </div>
+        </div>
+
+        <!-- Tab Content -->
+        <div class="px-4 sm:px-6 lg:px-8 py-6">
+            <!-- Discussions Tab -->
+            <div id="content-discussions" class="tab-content space-y-4">
+                {% if group.is_member %}
+                <!-- Post Creation -->
+                <div class="bg-white dark:bg-surface-dark rounded-2xl border border-slate-100 dark:border-slate-700 p-4 shadow-sm">
+                    <div class="flex items-start gap-3">
+                        <img src="{{ current_user.profile_picture or 'https://ui-avatars.com/api/?name=' + current_user.name }}" alt="{{ current_user.name }}" class="w-10 h-10 rounded-full object-cover">
+                        <div class="flex-1">
+                            <textarea placeholder="Share your thoughts with the group..." rows="3" class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white placeholder:text-slate-400 focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all resize-none"></textarea>
+                            <div class="flex items-center justify-between mt-2">
+                                <div class="flex items-center gap-2">
+                                    <button class="flex items-center gap-1 px-3 py-1.5 rounded-lg text-sm text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+                                        <span class="material-symbols-outlined text-base">image</span>
+                                        Photo
+                                    </button>
+                                    <button class="flex items-center gap-1 px-3 py-1.5 rounded-lg text-sm text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+                                        <span class="material-symbols-outlined text-base">poll</span>
+                                        Poll
+                                    </button>
+                                </div>
+                                <button disabled class="px-4 py-1.5 rounded-lg bg-slate-200 dark:bg-slate-700 text-slate-500 text-sm font-semibold cursor-not-allowed">
+                                    Post
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- Sample Discussion Posts -->
+                <div class="bg-white dark:bg-surface-dark rounded-2xl border border-slate-100 dark:border-slate-700 p-4 shadow-sm">
+                    <div class="flex items-start gap-3 mb-3">
+                        <img src="https://ui-avatars.com/api/?name=Sarah+Chen" alt="Member" class="w-10 h-10 rounded-full object-cover">
+                        <div class="flex-1 min-w-0">
+                            <div class="flex items-center gap-2 mb-1">
+                                <span class="font-semibold text-slate-900 dark:text-white">Sarah Chen</span>
+                                <span class="text-xs text-slate-500">2 hours ago</span>
+                            </div>
+                            <p class="text-slate-600 dark:text-slate-300 mb-3">Hey everyone! Really excited to be part of this community. Looking forward to connecting with all of you! 🎉</p>
+                            <div class="flex items-center gap-4 text-sm">
+                                <button class="flex items-center gap-1 text-slate-500 dark:text-slate-400 hover:text-primary transition-colors">
+                                    <span class="material-symbols-outlined text-base">thumb_up</span>
+                                    <span>12</span>
+                                </button>
+                                <button class="flex items-center gap-1 text-slate-500 dark:text-slate-400 hover:text-primary transition-colors">
+                                    <span class="material-symbols-outlined text-base">comment</span>
+                                    <span>3</span>
+                                </button>
+                                <button class="flex items-center gap-1 text-slate-500 dark:text-slate-400 hover:text-primary transition-colors">
+                                    <span class="material-symbols-outlined text-base">share</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center py-8">
+                    <p class="text-slate-500 dark:text-slate-400 text-sm">Full discussion features coming soon!</p>
+                </div>
+            </div>
+
+            <!-- Polls Tab -->
+            <div id="content-polls" class="tab-content hidden">
+                <div class="text-center py-12">
+                    <span class="material-symbols-outlined text-5xl text-slate-400 mb-3">poll</span>
+                    <p class="text-slate-500 dark:text-slate-400">No polls yet</p>
+                    <p class="text-sm text-slate-400 mt-2">Polls feature coming soon!</p>
+                </div>
+            </div>
+
+            <!-- Files Tab -->
+            <div id="content-files" class="tab-content hidden">
+                <div class="text-center py-12">
+                    <span class="material-symbols-outlined text-5xl text-slate-400 mb-3">folder</span>
+                    <p class="text-slate-500 dark:text-slate-400">No files shared</p>
+                    <p class="text-sm text-slate-400 mt-2">File sharing coming soon!</p>
+                </div>
+            </div>
+
+            <!-- Members Tab -->
+            <div id="content-members" class="tab-content hidden space-y-3">
+                {% for member in group.members %}
+                <a href="/profile/{{ member.id }}" class="flex items-center gap-3 p-3 bg-white dark:bg-surface-dark rounded-2xl border border-slate-100 dark:border-slate-700 hover:shadow-md transition-shadow">
+                    <img src="{{ member.profile_picture or 'https://ui-avatars.com/api/?name=' + member.name }}" alt="{{ member.name }}" class="w-12 h-12 rounded-full object-cover">
+                    <div class="flex-1 min-w-0">
+                        <p class="font-semibold text-slate-900 dark:text-white truncate">{{ member.name }}</p>
+                        {% if member.id == group.creator_id %}
+                        <p class="text-xs text-primary">Creator</p>
+                        {% elif member.role == 'admin' %}
+                        <p class="text-xs text-primary">Admin</p>
+                        {% else %}
+                        <p class="text-xs text-slate-500">Member</p>
+                        {% endif %}
+                    </div>
+                    {% if member.role == 'admin' or member.id == group.creator_id %}
+                    <span class="material-symbols-outlined text-primary text-base">verified</span>
+                    {% endif %}
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="fixed bottom-0 z-40 w-full bg-white/90 dark:bg-surface-dark/90 backdrop-blur-lg border-t border-slate-200 dark:border-slate-800 pb-safe">
+        <div class="flex items-center justify-around h-16 lg:h-20 px-2 lg:px-4 max-w-7xl mx-auto">
+            <a href="/dashboard" class="flex flex-col items-center justify-center w-full h-full gap-1 text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300">
+                <span class="material-symbols-outlined text-2xl lg:text-3xl">home</span>
+                <span class="text-[10px] lg:text-xs font-medium">Home</span>
+            </a>
+            <a href="/events" class="flex flex-col items-center justify-center w-full h-full gap-1 text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300">
+                <span class="material-symbols-outlined text-2xl lg:text-3xl">explore</span>
+                <span class="text-[10px] lg:text-xs font-medium">Explore</span>
+            </a>
+            <a href="/chat" class="flex flex-col items-center justify-center w-full h-full gap-1 text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300">
+                <div class="relative">
+                    <span class="material-symbols-outlined text-2xl lg:text-3xl">chat</span>
+                    <span class="absolute -top-1 -right-1 size-2.5 bg-red-500 rounded-full border-2 border-white dark:border-surface-dark"></span>
+                </div>
+                <span class="text-[10px] lg:text-xs font-medium">Chat</span>
+            </a>
+            <a href="/profile" class="flex flex-col items-center justify-center w-full h-full gap-1 text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300">
+                <span class="material-symbols-outlined text-2xl lg:text-3xl">person</span>
+                <span class="text-[10px] lg:text-xs font-medium">Profile</span>
+            </a>
+            <a href="/auth/logout" class="flex flex-col items-center justify-center w-full h-full gap-1 text-slate-400 dark:text-slate-500 hover:text-red-500 dark:hover:text-red-400 transition-colors">
+                <span class="material-symbols-outlined text-2xl lg:text-3xl">logout</span>
+                <span class="text-[10px] lg:text-xs font-medium">Logout</span>
+            </a>
+        </div>
+    </nav>
+</div>
+
+<script>
+function switchTab(tabName) {
+    // Hide all tab content
+    document.querySelectorAll('.tab-content').forEach(content => {
+        content.classList.add('hidden');
+    });
+    
+    // Remove active styles from all tabs
+    document.querySelectorAll('[id^="tab-"]').forEach(tab => {
+        tab.classList.remove('text-primary', 'border-primary');
+        tab.classList.add('text-slate-500', 'dark:text-slate-400', 'border-transparent');
+    });
+    
+    // Show selected tab content
+    document.getElementById('content-' + tabName).classList.remove('hidden');
+    
+    // Add active styles to selected tab
+    const activeTab = document.getElementById('tab-' + tabName);
+    activeTab.classList.remove('text-slate-500', 'dark:text-slate-400', 'border-transparent');
+    activeTab.classList.add('text-primary', 'border-primary');
+}
+
+function handleJoin() {
+    fetch(`/groups/api/{{ group.id }}/join`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            location.reload();
+        } else {
+            alert(data.error || 'Failed to join group');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('An error occurred');
+    });
+}
+
+function handleLeave() {
+    if (confirm('Are you sure you want to leave this group?')) {
+        fetch(`/groups/api/{{ group.id }}/leave`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                location.reload();
+            } else {
+                alert(data.error || 'Failed to leave group');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred');
+        });
+    }
+}
+
+function confirmDelete() {
+    if (confirm('Are you sure you want to delete this group? This action cannot be undone.')) {
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '{{ url_for("groups.delete_group", group_id=group.id) }}';
+        document.body.appendChild(form);
+        form.submit();
+    }
+}
+</script>
+{% endblock %}

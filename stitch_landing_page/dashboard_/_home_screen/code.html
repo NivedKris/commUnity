@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Community App Dashboard</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Theme Configuration -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#1392ec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101a22",
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#1a2632",
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "2xl": "1rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom Utilities */
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white font-display antialiased selection:bg-primary selection:text-white">
+<div class="relative flex h-full w-full flex-col min-h-screen pb-24 max-w-md mx-auto bg-background-light dark:bg-background-dark shadow-2xl overflow-hidden">
+<!-- TopAppBar -->
+<header class="sticky top-0 z-30 flex items-center bg-background-light/95 dark:bg-background-dark/95 backdrop-blur-md px-4 py-3 justify-between border-b border-slate-200 dark:border-slate-800">
+<div class="flex items-center gap-3">
+<div class="relative">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 ring-2 ring-primary/20" data-alt="Portrait of a user with a friendly smile" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAOQ9ZNU3Tm7IyDcsIeeRGbOamyYZ29mvFE9uyGR2Z6WOOJY8AR5bT0Ue3NhFkbTJNUD9-JsVbDQXlolKikQsBiD92GfoicRS2IGg18m4vTOEWv9eDCR9IvO67tYhYBtmXPQdferzs4G2FzAyGPMqxyPwq39TrGs7EDMGZuW7Xo0aq6_ogWJwSWhV43lbNaUzIayDBNfdPSqbsICS8XCt6YraXrlNBcB8DpbmQOlBOkYwXsFnJ37sfSXixvYAue5FBC9xrQqNuGnAfN");'>
+</div>
+<div class="absolute bottom-0 right-0 size-3 bg-green-500 border-2 border-white dark:border-background-dark rounded-full"></div>
+</div>
+<div class="flex flex-col">
+<span class="text-slate-500 dark:text-slate-400 text-xs font-semibold uppercase tracking-wider">Welcome back</span>
+<h2 class="text-slate-900 dark:text-white text-lg font-bold leading-tight">Alex Johnson</h2>
+</div>
+</div>
+<button class="relative flex size-10 items-center justify-center rounded-full bg-white dark:bg-surface-dark border border-slate-100 dark:border-slate-700 shadow-sm active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-slate-700 dark:text-slate-200" style="font-size: 24px;">notifications</span>
+<span class="absolute top-2 right-2 size-2 bg-red-500 rounded-full animate-pulse"></span>
+</button>
+</header>
+<!-- SearchBar -->
+<div class="px-4 py-4 sticky top-[68px] z-20 bg-background-light dark:bg-background-dark">
+<div class="flex gap-2 w-full h-12">
+<div class="flex w-full flex-1 items-center rounded-xl bg-white dark:bg-surface-dark shadow-sm border border-slate-100 dark:border-slate-700 overflow-hidden focus-within:ring-2 focus-within:ring-primary/50 transition-all">
+<div class="flex items-center justify-center pl-4 text-primary">
+<span class="material-symbols-outlined" style="font-size: 24px;">search</span>
+</div>
+<input class="w-full bg-transparent border-none text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 px-3 py-2 focus:ring-0 text-base font-medium" placeholder="Search events, groups, issues..."/>
+</div>
+<button class="flex shrink-0 aspect-square h-full items-center justify-center rounded-xl bg-primary text-white shadow-md active:bg-primary/90 transition-colors">
+<span class="material-symbols-outlined" style="font-size: 24px;">tune</span>
+</button>
+</div>
+</div>
+<!-- Scrollable Content -->
+<div class="flex-1 overflow-y-auto">
+<!-- Quick Actions Grid -->
+<section class="px-4 pb-6">
+<h3 class="sr-only">Quick Actions</h3>
+<div class="grid grid-cols-3 gap-3">
+<button class="group flex flex-col items-center gap-2 p-3 rounded-2xl bg-white dark:bg-surface-dark border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-md active:scale-95 transition-all">
+<div class="flex items-center justify-center size-12 rounded-full bg-red-50 dark:bg-red-900/20 text-red-500 dark:text-red-400 group-hover:bg-red-100 dark:group-hover:bg-red-900/30 transition-colors">
+<span class="material-symbols-outlined" style="font-size: 24px;">campaign</span>
+</div>
+<span class="text-xs font-bold text-slate-700 dark:text-slate-300 text-center leading-tight">Report<br/>Issue</span>
+</button>
+<button class="group flex flex-col items-center gap-2 p-3 rounded-2xl bg-white dark:bg-surface-dark border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-md active:scale-95 transition-all">
+<div class="flex items-center justify-center size-12 rounded-full bg-blue-50 dark:bg-blue-900/20 text-primary group-hover:bg-blue-100 dark:group-hover:bg-blue-900/30 transition-colors">
+<span class="material-symbols-outlined" style="font-size: 24px;">calendar_month</span>
+</div>
+<span class="text-xs font-bold text-slate-700 dark:text-slate-300 text-center leading-tight">Browse<br/>Events</span>
+</button>
+<button class="group flex flex-col items-center gap-2 p-3 rounded-2xl bg-white dark:bg-surface-dark border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-md active:scale-95 transition-all">
+<div class="flex items-center justify-center size-12 rounded-full bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400 group-hover:bg-emerald-100 dark:group-hover:bg-emerald-900/30 transition-colors">
+<span class="material-symbols-outlined" style="font-size: 24px;">diversity_3</span>
+</div>
+<span class="text-xs font-bold text-slate-700 dark:text-slate-300 text-center leading-tight">Join<br/>Groups</span>
+</button>
+</div>
+</section>
+<!-- AI Powered Section -->
+<section class="pb-6">
+<div class="flex items-center justify-between px-4 pb-3">
+<div class="flex items-center gap-2">
+<h2 class="text-xl font-bold text-slate-900 dark:text-white">For You</h2>
+<span class="inline-flex items-center rounded-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 px-2 py-0.5 text-[10px] font-bold text-white shadow-sm">
+<span class="material-symbols-outlined mr-1" style="font-size: 12px;">auto_awesome</span>
+                            AI
+                        </span>
+</div>
+<a class="text-sm font-semibold text-primary hover:text-primary/80" href="#">See all</a>
+</div>
+<div class="flex gap-4 overflow-x-auto px-4 pb-4 hide-scrollbar snap-x snap-mandatory">
+<!-- AI Card 1 -->
+<div class="snap-center shrink-0 w-72 rounded-2xl bg-white dark:bg-surface-dark border border-slate-100 dark:border-slate-700 shadow-md overflow-hidden group cursor-pointer">
+<div class="relative h-32 w-full overflow-hidden">
+<div class="absolute inset-0 bg-cover bg-center transition-transform group-hover:scale-105" data-alt="People collaborating on laptops in a modern office space" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBbM4NDi5FCNHCOPYSDri_WctYHfyXnDv9UK88gNCy3vD5AorgrSbPq6E-uiZ-Mdn-hCKOy_q2WPwMNwXcy5VHW-_lheh_QEluKfJMlUFfEiRiLBuOIquUqVKtDsvziqSPKT7Q4pfLXbYoTIveca9OVpfBH3r6wTCnCvjMu1LUynr8T36l7wfJSasLtXOr_afPnrbzfEqC5K05HFsDZ26pz0QAomDQs9Q1cBpQQ5FFkjP7tzauy4UEthhyLVFNgO_qZQo4b7ZzrgKpp');"></div>
+<div class="absolute top-3 left-3 bg-white/90 dark:bg-black/80 backdrop-blur-sm px-2 py-1 rounded-md text-xs font-bold text-slate-900 dark:text-white">
+                                Tech Event
+                            </div>
+</div>
+<div class="p-4">
+<h3 class="text-base font-bold text-slate-900 dark:text-white line-clamp-1">Downtown Tech Meetup</h3>
+<p class="mt-1 text-sm text-slate-500 dark:text-slate-400 line-clamp-2">Connect with local developers and designers. Free pizza included!</p>
+<div class="mt-3 flex items-center justify-between">
+<span class="text-xs font-medium text-slate-400 flex items-center gap-1">
+<span class="material-symbols-outlined" style="font-size: 14px;">schedule</span> Tomorrow, 6PM
+                                </span>
+<span class="size-6 flex items-center justify-center rounded-full bg-primary/10 text-primary">
+<span class="material-symbols-outlined" style="font-size: 16px;">arrow_forward</span>
+</span>
+</div>
+</div>
+</div>
+<!-- AI Card 2 -->
+<div class="snap-center shrink-0 w-72 rounded-2xl bg-white dark:bg-surface-dark border border-slate-100 dark:border-slate-700 shadow-md overflow-hidden group cursor-pointer">
+<div class="relative h-32 w-full overflow-hidden">
+<div class="absolute inset-0 bg-cover bg-center transition-transform group-hover:scale-105" data-alt="Group of volunteers cleaning up a park" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAmJUdQLGhqyRDShjWGtT1Vg4DKeKlDSx--xDv4WthNvY8a8zeF5JmLiw5cPcuM20QIlsWhxqgEsZviGh_c9XUlCtK6NC0Lst5fUfCQXp-u5EaxlmzxzX7EnOpeY-UdaEOhy2n70_IsPKYegekWHIvJ4lxiVl08pcmsGVcDRCKbFkYMhhnRtkJMXtmlC0egFjFo2NGBfPrDBzM083JlNXZogNP8JepIQfqIHsNFrfruNBYaJd3x-Zn5UpvNpF4THDOdXcSUpg57opcv');"></div>
+<div class="absolute top-3 left-3 bg-white/90 dark:bg-black/80 backdrop-blur-sm px-2 py-1 rounded-md text-xs font-bold text-slate-900 dark:text-white">
+                                Group
+                            </div>
+</div>
+<div class="p-4">
+<h3 class="text-base font-bold text-slate-900 dark:text-white line-clamp-1">Community Clean Up</h3>
+<p class="mt-1 text-sm text-slate-500 dark:text-slate-400 line-clamp-2">Join 45 neighbors making our streets cleaner and safer.</p>
+<div class="mt-3 flex items-center justify-between">
+<div class="flex -space-x-2">
+<img alt="" class="inline-block size-6 rounded-full ring-2 ring-white dark:ring-surface-dark" data-alt="Member avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBE2D9nR1pt79tUfm_Eu9IHXcPUbTWpBZcZ8M3mMVFLdLSzesxQha5vBAJaRhwbBsOJL5PXD6HBF_Q4O9OtXUGn6s-mpTU-AOlREHOBQeu4gq88ZfRCmUR-pGQ9XqEHvvX2iGaFLqHt-cmVh-tP51oaK8uNyn9sf-5won_Idqd0kgfrW9tKhtdAZgM8WC4LisfFRkvxEAedgPu94_JRi8ZgPSKZ9M5aHIpiog3KR2sc04EJxneTS1_JFPLmoS6W6J73BNehhofqztjj"/>
+<img alt="" class="inline-block size-6 rounded-full ring-2 ring-white dark:ring-surface-dark" data-alt="Member avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBBE0WR8UM41anoOkU2TsbJZEqKuSwy8O6wdCvkQ6zrvd74sRg-rs8kQCqImsBod-3WbwhWKy0ELdNjemOzDXhSG6y5menua5rorwdad_MZDiTi1QSvVFGkLILa63eMPxqV_M7GMEa4XFasMVCNI9Q78H1yjMYvDkzKPxROPeb5Ic6R415L0pnw2p52gHM8dR6lYf_r2R1-b9O7KCdIyyRWj1jEzWRl4UMVjSfuzpL1QU1SkEpjCmABEDvlECH0euTVh8lbmVQrQWk4"/>
+<span class="flex items-center justify-center size-6 rounded-full ring-2 ring-white dark:ring-surface-dark bg-slate-100 text-[10px] font-bold text-slate-600">+12</span>
+</div>
+<span class="size-6 flex items-center justify-center rounded-full bg-primary/10 text-primary">
+<span class="material-symbols-outlined" style="font-size: 16px;">add</span>
+</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Main Feed -->
+<section class="px-4 pb-4">
+<h2 class="text-xl font-bold text-slate-900 dark:text-white mb-4">Happening Nearby</h2>
+<div class="flex flex-col gap-4">
+<!-- Feed Item 1: Issue -->
+<article class="bg-white dark:bg-surface-dark p-4 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm">
+<div class="flex justify-between items-start mb-3">
+<div class="flex items-center gap-3">
+<div class="size-10 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center text-slate-500 dark:text-slate-400">
+<span class="material-symbols-outlined">person</span>
+</div>
+<div>
+<p class="text-sm font-bold text-slate-900 dark:text-white">Sarah Jenkins</p>
+<p class="text-xs text-slate-500">Reported an issue • 2h ago</p>
+</div>
+</div>
+<span class="bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400 px-2 py-1 rounded-md text-[10px] font-bold uppercase tracking-wide">Pending</span>
+</div>
+<h3 class="text-base font-bold text-slate-900 dark:text-white mb-1">Streetlight out on 5th Ave</h3>
+<p class="text-sm text-slate-600 dark:text-slate-300 mb-3">The streetlight at the corner of 5th and Main has been flickering for days and is now completely dark. It's unsafe for pedestrians.</p>
+<div class="w-full h-48 rounded-lg bg-slate-200 dark:bg-slate-800 mb-3 overflow-hidden">
+<div class="w-full h-full bg-cover bg-center" data-alt="Dimly lit street corner at night" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCO7AB9ZfUkph4tyLolsHW0OXXSPgVE1x7wNtdybVFjeHTRk_JHSD6gWyuyKjIq85mkp2CC4KMpLepUgKr2ba_emiDX5BKePNbNU3BltCQnyCtFaGkZSMkFV6NIhJaZyi-AETXjB6c9D188fnwfksCR1yXPOozo0EBASdz_Oz2jzThKr0vXU_VDTRvUcdy48mL7g-YNgFpD2XheWNhjQncUBsCAh1rjJUvy9Bp9czJQpymtb_TTwX5WMLqs9G2kKtuuR2hJpn5rzUMz');"></div>
+</div>
+<div class="flex items-center gap-4 border-t border-slate-100 dark:border-slate-700 pt-3">
+<button class="flex items-center gap-1.5 text-sm text-slate-500 hover:text-primary transition-colors">
+<span class="material-symbols-outlined" style="font-size: 20px;">thumb_up</span>
+<span>24 Supports</span>
+</button>
+<button class="flex items-center gap-1.5 text-sm text-slate-500 hover:text-primary transition-colors">
+<span class="material-symbols-outlined" style="font-size: 20px;">chat_bubble</span>
+<span>8 Comments</span>
+</button>
+</div>
+</article>
+<!-- Feed Item 2: Event -->
+<article class="bg-white dark:bg-surface-dark p-4 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm">
+<div class="flex justify-between items-start mb-3">
+<div class="flex items-center gap-3">
+<div class="size-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">spa</span>
+</div>
+<div>
+<p class="text-sm font-bold text-slate-900 dark:text-white">City Yoga Club</p>
+<p class="text-xs text-slate-500">New Event • 5h ago</p>
+</div>
+</div>
+</div>
+<div class="flex gap-4">
+<div class="flex-col items-center justify-center shrink-0 w-14 h-16 bg-slate-100 dark:bg-slate-800 rounded-lg flex border border-slate-200 dark:border-slate-600">
+<span class="text-xs font-bold text-red-500 uppercase">Oct</span>
+<span class="text-xl font-bold text-slate-900 dark:text-white">24</span>
+</div>
+<div>
+<h3 class="text-base font-bold text-slate-900 dark:text-white">Morning Sun Salutation</h3>
+<p class="text-sm text-slate-600 dark:text-slate-300">Central Park • 7:00 AM</p>
+<div class="flex -space-x-2 mt-2">
+<img alt="" class="inline-block size-6 rounded-full ring-2 ring-white dark:ring-surface-dark" data-alt="Attendee avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAcU5ziRfIfFTBLZth4KxVxY5Yu-x_hphdifqs7ChBTXZ63fpHX_qvUGL612er2CD7sVmAU-uql4uN9MUsIfjIrYbAskLYd_2oHjI7D8advIM2LlHKDBmcXAXrevaUtS9v6Rwm__nkcfJYwMdz8lbTnaImWNsJCvzaWJzJx4VwVa_JSyAKNHAARz0hI6nNjGYv2T4a5OB2ispvxKoHkmO5WVbSXSivercOaxvhXjx6xGkdFZcRXnKaFmwGcj5nViRJHNrjQ0-qRypy_"/>
+<img alt="" class="inline-block size-6 rounded-full ring-2 ring-white dark:ring-surface-dark" data-alt="Attendee avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBCSdhnQX0CjFurlbIAivE-IqCfytBA-nAzjx16COhEETbK6KAJuZ1iUFfyh5kqVAa3cC97_tbqhtZtN-2xYX5VuH4iHSAHXZBGpvrCQV4rExG4XjDaHXVG5rARKXSMOnPXy-lD96IYFLqiFUDl4FVVOmCmi4wmf1dLEO7eqZ8ZT30S-0o9ImxChkII58NUqU83je_gQ4tMmwY7NcmTCMDhqRh7ZSs2kPmnf8AWCU1Q_QpQd_96syq8i4YvxbUGSD-UJoCPj3xV75Gu"/>
+<img alt="" class="inline-block size-6 rounded-full ring-2 ring-white dark:ring-surface-dark" data-alt="Attendee avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBCtc4IhGOaTDsS4M5UadmvDijh4Uy8Nr_pA4gQWzZ3VzlwLbr0bcOmM44yJWpJz4cbBVfkAc1e5jfjS9au6L2H1Rj1D37-cIva2tD1AuhdXEwescX_BFHA-Zn_ZMIuCd-utRxZxz1wNTZIN-38kOrNDi8oD87xXf6nFlgkz449Rtdf8bz9oaOYz-hnkQ2zVnEm1ja2a-vt-KK2NBhMluxivdPpTDsCp1pJj1rh-Eg_NUKW1KE0RVHg8wfCFX37VbkeB7UlNLOBLlEl"/>
+<span class="flex items-center justify-center px-2 h-6 rounded-full ring-2 ring-white dark:ring-surface-dark bg-slate-100 text-[10px] font-bold text-slate-600">+42 attending</span>
+</div>
+</div>
+</div>
+<button class="w-full mt-4 py-2 bg-primary/10 hover:bg-primary/20 text-primary font-bold text-sm rounded-lg transition-colors">
+                            RSVP Now
+                        </button>
+</article>
+</div>
+</section>
+</div>
+<!-- Bottom Navigation -->
+<nav class="fixed bottom-0 z-40 w-full max-w-md bg-white/90 dark:bg-surface-dark/90 backdrop-blur-lg border-t border-slate-200 dark:border-slate-800 pb-safe">
+<div class="flex items-center justify-around h-16 px-2">
+<button class="flex flex-col items-center justify-center w-full h-full gap-1 text-primary">
+<span class="material-symbols-outlined filled" style="font-variation-settings: 'FILL' 1;">home</span>
+<span class="text-[10px] font-bold">Home</span>
+</button>
+<button class="flex flex-col items-center justify-center w-full h-full gap-1 text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300">
+<span class="material-symbols-outlined">explore</span>
+<span class="text-[10px] font-medium">Explore</span>
+</button>
+<button class="flex flex-col items-center justify-center w-full h-full gap-1 text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300">
+<div class="relative">
+<span class="material-symbols-outlined">chat</span>
+<span class="absolute -top-1 -right-1 size-2.5 bg-red-500 rounded-full border-2 border-white dark:border-surface-dark"></span>
+</div>
+<span class="text-[10px] font-medium">Chat</span>
+</button>
+<button class="flex flex-col items-center justify-center w-full h-full gap-1 text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300">
+<span class="material-symbols-outlined">person</span>
+<span class="text-[10px] font-medium">Profile</span>
+</button>
+</div>
+</nav>
+</div>
+</body></html>

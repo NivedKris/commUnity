@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Event Detail Page</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;family=Noto+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Configuration -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#1392ec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101a22",
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar hide for cleaner UI */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-white antialiased selection:bg-primary/30">
+<div class="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden pb-24">
+<!-- Sticky Header with Blur -->
+<div class="sticky top-0 z-50 flex items-center justify-between bg-background-light/90 dark:bg-background-dark/90 px-4 py-3 backdrop-blur-md transition-colors border-b border-transparent dark:border-slate-800">
+<button class="flex size-10 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<div class="flex items-center gap-3">
+<button class="flex size-10 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+<span class="material-symbols-outlined">favorite</span>
+</button>
+<button class="flex size-10 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+<span class="material-symbols-outlined">share</span>
+</button>
+</div>
+</div>
+<!-- Main Scrollable Content -->
+<div class="flex flex-col gap-6 px-4 pt-2">
+<!-- Hero Image -->
+<div class="w-full overflow-hidden rounded-2xl shadow-sm">
+<div class="h-64 w-full bg-cover bg-center bg-no-repeat sm:h-80" data-alt="People listening to a speaker in a large conference hall with blue lighting" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDloIJkUje_Gs3Ui790m_Y3OK8pfI3ZZP7ArGNZ0H60mno5YVqQc2hpR1fxKI6tQjGumKLZHPcIU10mv3gaR07ElMb0uEcQAz3YbOfxO4UFwMoWDRBYnaJJm6iHISc9ZhgHTFz-y_aUNIA_QdJYw9JrvWR7vXk2q_rxkfnY3T2AMwT7PQWV1brdVdXlpfHaknRh86bSiJP8K8WYR9a12CL6UeM8eVaKDuzzW8x6D3DjkTbdDdfyFa3hZMPtLIezuR232y91n3h0Yd9r");'>
+</div>
+</div>
+<!-- Event Title & Organizer -->
+<div class="flex flex-col gap-4">
+<h1 class="text-3xl font-bold leading-tight tracking-tight text-slate-900 dark:text-white">
+                    Tech Innovators Summit 2024
+                </h1>
+<!-- Organizer Row -->
+<div class="flex items-center justify-between rounded-xl bg-white dark:bg-slate-800/50 p-3 shadow-sm border border-slate-100 dark:border-slate-800">
+<div class="flex items-center gap-3">
+<div class="relative size-10 overflow-hidden rounded-full bg-slate-200">
+<img alt="Organizer Avatar" class="h-full w-full object-cover" data-alt="Professional headshot of a man in a suit" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDkifr_hAD0WXm6qW8a66fBGyXE5GCRdFzJQEjPMWkuVDi0lt2wAv24xrpcvNIwCObcl_uU-2gRCtsWBn7wwQMFU_J8NFjA5v5FjkWPFN-n2Fh5vYbpCGrYf2LfLK1RQRQPGMCgVdKd19gchJoRpP_8d9q-gkFdxmAOUlmeHBq9q4EpnJjD080YgkZsXrYLP2SgIvxGsd578lmnVKpPgEsFI4kI7NlPNlMQmmZ_bbzU7E8ddwScdfb9N5I0qI7VMKkqalIPuTxEbHXQ"/>
+</div>
+<div class="flex flex-col">
+<span class="text-sm font-bold text-slate-900 dark:text-white">Silicon Valley Network</span>
+<span class="text-xs font-medium text-slate-500 dark:text-slate-400">Organizer</span>
+</div>
+</div>
+<button class="rounded-lg bg-primary/10 px-4 py-1.5 text-xs font-bold text-primary hover:bg-primary/20 transition-colors">
+                        Follow
+                    </button>
+</div>
+</div>
+<!-- Attendees Preview -->
+<div class="flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<h3 class="text-base font-bold text-slate-900 dark:text-white">Going</h3>
+<button class="text-sm font-medium text-primary hover:text-primary/80">See all</button>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex -space-x-3 overflow-hidden py-1 pl-1">
+<img alt="Attendee 1" class="inline-block size-10 rounded-full ring-2 ring-background-light dark:ring-background-dark object-cover" data-alt="Portrait of a woman smiling" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBHBiR_W1CnQAfhKWewdT4ZTFQtHtFDrH8lWBNb4_oImGz-9zrASfOOJEBWR8ZML9SJ0mfSSU25nfJMG8vt7dqMfiKOTU8ffG4ZTTJMOz6ir3lM8o3IuT4HhLWjjvuYyrtWtR71KZqlXT9fp-2LXD9mjPCiUqC4fz30h4O1zL3aAkkRgfT5pieNsv5Yw8wCRJDhUlP7J74GHkhRProTASTfSIB_RTwfd8N302sIsfrDQSmR4Zx0EgMUYrzyYDZSAuQeCGy1pW4lPcCA"/>
+<img alt="Attendee 2" class="inline-block size-10 rounded-full ring-2 ring-background-light dark:ring-background-dark object-cover" data-alt="Portrait of a man with glasses" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDbub4w6yaUCvx3oWw7WjkLh7_fPj-2V7PtTWF49TRPOJp9wCaVESpaO653yaic1dM31NRXBvXG2VhGtNZvjnvJF917qXsAP38q31gSS2Dq-XxGjP9v7WgQcPCh98S_JrgvJFsZy8t_RHLZbppw68ggyN9-_Ofqxi57hWVUxjRjElnseDyczmw10AYQLW8HSv__Huw6MMMpPxgu6vs2DDOMMsBx32afWxrETBgUHz754q1qHWXJoBnruOKhq8UHjGiXjdbAbq9DkGzN"/>
+<img alt="Attendee 3" class="inline-block size-10 rounded-full ring-2 ring-background-light dark:ring-background-dark object-cover" data-alt="Portrait of a woman with curly hair" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDyaaZLAJC4_vCIyFGpEZQ4X9TzCQtuRb87361vV8p_L_DK9n83BYSp7KaMdpujTNByTEvt_eEu2qHq0FxNwBUlagUjqr3b-FwZ7hx6mPF1LCNQAwiEyzx1gJLJsws8R3xKXnPNHU3VPV2D2aSrAMOa_7gyj_M_EGpn3i38T98MzE-Ff1ZjmXJS3rzECUUHjKy6O_d1lqD04b1zTmcM0ztMHZEACOt1x5cBwHIRItLl1FC0raP9b6rhCmwtoau_8C0SdjFJD5FZceQZ"/>
+<img alt="Attendee 4" class="inline-block size-10 rounded-full ring-2 ring-background-light dark:ring-background-dark object-cover" data-alt="Portrait of a smiling man" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBnAu1I86drvIhz2XX-ed-bk6meb5GSDTson93GHvNLezHTbjnuDwMlXy5rIyWbIUc_LE9O_T3ge6hs9FZajyEO0Mc9bqopArhMMmI-llJJLMxlTf4OEhoeAn_sePU3IL-Bko03LUwtWlARzRM7SCwAmh3wdBah3E6jlSR-JOR6wA5SRUGEtt2UNtJeR2W6N5x8LSocNcKYWwKxRmYH-X2T9VUu-YKeTpkljHHLm15RMSZEPVag8PDUZke1-ltyq5Cltgf9mGD-Z2No"/>
+<div class="flex size-10 items-center justify-center rounded-full bg-slate-200 ring-2 ring-background-light dark:bg-slate-700 dark:ring-background-dark text-xs font-bold text-slate-600 dark:text-slate-300">
+                            +120
+                        </div>
+</div>
+<p class="text-sm text-slate-500 dark:text-slate-400">124 people going</p>
+</div>
+</div>
+<!-- Details List -->
+<div class="flex flex-col gap-4 rounded-xl bg-white dark:bg-slate-800/50 p-4 shadow-sm border border-slate-100 dark:border-slate-800">
+<!-- Date/Time -->
+<div class="flex items-start gap-4">
+<div class="flex size-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
+<span class="material-symbols-outlined text-2xl">calendar_today</span>
+</div>
+<div class="flex flex-1 flex-col">
+<h4 class="text-base font-semibold text-slate-900 dark:text-white">Monday, October 24</h4>
+<p class="text-sm text-slate-500 dark:text-slate-400">6:00 PM - 9:00 PM</p>
+<button class="mt-1 w-fit text-xs font-medium text-primary">Add to calendar</button>
+</div>
+</div>
+<div class="h-px w-full bg-slate-100 dark:bg-slate-700"></div>
+<!-- Location -->
+<div class="flex items-start gap-4">
+<div class="flex size-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
+<span class="material-symbols-outlined text-2xl">location_on</span>
+</div>
+<div class="flex flex-1 flex-col">
+<h4 class="text-base font-semibold text-slate-900 dark:text-white">Moscone Center</h4>
+<p class="text-sm text-slate-500 dark:text-slate-400">747 Howard St, San Francisco, CA</p>
+<button class="mt-1 w-fit text-xs font-medium text-primary">Get directions</button>
+</div>
+</div>
+</div>
+<!-- About Section -->
+<div class="flex flex-col gap-2">
+<h3 class="text-lg font-bold text-slate-900 dark:text-white">About Event</h3>
+<p class="text-base leading-relaxed text-slate-600 dark:text-slate-300">
+                    Join us for an evening of networking and insights into the future of technology. 
+                    The Tech Innovators Summit brings together industry leaders, startups, and investors 
+                    to discuss emerging trends in AI, blockchain, and sustainable tech. 
+                    <span class="font-medium text-primary">Read more</span>
+</p>
+</div>
+<!-- Location Map -->
+<div class="flex flex-col gap-3 pb-8">
+<h3 class="text-lg font-bold text-slate-900 dark:text-white">Location</h3>
+<div class="relative h-48 w-full overflow-hidden rounded-xl bg-slate-200 dark:bg-slate-700">
+<div class="h-full w-full bg-cover bg-center opacity-80" data-alt="Map view showing streets of San Francisco" data-location="San Francisco" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBe8ZZvg0RCgO3589IrrGc1lt3ODWfPaSDJS1XbiR9FTWb0eu342-026SnswewfZbfQmlNhIjlUEJUtR3GlNPrLe6NAsfyesd4B9FLkWw0YWrV6p81yM164fU1bWl3gX8MQEhANbH8_sAm6QvVI8XR4qiD1q2Q1kChA-_R-_8y79vFpJTefNVIwyhLnYlvPT8mO8TZz82nkkzfVn-VIIGOCtHXQ6TnXNpj7CKW_pQSBxUOyZ-V5L64FZqLi-sW_ppViR7J06RBku6-e");'>
+</div>
+<!-- Map Pin Overlay -->
+<div class="absolute inset-0 flex items-center justify-center">
+<div class="flex -mt-8 flex-col items-center drop-shadow-lg">
+<span class="material-symbols-outlined text-5xl text-primary" style="font-variation-settings: 'FILL' 1;">location_on</span>
+<div class="rounded-md bg-white px-2 py-1 text-xs font-bold text-slate-900 shadow-md dark:bg-slate-800 dark:text-white">
+                                Moscone Center
+                            </div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Sticky Footer CTA -->
+<div class="fixed bottom-0 z-40 w-full border-t border-slate-100 bg-white/90 px-4 py-4 backdrop-blur-md dark:border-slate-800 dark:bg-background-dark/90 pb-safe">
+<div class="mx-auto flex w-full max-w-md items-center justify-between gap-4">
+<div class="flex flex-col">
+<span class="text-xs font-medium text-slate-500 dark:text-slate-400">Total Price</span>
+<div class="flex items-end gap-1">
+<span class="text-xl font-bold text-slate-900 dark:text-white">Free</span>
+<span class="mb-1 text-xs text-slate-400 line-through">$25.00</span>
+</div>
+</div>
+<button class="flex-1 rounded-xl bg-primary px-6 py-3.5 text-center text-base font-bold text-white shadow-lg shadow-primary/25 transition-transform active:scale-[0.98]">
+                    Join Event
+                </button>
+</div>
+</div>
+</div>
+</body></html>

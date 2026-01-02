@@ -1,0 +1,417 @@
+{% extends "base.html" %}
+
+{% block title %}Login - CommUnity{% endblock %}
+
+{% block content %}
+<div class="min-h-screen flex items-center justify-center py-8 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-slate-50 via-blue-50 to-slate-100 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
+    <div class="max-w-md w-full">
+        <!-- Back Button -->
+        <a href="{{ url_for('main.landing') }}" class="inline-flex items-center gap-2 text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary transition-colors mb-6">
+            <span class="material-symbols-outlined text-[20px]">arrow_back</span>
+            <span class="text-sm font-medium">Back to home</span>
+        </a>
+
+        <!-- Login Card -->
+        <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-xl overflow-hidden">
+            <!-- Hero Image -->
+            <div class="relative h-40 sm:h-48 bg-gradient-to-br from-primary to-blue-600 overflow-hidden">
+                <div class="absolute inset-0 bg-black/10"></div>
+                <div class="absolute inset-0 flex items-center justify-center">
+                    <div class="text-center">
+                        <div class="w-20 h-20 sm:w-24 sm:h-24 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center mx-auto mb-3">
+                            <span class="material-symbols-outlined text-white text-5xl sm:text-6xl">diversity_3</span>
+                        </div>
+                        <h1 class="text-white text-2xl sm:text-3xl font-bold">Welcome back!</h1>
+                        <p class="text-white/90 text-sm sm:text-base mt-1">Login to connect with your community</p>
+                    </div>
+                </div>
+                <!-- Decorative circles -->
+                <div class="absolute -top-10 -right-10 w-40 h-40 bg-white/10 rounded-full"></div>
+                <div class="absolute -bottom-16 -left-16 w-48 h-48 bg-white/10 rounded-full"></div>
+            </div>
+
+            <!-- Form Container -->
+            <div class="p-6 sm:p-8">
+                <!-- Flash Messages -->
+                <div id="flash-messages" class="mb-4"></div>
+
+                <!-- Login Method Toggle -->
+                <div class="mb-6">
+                    <div class="flex gap-2 p-1 bg-slate-100 dark:bg-slate-700/50 rounded-xl">
+                        <button type="button" id="email-tab" class="flex-1 py-2.5 px-4 rounded-lg text-sm font-semibold transition-all bg-white dark:bg-slate-700 text-primary shadow-sm">
+                            Email
+                        </button>
+                        <button type="button" id="phone-tab" class="flex-1 py-2.5 px-4 rounded-lg text-sm font-semibold transition-all text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white">
+                            Phone
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Email Login Form -->
+                <div id="email-login-form" class="space-y-5">
+                    <!-- Email Field -->
+                    <div class="space-y-2">
+                        <label class="text-slate-700 dark:text-slate-300 text-sm font-semibold" for="login-email">Email</label>
+                        <div class="relative">
+                            <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-[20px]">mail</span>
+                            <input 
+                                id="login-email" 
+                                class="w-full h-12 sm:h-14 pl-12 pr-4 rounded-xl text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary/30 border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700/50 placeholder:text-slate-400 text-base transition-all" 
+                                placeholder="Enter your email address" 
+                                type="email"
+                            />
+                        </div>
+                    </div>
+
+                    <!-- Password Field -->
+                    <div class="space-y-2">
+                        <label class="text-slate-700 dark:text-slate-300 text-sm font-semibold" for="login-password">Password</label>
+                        <div class="relative">
+                            <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-[20px]">lock</span>
+                            <input 
+                                id="login-password" 
+                                class="w-full h-12 sm:h-14 pl-12 pr-12 rounded-xl text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary/30 border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700/50 placeholder:text-slate-400 text-base transition-all" 
+                                placeholder="Enter your password" 
+                                type="password"
+                            />
+                            <button type="button" id="toggle-password" class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-primary transition-colors">
+                                <span class="material-symbols-outlined text-[20px]">visibility_off</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Login Button -->
+                    <button id="email-login-btn" class="w-full h-12 sm:h-14 flex items-center justify-center rounded-xl bg-primary text-white text-base font-bold shadow-lg shadow-primary/25 hover:bg-blue-600 active:scale-[0.98] transition-all mt-6 disabled:opacity-50 disabled:cursor-not-allowed">
+                        <span id="login-btn-text">Log In</span>
+                        <span class="material-symbols-outlined text-[20px] ml-2">arrow_forward</span>
+                        <svg id="login-btn-loading" class="animate-spin h-5 w-5 text-white hidden ml-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Phone Login Form (Hidden by default) -->
+                <div id="phone-login-form" class="space-y-5 hidden">
+                    <div class="space-y-2">
+                        <label class="text-slate-700 dark:text-slate-300 text-sm font-semibold" for="login-phone">Phone Number</label>
+                        <div class="flex gap-2">
+                            <select id="login-country-code" class="w-28 sm:w-32 h-12 sm:h-14 px-2 sm:px-3 rounded-xl bg-slate-50 dark:bg-slate-700/50 border border-slate-200 dark:border-slate-600 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all text-sm sm:text-base">
+                                <option value="+1">🇺🇸 +1</option>
+                                <option value="+44">🇬🇧 +44</option>
+                                <option value="+91">🇮🇳 +91</option>
+                                <option value="+86">🇨🇳 +86</option>
+                                <option value="+81">🇯🇵 +81</option>
+                                <option value="+49">🇩🇪 +49</option>
+                                <option value="+33">🇫🇷 +33</option>
+                                <option value="+61">🇦🇺 +61</option>
+                                <option value="+82">🇰🇷 +82</option>
+                                <option value="+234">🇳🇬 +234</option>
+                                <option value="+27">🇿🇦 +27</option>
+                                <option value="+55">🇧🇷 +55</option>
+                                <option value="+52">🇲🇽 +52</option>
+                                <option value="+7">🇷🇺 +7</option>
+                                <option value="+39">🇮🇹 +39</option>
+                                <option value="+34">🇪🇸 +34</option>
+                            </select>
+                            <div class="relative flex-1">
+                                <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-[20px]">phone</span>
+                                <input 
+                                    id="login-phone" 
+                                    class="w-full h-12 sm:h-14 pl-12 pr-4 rounded-xl text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary/30 border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700/50 placeholder:text-slate-400 text-base transition-all" 
+                                    placeholder="234 567 8900" 
+                                    type="tel"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="recaptcha-container"></div>
+                    
+                    <button id="phone-send-otp-btn" class="w-full h-12 sm:h-14 flex items-center justify-center rounded-xl bg-primary text-white text-base font-bold shadow-lg shadow-primary/25 hover:bg-blue-600 active:scale-[0.98] transition-all">
+                        <span>Send OTP</span>
+                        <span class="material-symbols-outlined text-[20px] ml-2">send</span>
+                    </button>
+                    
+                    <!-- OTP Input (Hidden until OTP is sent) -->
+                    <div id="otp-section" class="hidden space-y-4">
+                        <div class="space-y-2">
+                            <label class="text-slate-700 dark:text-slate-300 text-sm font-semibold" for="login-otp">Enter OTP</label>
+                            <div class="relative">
+                                <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-[20px]">pin</span>
+                                <input 
+                                    id="login-otp" 
+                                    class="w-full h-12 sm:h-14 pl-12 pr-4 rounded-xl text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary/30 border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700/50 placeholder:text-slate-400 text-base text-center tracking-widest transition-all" 
+                                    placeholder="000000" 
+                                    type="text" 
+                                    maxlength="6"
+                                />
+                            </div>
+                        </div>
+                        
+                        <button id="phone-verify-otp-btn" class="w-full h-12 sm:h-14 flex items-center justify-center rounded-xl bg-primary text-white text-base font-bold shadow-lg shadow-primary/25 hover:bg-blue-600 active:scale-[0.98] transition-all">
+                            <span>Verify & Login</span>
+                            <span class="material-symbols-outlined text-[20px] ml-2">check_circle</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Footer -->
+                <div class="pt-6 mt-6 border-t border-slate-200 dark:border-slate-700 text-center">
+                    <p class="text-slate-600 dark:text-slate-400 text-sm">
+                        Don't have an account? 
+                        <a class="text-primary font-bold hover:underline ml-1" href="{{ url_for('auth.signup') }}">Sign up</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Helper function for showing messages (defined globally within this scope)
+    function showMessage(message, type) {
+        const container = document.getElementById('flash-messages');
+        if (!container) return;
+        const alertClass = type === 'error' ? 'bg-red-100 text-red-800 border-red-200' : 'bg-green-100 text-green-800 border-green-200';
+        container.innerHTML = `
+            <div class="${alertClass} px-4 py-3 rounded-lg border text-sm mb-4">
+                ${message}
+            </div>
+        `;
+        setTimeout(() => container.innerHTML = '', 5000);
+    }
+    
+    // Wait for DOM to be fully loaded
+    document.addEventListener('DOMContentLoaded', function() {
+        // Tab switching
+        const emailTab = document.getElementById('email-tab');
+        const phoneTab = document.getElementById('phone-tab');
+        const emailForm = document.getElementById('email-login-form');
+        const phoneForm = document.getElementById('phone-login-form');
+        
+        console.log('Tabs initialized:', emailTab, phoneTab);
+        
+        emailTab.addEventListener('click', () => {
+            console.log('Email tab clicked');
+            emailTab.classList.add('bg-white', 'dark:bg-slate-700', 'text-primary', 'shadow-sm');
+            emailTab.classList.remove('text-slate-600', 'dark:text-slate-400');
+            phoneTab.classList.remove('bg-white', 'dark:bg-slate-700', 'text-primary', 'shadow-sm');
+            phoneTab.classList.add('text-slate-600', 'dark:text-slate-400');
+            emailForm.classList.remove('hidden');
+            phoneForm.classList.add('hidden');
+        });
+        
+        phoneTab.addEventListener('click', () => {
+            console.log('Phone tab clicked');
+            phoneTab.classList.add('bg-white', 'dark:bg-slate-700', 'text-primary', 'shadow-sm');
+            phoneTab.classList.remove('text-slate-600', 'dark:text-slate-400');
+            emailTab.classList.remove('bg-white', 'dark:bg-slate-700', 'text-primary', 'shadow-sm');
+            emailTab.classList.add('text-slate-600', 'dark:text-slate-400');
+            phoneForm.classList.remove('hidden');
+            emailForm.classList.add('hidden');
+            
+            // Initialize reCAPTCHA when phone tab is clicked (only once)
+            if (!window.recaptchaVerifier) {
+                // Wait for Firebase Auth to be fully loaded
+                const initRecaptcha = () => {
+                    console.log('Checking Firebase availability:', {
+                        ready: !!window.firebaseReady,
+                        auth: !!window.firebaseAuth,
+                        authType: window.firebaseAuth ? typeof window.firebaseAuth : 'undefined',
+                        recaptchaVerifier: !!window.firebaseRecaptchaVerifier,
+                        authKeys: window.firebaseAuth ? Object.keys(window.firebaseAuth).slice(0, 5) : []
+                    });
+                    
+                    if (!window.firebaseReady || !window.firebaseAuth || !window.firebaseRecaptchaVerifier) {
+                        console.log('Waiting for Firebase to load...');
+                        setTimeout(initRecaptcha, 200);
+                        return;
+                    }
+                    
+                    try {
+                        console.log('Initializing reCAPTCHA...');
+                        const recaptchaContainer = document.getElementById('recaptcha-container');
+                        if (!recaptchaContainer) {
+                            console.error('reCAPTCHA container not found');
+                            setTimeout(initRecaptcha, 200);
+                            return;
+                        }
+                        
+                        // Check if we're on localhost - Firebase requires authorized domain
+                        const hostname = window.location.hostname;
+                        console.log('Current hostname:', hostname);
+                        
+                        if (hostname === '127.0.0.1' || hostname === 'localhost') {
+                            console.warn('⚠️ IMPORTANT: Make sure 127.0.0.1 and localhost are added to Firebase Console -> Authentication -> Settings -> Authorized domains');
+                        }
+                        
+                        // Create the verifier - use auth instance directly
+                        const RecaptchaVerifier = window.firebaseRecaptchaVerifier;
+                        const auth = window.firebaseAuth;
+                        
+                        console.log('Creating RecaptchaVerifier with auth:', auth);
+                        
+                        window.recaptchaVerifier = new RecaptchaVerifier(
+                            auth,
+                            'recaptcha-container',
+                            {
+                                'size': 'normal',
+                                'callback': (response) => {
+                                    console.log('✅ reCAPTCHA solved', response);
+                                },
+                                'expired-callback': () => {
+                                    console.log('⚠️ reCAPTCHA expired');
+                                }
+                            }
+                        );
+                        
+                        console.log('RecaptchaVerifier created, rendering...');
+                        
+                        window.recaptchaVerifier.render().then((widgetId) => {
+                            console.log('✅ reCAPTCHA rendered successfully with widgetId:', widgetId);
+                            window.recaptchaWidgetId = widgetId;
+                        }).catch(error => {
+                            console.error('❌ reCAPTCHA render error:', error);
+                            showMessage('Failed to load reCAPTCHA. Please ensure 127.0.0.1 is added to Firebase authorized domains.', 'error');
+                        });
+                    } catch (error) {
+                        console.error('❌ reCAPTCHA initialization error:', error);
+                        console.error('Error stack:', error.stack);
+                        showMessage('Failed to initialize reCAPTCHA. Please check Firebase configuration.', 'error');
+                    }
+                };
+                
+                // Start initialization with a longer delay
+                setTimeout(initRecaptcha, 1000);
+            }
+        });
+        
+        // Password visibility toggle
+        document.getElementById('toggle-password').addEventListener('click', function() {
+            const passwordInput = document.getElementById('login-password');
+            const icon = this.querySelector('.material-symbols-outlined');
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                icon.textContent = 'visibility';
+            } else {
+                passwordInput.type = 'password';
+                icon.textContent = 'visibility_off';
+            }
+        });
+        
+        // Email login
+        document.getElementById('email-login-btn').addEventListener('click', async () => {
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            
+            if (!email || !password) {
+                showMessage('Please fill in all fields', 'error');
+                return;
+            }
+            
+            // Show loading state
+            const btn = document.getElementById('email-login-btn');
+            const btnText = document.getElementById('login-btn-text');
+            const btnLoading = document.getElementById('login-btn-loading');
+            
+            btn.disabled = true;
+            btnText.textContent = 'Logging in...';
+            btnLoading.classList.remove('hidden');
+            
+            try {
+                const userCredential = await window.firebaseSignInWithEmailAndPassword(window.firebaseAuth, email, password);
+                const idToken = await userCredential.user.getIdToken();
+                
+                // Send token to backend
+                const response = await fetch('/auth/verify-token', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ idToken })
+                });
+                
+                if (response.ok) {
+                    btnText.textContent = 'Success!';
+                    window.location.href = '/dashboard';
+                } else {
+                    showMessage('Login failed. Please try again.', 'error');
+                    btn.disabled = false;
+                    btnText.textContent = 'Log In';
+                    btnLoading.classList.add('hidden');
+                }
+            } catch (error) {
+                showMessage(error.message, 'error');
+                btn.disabled = false;
+                btnText.textContent = 'Log In';
+                btnLoading.classList.add('hidden');
+            }
+        });
+        
+        // Phone OTP send
+        let confirmationResult = null;
+        document.getElementById('phone-send-otp-btn').addEventListener('click', async () => {
+            const countryCode = document.getElementById('login-country-code').value;
+            const phoneNumber = document.getElementById('login-phone').value;
+            const fullPhone = countryCode + phoneNumber;
+            
+            if (!phoneNumber) {
+                showMessage('Please enter phone number', 'error');
+                return;
+            }
+            
+            if (!window.recaptchaVerifier) {
+                showMessage('Please wait for reCAPTCHA to load...', 'error');
+                return;
+            }
+            
+            const btn = document.getElementById('phone-send-otp-btn');
+            btn.disabled = true;
+            btn.innerHTML = '<span>Sending...</span><svg class="animate-spin h-5 w-5 text-white ml-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>';
+            
+            try {
+                confirmationResult = await window.firebaseSignInWithPhoneNumber(window.firebaseAuth, fullPhone, window.recaptchaVerifier);
+                document.getElementById('otp-section').classList.remove('hidden');
+                showMessage('OTP sent successfully!', 'success');
+                btn.innerHTML = '<span>Resend OTP</span><span class="material-symbols-outlined text-[20px] ml-2">refresh</span>';
+            } catch (error) {
+                showMessage(error.message, 'error');
+                btn.innerHTML = '<span>Send OTP</span><span class="material-symbols-outlined text-[20px] ml-2">send</span>';
+            } finally {
+                btn.disabled = false;
+            }
+        });
+        
+        // Phone OTP verify
+        document.getElementById('phone-verify-otp-btn').addEventListener('click', async () => {
+            const otp = document.getElementById('login-otp').value;
+            
+            if (!otp || !confirmationResult) {
+                showMessage('Please enter OTP', 'error');
+                return;
+            }
+            
+            try {
+                const result = await confirmationResult.confirm(otp);
+                const idToken = await result.user.getIdToken();
+                
+                // Send token to backend
+                const response = await fetch('/auth/verify-token', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ idToken })
+                });
+                
+                if (response.ok) {
+                    window.location.href = '/dashboard';
+                } else {
+                    showMessage('Login failed. Please try again.', 'error');
+                }
+            } catch (error) {
+                showMessage(error.message, 'error');
+            }
+        });
+    });
+</script>
+{% endblock %}

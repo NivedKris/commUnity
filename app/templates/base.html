@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>{% block title %}CommUnity - Connect, Share, Thrive Together{% endblock %}</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+    
+    <!-- Material Symbols - Both Outlined and Rounded -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet"/>
+    
+    <!-- Tailwind Config -->
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#1392ec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101a22",
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#1a2632",
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans", "Noto Sans", "sans-serif"],
+                        "body": ["Plus Jakarta Sans", "Noto Sans", "sans-serif"],
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+    
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            min-height: max(884px, 100dvh);
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+    
+    {% block extra_css %}{% endblock %}
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white font-display antialiased selection:bg-primary selection:text-white">
+    {% block content %}{% endblock %}
+    
+    <!-- Firebase SDK -->
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, 
+                 signInWithPhoneNumber, RecaptchaVerifier, signOut } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+        
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "{{ firebase_config.apiKey }}",
+            authDomain: "{{ firebase_config.authDomain }}",
+            projectId: "{{ firebase_config.projectId }}",
+            storageBucket: "{{ firebase_config.storageBucket }}",
+            messagingSenderId: "{{ firebase_config.messagingSenderId }}",
+            appId: "{{ firebase_config.appId }}",
+            measurementId: "{{ firebase_config.measurementId }}"
+        };
+        
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        
+        // Make available globally
+        window.firebaseApp = app;
+        window.firebaseAuth = auth;
+        window.firebaseSignInWithEmailAndPassword = signInWithEmailAndPassword;
+        window.firebaseCreateUserWithEmailAndPassword = createUserWithEmailAndPassword;
+        window.firebaseSignInWithPhoneNumber = signInWithPhoneNumber;
+        window.firebaseRecaptchaVerifier = RecaptchaVerifier;
+        window.firebaseSignOut = signOut;
+        window.firebaseReady = true;
+        
+        console.log('Firebase initialized successfully', { auth: !!auth });
+        
+        // Dispatch event when Firebase is ready
+        window.dispatchEvent(new Event('firebaseReady'));
+    </script>
+    
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

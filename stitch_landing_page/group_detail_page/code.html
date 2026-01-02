@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Group Detail Page</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#1392ec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101a22",
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#1e2936",
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "2xl": "1rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        /* Hide scrollbar for cleaner UI in demos */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-white antialiased selection:bg-primary/30">
+<div class="relative flex h-full min-h-screen w-full flex-col max-w-md mx-auto bg-background-light dark:bg-background-dark shadow-2xl overflow-hidden">
+<!-- Sticky Header -->
+<header class="sticky top-0 z-50 bg-background-light/95 dark:bg-background-dark/95 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 transition-colors duration-300">
+<div class="flex items-center p-4 justify-between h-16">
+<button class="text-slate-900 dark:text-white flex size-10 shrink-0 items-center justify-center rounded-full hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors">
+<span class="material-symbols-outlined text-[24px]">arrow_back</span>
+</button>
+<h2 class="text-slate-900 dark:text-white text-lg font-bold leading-tight tracking-tight flex-1 text-center truncate px-4 opacity-0 transition-opacity duration-300" id="header-title">
+                    UX Designers Collective
+                </h2>
+<button class="flex size-10 cursor-pointer items-center justify-center rounded-full hover:bg-slate-200 dark:hover:bg-slate-800 text-slate-900 dark:text-white transition-colors">
+<span class="material-symbols-outlined text-[24px]">more_vert</span>
+</button>
+</div>
+</header>
+<!-- Main Scrollable Content -->
+<main class="flex-1 overflow-y-auto no-scrollbar pb-24">
+<!-- Group Hero Section -->
+<div class="flex flex-col p-5 pb-0 bg-background-light dark:bg-background-dark">
+<div class="flex gap-5 items-start">
+<div class="relative group cursor-pointer shrink-0">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-2xl h-24 w-24 shadow-md ring-2 ring-white dark:ring-slate-700" data-alt="Abstract colorful geometric pattern representing creative design" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAAFwGiw_rHlIy4jOzg7o4WNNjWYYz3Xexm96plyG9VBtylGi7QPra4oWcu5J5czm005l60al_g1yQs3kVFG1BClZO7eow3LSS2KaLsomrJasm_s0eQRj340U_JJE0pamCH9AbZSYNWorCMc06pLNlR0Sw8uPUkukJ0hJpulYwe4pdnzuJpyZYPrN2uG6EjOnqFVhoinlrqQg04JxrlgQB3MbmVOteUoIALDBvs6YfdARyh2Ly1ToyWjQwIVFRtfUsL9g_lVqHHmjX6");'>
+</div>
+<div class="absolute -bottom-2 -right-2 bg-green-500 border-2 border-white dark:border-background-dark rounded-full p-1">
+<span class="material-symbols-outlined text-[12px] text-white block">public</span>
+</div>
+</div>
+<div class="flex flex-col flex-1 pt-1 gap-1">
+<h1 class="text-slate-900 dark:text-white text-2xl font-bold leading-tight tracking-tight">UX Designers Collective</h1>
+<p class="text-slate-500 dark:text-slate-400 text-sm font-medium leading-normal flex items-center gap-1">
+<span>1.2k Members</span>
+<span class="size-1 rounded-full bg-slate-400"></span>
+<span>Public Group</span>
+</p>
+<!-- Description -->
+<p class="text-slate-700 dark:text-slate-300 text-sm font-normal leading-relaxed mt-2 line-clamp-3">
+                            A hub for UX enthusiasts to share resources, discuss latest trends, and get constructive feedback on design work.
+                        </p>
+</div>
+</div>
+<!-- Actions -->
+<div class="flex gap-3 mt-6">
+<button class="flex-1 flex items-center justify-center h-10 rounded-lg bg-primary hover:bg-blue-600 text-white text-sm font-bold tracking-wide transition-all shadow-sm hover:shadow-md active:scale-95">
+                        Join Group
+                    </button>
+<button class="flex items-center justify-center h-10 w-10 rounded-lg bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-slate-700 transition-all">
+<span class="material-symbols-outlined text-[20px]">notifications_none</span>
+</button>
+<button class="flex items-center justify-center h-10 w-10 rounded-lg bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-slate-700 transition-all">
+<span class="material-symbols-outlined text-[20px]">search</span>
+</button>
+</div>
+</div>
+<!-- Tabs Navigation (Sticky) -->
+<div class="sticky top-[64px] z-40 bg-background-light dark:bg-background-dark pt-2 mt-2">
+<div class="flex border-b border-slate-200 dark:border-slate-800 px-4 w-full overflow-x-auto no-scrollbar">
+<button class="group flex flex-col items-center justify-center min-w-[4rem] flex-1 px-4 cursor-pointer">
+<span class="text-primary text-sm font-bold py-3">Discussions</span>
+<div class="h-[3px] w-full rounded-t-full bg-primary"></div>
+</button>
+<button class="group flex flex-col items-center justify-center min-w-[4rem] flex-1 px-4 cursor-pointer">
+<span class="text-slate-500 dark:text-slate-400 group-hover:text-slate-800 dark:group-hover:text-slate-200 text-sm font-medium py-3 transition-colors">Polls</span>
+<div class="h-[3px] w-full rounded-t-full bg-transparent group-hover:bg-slate-200 dark:group-hover:bg-slate-800 transition-colors"></div>
+</button>
+<button class="group flex flex-col items-center justify-center min-w-[4rem] flex-1 px-4 cursor-pointer">
+<span class="text-slate-500 dark:text-slate-400 group-hover:text-slate-800 dark:group-hover:text-slate-200 text-sm font-medium py-3 transition-colors">Files</span>
+<div class="h-[3px] w-full rounded-t-full bg-transparent group-hover:bg-slate-200 dark:group-hover:bg-slate-800 transition-colors"></div>
+</button>
+<button class="group flex flex-col items-center justify-center min-w-[4rem] flex-1 px-4 cursor-pointer">
+<span class="text-slate-500 dark:text-slate-400 group-hover:text-slate-800 dark:group-hover:text-slate-200 text-sm font-medium py-3 transition-colors">Members</span>
+<div class="h-[3px] w-full rounded-t-full bg-transparent group-hover:bg-slate-200 dark:group-hover:bg-slate-800 transition-colors"></div>
+</button>
+</div>
+</div>
+<!-- Feed Content -->
+<div class="flex flex-col gap-4 p-4">
+<!-- Pinned Post / Announcement -->
+<div class="bg-surface-light dark:bg-surface-dark rounded-xl p-4 shadow-sm border border-slate-100 dark:border-slate-800/50">
+<div class="flex items-center gap-2 mb-3">
+<span class="bg-primary/10 text-primary px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider">Announcement</span>
+<span class="text-slate-400 text-xs">1d ago</span>
+</div>
+<h3 class="text-slate-900 dark:text-white font-bold text-base mb-2">Welcome to the group! 👋</h3>
+<p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">
+                         Thanks for joining! Feel free to introduce yourself in the comments below. Please read the community guidelines before posting.
+                     </p>
+<div class="flex items-center gap-4 mt-3 pt-3 border-t border-slate-100 dark:border-slate-800">
+<div class="flex -space-x-2">
+<div class="size-6 rounded-full bg-slate-200 border-2 border-white dark:border-surface-dark bg-cover" data-alt="User avatar" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuC0fNl71p-NzKHp-jGSTibLptKYIbNgzPFD2tWPP1E8lNLiBPJaNi71sWqTFgdihTqGW9aAbxJoU3WdqcZj3I0kq1bguYmRr2sDO5kObvo6DH00g3TJqu7Bxm-3AzdRuec3iH7TDjqNr6PJFt3UAG7D3s7iSfUUemIfpjmtF9xcdBlY1hY8EPyyFboVGhlHmJfjEVRj6m7lsQi2zLudBVslZEO3fGAHtn8dQFVn6DgzDTGDDDvqW6eZKNiFhv1cpAcAKUGzlYY_cBKX')"></div>
+<div class="size-6 rounded-full bg-slate-200 border-2 border-white dark:border-surface-dark bg-cover" data-alt="User avatar" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCQPx9UdLPDCRzTTLEqDnZFIbF8OsM0_l-5P4FhFHU2NUWz5_bbl7n_pW6irp91600a5z6vPIHvQCURVGw0fuXbnQ_kJVs59JoiRt9FNOJw_C3G1y6IxHqgIubtv0NIdwGkhaHivfDY1R_wfj8U2mo0hpCUP0aIl7P4I2DjD7A-IEkzgBE-StrHQ0V60VBTIG9EYdfhgzXJmzKf6fL0RbLnQRoCMdAT9V7Ch2bz2qKtCBrcqxua70-7sv_Me6SRxGdc3yT23Y3f-F1i')"></div>
+<div class="size-6 rounded-full bg-slate-100 dark:bg-slate-700 border-2 border-white dark:border-surface-dark flex items-center justify-center text-[8px] font-bold text-slate-500">+12</div>
+</div>
+<span class="text-slate-400 text-xs font-medium">14 comments</span>
+</div>
+</div>
+<!-- Discussion Post 1 -->
+<article class="bg-surface-light dark:bg-surface-dark rounded-xl p-4 shadow-sm border border-slate-100 dark:border-slate-800/50">
+<div class="flex items-start gap-3">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full w-10 h-10 shrink-0 border border-slate-100 dark:border-slate-700" data-alt="Portrait of Sarah Jenks" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuChu3-R_KMo9MvFZapwfu9xiZFBGmURvLVDB27epNJXEDrNfjVsudP5IEuxFfp11vk7kgzXUUn5YQKEVxyN0QRl-sLxTQQJtvdJ_s59XFvA7bJ7jXAAd3PxV38ySc5z0p_h6Jur8moxY8zrkZZURTvbat0LO-xU40xnTc5tp_wKrpUze-SHHzqughFJirj5ltW2mhE5JIlBWxB586yfVv8xfsk3_LMTAr9EwCEfAunMYkdWERKmKBcyy_wvXKdEvvxDQyeSeuMhvyhz");'>
+</div>
+<div class="flex-1">
+<div class="flex items-center justify-between">
+<div class="flex flex-col">
+<h3 class="text-slate-900 dark:text-white text-sm font-bold">Sarah Jenks</h3>
+<span class="text-slate-400 text-xs">2h ago • UX Research</span>
+</div>
+<button class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
+<span class="material-symbols-outlined text-[20px]">more_horiz</span>
+</button>
+</div>
+<p class="text-slate-800 dark:text-slate-200 text-sm font-normal leading-relaxed mt-2">
+                                Does anyone have recommendations for user testing tools? I'm looking for something that integrates well with Figma for unmoderated tests.
+                            </p>
+<!-- Interactions -->
+<div class="flex items-center justify-between mt-4 pt-3 border-t border-slate-50 dark:border-slate-800">
+<div class="flex items-center gap-6">
+<button class="flex items-center gap-1.5 group">
+<span class="material-symbols-outlined text-[20px] text-slate-400 group-hover:text-primary transition-colors">thumb_up</span>
+<span class="text-slate-500 dark:text-slate-400 text-xs font-medium group-hover:text-primary transition-colors">24</span>
+</button>
+<button class="flex items-center gap-1.5 group">
+<span class="material-symbols-outlined text-[20px] text-slate-400 group-hover:text-primary transition-colors">mode_comment</span>
+<span class="text-slate-500 dark:text-slate-400 text-xs font-medium group-hover:text-primary transition-colors">8</span>
+</button>
+</div>
+<button class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
+<span class="material-symbols-outlined text-[20px]">share</span>
+</button>
+</div>
+</div>
+</div>
+</article>
+<!-- Poll Widget Post -->
+<article class="bg-surface-light dark:bg-surface-dark rounded-xl p-4 shadow-sm border border-slate-100 dark:border-slate-800/50">
+<div class="flex items-start gap-3 mb-3">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full w-10 h-10 shrink-0 border border-slate-100 dark:border-slate-700" data-alt="Portrait of Alex Chen" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDB9BIunf4ug9Ap14V-I4DOWvpkI5ZuEgzxRHu9Ig682htrDGktpNp0mbFFkJcjkOT_1oqmDgWq95oFxrM8IFDNjpqoc9yOD-2EHNisv6U_Ddlum46hidXZdRmLoL4a1OYF6FBFKtpARGYjH9JSM1sPJb4cQrxt_xnX-OTaEWJRNoXYAp6wSTfxPL3Xz_1himfA1GKckf0dXkW1zjc9TGZJaDKXx9ZmC0kUmOi3u-nL-PxxmRbIei-fUA7ck2_ep7elMISuD4grPAv0");'>
+</div>
+<div class="flex flex-col">
+<h3 class="text-slate-900 dark:text-white text-sm font-bold">Alex Chen</h3>
+<span class="text-slate-400 text-xs">5h ago • Poll</span>
+</div>
+</div>
+<div class="pl-0 sm:pl-13">
+<h4 class="text-slate-900 dark:text-white text-base font-semibold mb-3">What is your primary design tool in 2024?</h4>
+<div class="flex flex-col gap-2.5">
+<!-- Poll Option 1 -->
+<div class="relative w-full h-10 rounded-lg bg-slate-50 dark:bg-slate-700/50 overflow-hidden cursor-pointer group border border-slate-100 dark:border-slate-700">
+<div class="absolute top-0 left-0 h-full bg-primary/10 dark:bg-primary/20 w-[75%] transition-all duration-500 group-hover:bg-primary/20 dark:group-hover:bg-primary/30"></div>
+<div class="absolute inset-0 flex items-center justify-between px-3">
+<span class="text-slate-700 dark:text-slate-200 text-sm font-medium z-10">Figma</span>
+<span class="text-primary text-sm font-bold z-10">75%</span>
+</div>
+</div>
+<!-- Poll Option 2 -->
+<div class="relative w-full h-10 rounded-lg bg-slate-50 dark:bg-slate-700/50 overflow-hidden cursor-pointer group border border-slate-100 dark:border-slate-700">
+<div class="absolute top-0 left-0 h-full bg-primary/10 dark:bg-primary/20 w-[15%] transition-all duration-500 group-hover:bg-primary/20 dark:group-hover:bg-primary/30"></div>
+<div class="absolute inset-0 flex items-center justify-between px-3">
+<span class="text-slate-700 dark:text-slate-200 text-sm font-medium z-10">Sketch</span>
+<span class="text-primary text-sm font-bold z-10">15%</span>
+</div>
+</div>
+<!-- Poll Option 3 -->
+<div class="relative w-full h-10 rounded-lg bg-slate-50 dark:bg-slate-700/50 overflow-hidden cursor-pointer group border border-slate-100 dark:border-slate-700">
+<div class="absolute top-0 left-0 h-full bg-primary/10 dark:bg-primary/20 w-[10%] transition-all duration-500 group-hover:bg-primary/20 dark:group-hover:bg-primary/30"></div>
+<div class="absolute inset-0 flex items-center justify-between px-3">
+<span class="text-slate-700 dark:text-slate-200 text-sm font-medium z-10">Adobe XD</span>
+<span class="text-primary text-sm font-bold z-10">10%</span>
+</div>
+</div>
+</div>
+<div class="mt-3 flex items-center justify-between text-xs text-slate-400">
+<span>248 votes • 3 days left</span>
+</div>
+</div>
+</article>
+<!-- File Post -->
+<article class="bg-surface-light dark:bg-surface-dark rounded-xl p-4 shadow-sm border border-slate-100 dark:border-slate-800/50">
+<div class="flex items-start gap-3 mb-2">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full w-10 h-10 shrink-0 border border-slate-100 dark:border-slate-700" data-alt="Portrait of Marcus Johnson" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB96cfUSftG8ruc4aYPe-sIEIrUFPyBenUV_traNoe4okUyc6herOffch_CB1U1c8fsl4KLLI5A7DsqSM9TfweT6RSFqTxY8W1hqOR4WWgWtA9KWlY39UQelbhjTnvKslknjYmlCGBK1NzPjGUOVIwMCvk79W4g2EpeHZptJVWIv_fEDviS_Qj8JHhjKp3ZkkMPDpgyU45NrumeRVi-h1d6u2pZ9a_0-gg0zCyw_KYLQQ6xF-28BBCR7w0JmkZkwcjPaeKzc4aOGEku");'>
+</div>
+<div class="flex-1">
+<div class="flex items-center justify-between">
+<div class="flex flex-col">
+<h3 class="text-slate-900 dark:text-white text-sm font-bold">Marcus Johnson</h3>
+<span class="text-slate-400 text-xs">8h ago • Resources</span>
+</div>
+<button class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
+<span class="material-symbols-outlined text-[20px]">more_horiz</span>
+</button>
+</div>
+<p class="text-slate-800 dark:text-slate-200 text-sm font-normal mt-2 mb-3">
+                                Just updated the Design System documentation for V2. Check it out!
+                            </p>
+<!-- File Attachment Card -->
+<div class="flex items-center gap-3 p-3 bg-slate-50 dark:bg-slate-800/60 rounded-lg border border-slate-200 dark:border-slate-700 group cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+<div class="flex items-center justify-center size-10 rounded bg-red-100 text-red-500 dark:bg-red-900/30 dark:text-red-400 shrink-0">
+<span class="material-symbols-outlined text-[24px]">picture_as_pdf</span>
+</div>
+<div class="flex flex-col flex-1 min-w-0">
+<span class="text-slate-900 dark:text-white text-sm font-semibold truncate">Design_System_v2.pdf</span>
+<span class="text-slate-500 text-xs">2.4 MB • PDF Document</span>
+</div>
+<button class="size-8 flex items-center justify-center text-slate-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">download</span>
+</button>
+</div>
+<!-- File Interactions -->
+<div class="flex items-center gap-4 mt-3 pt-1">
+<button class="flex items-center gap-1.5 group">
+<span class="material-symbols-outlined text-[20px] text-slate-400 group-hover:text-primary transition-colors">thumb_up</span>
+<span class="text-slate-500 dark:text-slate-400 text-xs font-medium group-hover:text-primary transition-colors">5</span>
+</button>
+</div>
+</div>
+</div>
+</article>
+</div>
+<div class="h-20"></div> <!-- Spacer for FAB -->
+</main>
+<!-- Floating Action Button -->
+<button class="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-primary text-white shadow-lg hover:bg-blue-600 hover:scale-105 active:scale-95 transition-all duration-300 group">
+<span class="material-symbols-outlined text-[28px] group-hover:rotate-90 transition-transform duration-300">add</span>
+</button>
+</div>
+<script>
+        // Simple scroll effect for header title
+        const main = document.querySelector('main');
+        const headerTitle = document.getElementById('header-title');
+        
+        main.addEventListener('scroll', () => {
+            if (main.scrollTop > 180) {
+                headerTitle.classList.remove('opacity-0');
+            } else {
+                headerTitle.classList.add('opacity-0');
+            }
+        });
+    </script>
+</body></html>

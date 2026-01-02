@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - CommUnity{% endblock %}
+
+{% block content %}
+<!-- TopAppBar -->
+<header class="sticky top-0 z-30 flex items-center bg-white/95 dark:bg-slate-900/95 backdrop-blur-md px-4 py-3 justify-between border-b border-slate-200 dark:border-slate-800">
+    <div class="flex items-center gap-3">
+        <div class="relative">
+            <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 ring-2 ring-primary/20" style="background-image: url('{{ current_user.profile_picture or "https://ui-avatars.com/api/?name=" + current_user.name + "&background=1392ec&color=fff" }}');">
+            </div>
+            <div class="absolute bottom-0 right-0 size-3 bg-green-500 border-2 border-white dark:border-slate-900 rounded-full"></div>
+        </div>
+        <div class="flex flex-col">
+            <span class="text-slate-500 dark:text-slate-400 text-xs font-semibold uppercase tracking-wider">Welcome back</span>
+            <h2 class="text-slate-900 dark:text-white text-lg font-bold leading-tight">{{ current_user.name }}</h2>
+        </div>
+    </div>
+    <button class="relative flex size-10 items-center justify-center rounded-full bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 shadow-sm active:scale-95 transition-transform">
+        <span class="material-symbols-outlined text-slate-700 dark:text-slate-200" style="font-size: 24px;">notifications</span>
+        <span class="absolute top-2 right-2 size-2 bg-red-500 rounded-full animate-pulse"></span>
+    </button>
+</header>
+
+<!-- SearchBar -->
+<div class="px-4 py-4 sticky top-[68px] z-20 bg-background-light dark:bg-background-dark">
+    <div class="flex gap-2 w-full h-12">
+        <div class="flex w-full flex-1 items-center rounded-xl bg-white dark:bg-slate-800 shadow-sm border border-slate-100 dark:border-slate-700 overflow-hidden focus-within:ring-2 focus-within:ring-primary/50 transition-all">
+            <div class="flex items-center justify-center pl-4 text-primary">
+                <span class="material-symbols-outlined" style="font-size: 24px;">search</span>
+            </div>
+            <input class="w-full bg-transparent border-none text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 px-3 py-2 focus:ring-0 text-base font-medium" placeholder="Search events, groups, issues..."/>
+        </div>
+        <button class="flex shrink-0 aspect-square h-full items-center justify-center rounded-xl bg-primary text-white shadow-md active:bg-primary/90 transition-colors">
+            <span class="material-symbols-outlined" style="font-size: 24px;">tune</span>
+        </button>
+    </div>
+</div>
+
+<!-- Content -->
+<div class="flex-1 overflow-y-auto pb-20">
+    <!-- Quick Actions -->
+    <section class="px-4 pb-6">
+        <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-3">Quick Actions</h3>
+        <div class="grid grid-cols-3 gap-3">
+            <a href="/events" class="group flex flex-col items-center gap-2 p-3 rounded-2xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-md active:scale-95 transition-all">
+                <div class="flex items-center justify-center size-12 rounded-full bg-blue-50 dark:bg-blue-900/20 text-primary group-hover:bg-blue-100 dark:group-hover:bg-blue-900/30 transition-colors">
+                    <span class="material-symbols-outlined" style="font-size: 28px;">event</span>
+                </div>
+                <span class="text-xs font-semibold text-slate-700 dark:text-slate-300 text-center">Events</span>
+            </a>
+            
+            <a href="/groups" class="group flex flex-col items-center gap-2 p-3 rounded-2xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-md active:scale-95 transition-all">
+                <div class="flex items-center justify-center size-12 rounded-full bg-green-50 dark:bg-green-900/20 text-green-500 group-hover:bg-green-100 dark:group-hover:bg-green-900/30 transition-colors">
+                    <span class="material-symbols-outlined" style="font-size: 28px;">groups</span>
+                </div>
+                <span class="text-xs font-semibold text-slate-700 dark:text-slate-300 text-center">Groups</span>
+            </a>
+            
+            <a href="/issues/report" class="group flex flex-col items-center gap-2 p-3 rounded-2xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-md active:scale-95 transition-all">
+                <div class="flex items-center justify-center size-12 rounded-full bg-red-50 dark:bg-red-900/20 text-red-500 group-hover:bg-red-100 dark:group-hover:bg-red-900/30 transition-colors">
+                    <span class="material-symbols-outlined" style="font-size: 28px;">report_problem</span>
+                </div>
+                <span class="text-xs font-semibold text-slate-700 dark:text-slate-300 text-center">Report</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- Recommended Events -->
+    <section class="px-4 pb-6">
+        <div class="flex items-center justify-between mb-3">
+            <h3 class="text-lg font-bold text-slate-900 dark:text-white">Upcoming Events</h3>
+            <a href="/events" class="text-sm font-semibold text-primary hover:text-primary/80">See all</a>
+        </div>
+        <div class="space-y-3">
+            <div class="p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 shadow-sm">
+                <p class="text-slate-500 dark:text-slate-400 text-sm text-center py-8">No upcoming events yet. Check back soon!</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Your Groups -->
+    <section class="px-4 pb-6">
+        <div class="flex items-center justify-between mb-3">
+            <h3 class="text-lg font-bold text-slate-900 dark:text-white">Your Groups</h3>
+            <a href="/groups" class="text-sm font-semibold text-primary hover:text-primary/80">See all</a>
+        </div>
+        <div class="space-y-3">
+            <div class="p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 shadow-sm">
+                <p class="text-slate-500 dark:text-slate-400 text-sm text-center py-8">You haven't joined any groups yet.</p>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- Bottom Navigation -->
+<nav class="fixed bottom-0 left-0 right-0 w-full bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 px-4 py-3 z-40">
+    <div class="flex items-center justify-around max-w-7xl mx-auto">
+        <a href="/dashboard" class="flex flex-col items-center gap-1 text-primary">
+            <span class="material-symbols-outlined" style="font-size: 24px;">home</span>
+            <span class="text-[10px] font-semibold">Home</span>
+        </a>
+        <a href="/events" class="flex flex-col items-center gap-1 text-slate-400 dark:text-slate-500 hover:text-primary transition-colors">
+            <span class="material-symbols-outlined" style="font-size: 24px;">event</span>
+            <span class="text-[10px] font-semibold">Events</span>
+        </a>
+        <a href="/groups" class="flex flex-col items-center gap-1 text-slate-400 dark:text-slate-500 hover:text-primary transition-colors">
+            <span class="material-symbols-outlined" style="font-size: 24px;">groups</span>
+            <span class="text-[10px] font-semibold">Groups</span>
+        </a>
+        <a href="/chat" class="flex flex-col items-center gap-1 text-slate-400 dark:text-slate-500 hover:text-primary transition-colors">
+            <span class="material-symbols-outlined" style="font-size: 24px;">chat</span>
+            <span class="text-[10px] font-semibold">Chat</span>
+        </a>
+        <a href="/auth/logout" class="flex flex-col items-center gap-1 text-slate-400 dark:text-slate-500 hover:text-red-500 transition-colors">
+            <span class="material-symbols-outlined" style="font-size: 24px;">logout</span>
+            <span class="text-[10px] font-semibold">Logout</span>
+        </a>
+    </div>
+</nav>
+{% endblock %}

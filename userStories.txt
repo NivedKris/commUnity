@@ -1,0 +1,96 @@
+User Types
+
+Regular User / Citizen – wants to join groups, discover events, or report local issues.
+
+Community Organizer / Event Host – wants to create events, manage groups, or communicate with users.
+
+Local Authority / Volunteer – wants to track reported issues and respond to the community.
+
+Admin – manages users, moderates content, ensures compliance.
+
+User Stories
+1. Regular User / Citizen
+
+As a user, I want to create a profile, so that others know my interests and location.
+
+Fields: Name, profile picture, location (city/area), interests, verification status (optional).
+
+As a user, I want to browse local events, so that I can find activities relevant to me.
+
+Filters: Date, category (hobby, volunteering, professional), location radius.
+
+AI Suggestion: Recommend events based on my interests and previous participation.
+
+As a user, I want to join interest groups, so I can interact with like-minded people.
+
+Features: Discussion threads, polls, file/resource sharing, group notifications.
+
+As a user, I want to report local issues, so I can contribute to improving my community.
+
+Inputs: Photo upload, description, location (auto via map/GPS).
+
+Track status: Open, in-progress, resolved.
+
+As a user, I want notifications and reminders, so I don’t miss events or updates in my groups.
+
+AI Enhancement: Highlight the most relevant events/issues for me.
+
+As a user, I want to chat with other members, so I can coordinate or discuss events/issues.
+
+Features: 1-on-1 or group chat, with optional moderation.
+
+As a user, I want a reputation or points system, so that active and helpful users are recognized.
+
+Earn points for reporting issues, joining events, helping in discussions.
+
+2. Community Organizer / Event Host
+
+As an organizer, I want to create events, so that members can RSVP and participate.
+
+Inputs: Event title, description, category, date/time, location, max participants.
+
+AI Enhancement: Suggest best date/time based on user availability.
+
+As an organizer, I want to create and manage groups, so that I can gather interested users.
+
+Features: Approve members, moderate discussions, send announcements.
+
+As an organizer, I want analytics on event participation, so that I can measure engagement.
+
+Metrics: RSVP counts, attendance, active discussions.
+
+As an organizer, I want to communicate efficiently with users, so I can notify them of changes or updates.
+
+Features: Push notifications, email alerts, or in-app messaging.
+
+3. Local Authority / Volunteer
+
+As an authority, I want to view reported issues, so I can prioritize and resolve them.
+
+Features: Map view, filters by category, urgency, or location.
+
+As an authority, I want to update issue status, so that the reporting user knows it’s being addressed.
+
+Status: Open → In-Progress → Resolved.
+
+As an authority, I want AI-assisted insights, so I can detect recurring issues or predict future problems.
+
+4. Admin
+
+As an admin, I want to moderate content, so that the platform remains safe and spam-free.
+
+As an admin, I want to manage users, so that inactive or malicious users can be handled.
+
+As an admin, I want to view analytics across the platform, so I can measure engagement and usage trends.
+
+Cross-Cutting Features
+
+Responsive Design: Works on desktop and mobile browsers.
+
+Map Integration: For geolocation of events, groups, and reported issues.
+
+Search: Users can search events, groups, or issues by keyword, location, or category.
+
+AI Suggestions: Personalized recommendations for events, groups, and important issues.
+
+Push Notifications / Email Alerts: Keeps users engaged without being spammy.

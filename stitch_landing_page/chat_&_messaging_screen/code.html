@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Chat Screen</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#1392ec",
+                        "background-light": "#ffffff", 
+                        "background-dark": "#101a22",
+                        "bubble-light": "#F3F4F6",
+                        "bubble-dark": "#1E293B",
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar hiding for cleaner mobile look */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display h-screen flex flex-col overflow-hidden text-slate-900 dark:text-white antialiased selection:bg-primary/20">
+<!-- Header -->
+<header class="flex-none bg-white/90 dark:bg-background-dark/90 backdrop-blur-md sticky top-0 z-20 border-b border-slate-100 dark:border-slate-800 pt-safe-top transition-colors duration-200">
+<div class="flex items-center justify-between h-14 px-4">
+<!-- Back Button -->
+<button class="flex items-center justify-center w-10 h-10 -ml-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors text-slate-900 dark:text-white">
+<span class="material-symbols-outlined text-[28px]">chevron_left</span>
+</button>
+<!-- Title Area -->
+<div class="flex-1 flex flex-col items-center justify-center cursor-pointer group">
+<h1 class="text-lg font-bold leading-tight tracking-tight text-slate-900 dark:text-white">Product Design Team</h1>
+<div class="flex items-center gap-1.5 mt-0.5">
+<span class="w-2 h-2 rounded-full bg-green-500 ring-2 ring-white dark:ring-background-dark"></span>
+<span class="text-xs font-medium text-slate-500 dark:text-slate-400 group-hover:text-primary transition-colors">5 members online</span>
+</div>
+</div>
+<!-- Options Button -->
+<button class="flex items-center justify-center w-10 h-10 -mr-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors text-slate-900 dark:text-white">
+<span class="material-symbols-outlined text-[24px]">more_horiz</span>
+</button>
+</div>
+</header>
+<!-- Chat Area -->
+<main class="flex-1 overflow-y-auto no-scrollbar p-4 flex flex-col gap-6 bg-background-light dark:bg-background-dark">
+<!-- System Message: Date -->
+<div class="flex justify-center py-2">
+<span class="px-3 py-1 text-xs font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-wider bg-slate-50 dark:bg-slate-800/50 rounded-full">Today</span>
+</div>
+<!-- Message 1: Incoming (Sarah) with Image -->
+<div class="flex items-end gap-3 group animate-[fadeIn_0.5s_ease-out]">
+<div class="w-8 h-8 rounded-full bg-slate-200 shrink-0 overflow-hidden shadow-sm" data-alt="Portrait of Sarah Jenkins smiling" role="img" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCe1zu9czsOiqJIDfranyHLut8E3Ovfgw-1E_WauiYH0yucIByObfaiBOkRyc36G4vTNW0pxDLYbYhj9VcB74CK9qi9Mo1aSf4NllhFjjju2UHU4r8M_A3qvFuSrLjjVvD42n-hzVGTtsuG1ilXHXOh6CIAlAxEsQHJmOMHVyxfoxJyEW7JcZq7Ieji8F1uPh9wFFcj_LYRiFXpmCAOitH-tGPhPRWV9ZrScWOOsYj4dN_rz0qnUjkn2C9CSe13JrY3tyspT1EVJtg_'); bg-size: cover; background-position: center;"></div>
+<div class="flex flex-col gap-1 max-w-[85%] sm:max-w-[70%]">
+<span class="text-xs font-medium text-slate-500 dark:text-slate-400 ml-1">Sarah Jenkins</span>
+<div class="bg-bubble-light dark:bg-bubble-dark p-3 rounded-2xl rounded-bl-sm text-slate-800 dark:text-slate-200 text-[15px] leading-relaxed shadow-sm">
+<p class="mb-3">Hey everyone! Has anyone reviewed the new wireframes? 🎨</p>
+<div class="relative rounded-xl overflow-hidden aspect-[4/3] w-full bg-slate-200 border border-black/5 dark:border-white/5">
+<div class="absolute inset-0 bg-cover bg-center hover:scale-105 transition-transform duration-500 cursor-pointer" data-alt="Digital wireframe sketches on a tablet screen showing mobile app interface" role="img" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuC2q9TQMV8xaNV9QR30mN67tom7jTeMSih42WnYMgkUJu2-Gsol2F5V-eRDfriUI5V_QOzhTEAvlUWRJBWb7XUmGD-nTjSfodUE_1KqNvAlxWx7LezNo39-rSkaw9MJn9cb-_1s5Q_vwlRpXNTaEeFkWqPxs9aek9i-_OIugGQMILKMf6Bgpnrxup-Uwlpz1ZObTHAs1-4sw1-vhzCn4v75A0n-TdyHcL3jFuhC3Oz_Gv74zVgVkQdt5VRm7_84uNt-lKHQHpsz87QX');"></div>
+</div>
+</div>
+<span class="text-[11px] text-slate-400 ml-1">10:42 AM</span>
+</div>
+</div>
+<!-- Message 2: Incoming (John) Reply -->
+<div class="flex items-end gap-3 group animate-[fadeIn_0.5s_ease-out_0.1s_both]">
+<div class="w-8 h-8 rounded-full bg-slate-200 shrink-0 overflow-hidden shadow-sm" data-alt="Portrait of John Doe looking professional" role="img" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAqLFnCuwg9z4l0GbQyvZkbmwUJB8bVKdhsZCnvlhydu1pgmeY4nZZ7v9f0TZh4OiRturCx-Q-B756vXNFfGlSYW3dj8UDyzWzYziaKizAeQqMKWl3szj4hPznJsM4ns_aLzlvtgZQbPcYN37FtiPBGss4e6IlNTg1DBgoyQDjL-UijeHd9VJIiaRgRiUiZJ5wNfrgtaCuMCA2uB82dMs4pGU328CJemdHzSP0eO6pb0fyW1cZI5AEUpvNl_LUnIoQRXQddmWmzkxE7'); bg-size: cover; background-position: center;"></div>
+<div class="flex flex-col gap-1 max-w-[85%] sm:max-w-[70%]">
+<span class="text-xs font-medium text-slate-500 dark:text-slate-400 ml-1">John Doe</span>
+<div class="bg-bubble-light dark:bg-bubble-dark p-3 rounded-2xl rounded-bl-sm text-slate-800 dark:text-slate-200 text-[15px] leading-relaxed shadow-sm">
+<p><span class="text-primary font-semibold cursor-pointer hover:underline">@Sarah Jenkins</span> yes, I left some comments on the flow.</p>
+</div>
+<span class="text-[11px] text-slate-400 ml-1">10:45 AM</span>
+</div>
+</div>
+<!-- Message 3: Outgoing (Me) -->
+<div class="flex items-end gap-3 justify-end group animate-[fadeIn_0.5s_ease-out_0.2s_both]">
+<div class="flex flex-col gap-1 items-end max-w-[85%] sm:max-w-[70%]">
+<div class="bg-primary p-3 rounded-2xl rounded-br-sm text-white text-[15px] leading-relaxed shadow-md shadow-primary/20">
+<p>Checking them now. Looks super clean! 🔥</p>
+</div>
+<span class="text-[11px] text-slate-400 mr-1 flex items-center gap-1">
+                    10:48 AM
+                    <span class="material-symbols-outlined text-[14px] text-primary">done_all</span>
+</span>
+</div>
+</div>
+<!-- Message 4: Typing Indicator -->
+<div class="flex items-end gap-3 group">
+<div class="w-8 h-8 rounded-full bg-indigo-100 dark:bg-indigo-900/30 shrink-0 overflow-hidden shadow-sm flex items-center justify-center text-indigo-600 dark:text-indigo-300 font-bold text-[10px] border border-indigo-200 dark:border-indigo-800">
+                JD
+            </div>
+<div class="bg-bubble-light dark:bg-bubble-dark px-4 py-3 rounded-2xl rounded-bl-sm shadow-sm flex items-center gap-1 h-[44px]">
+<div class="w-1.5 h-1.5 bg-slate-400 rounded-full animate-[bounce_1s_infinite_0ms]"></div>
+<div class="w-1.5 h-1.5 bg-slate-400 rounded-full animate-[bounce_1s_infinite_200ms]"></div>
+<div class="w-1.5 h-1.5 bg-slate-400 rounded-full animate-[bounce_1s_infinite_400ms]"></div>
+</div>
+</div>
+<!-- Spacer for footer visibility -->
+<div class="h-4"></div>
+</main>
+<!-- Input Footer -->
+<footer class="flex-none bg-white dark:bg-background-dark border-t border-slate-100 dark:border-slate-800 p-2 pb-8 sticky bottom-0 z-20">
+<div class="flex items-end gap-2 max-w-4xl mx-auto px-2">
+<!-- Attachments -->
+<button class="group w-10 h-10 flex items-center justify-center text-slate-400 hover:text-primary bg-transparent hover:bg-slate-50 dark:hover:bg-slate-800 rounded-full transition-all shrink-0">
+<span class="material-symbols-outlined text-[26px] transform group-hover:rotate-90 transition-transform duration-300">add_circle</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center text-slate-400 hover:text-primary bg-transparent hover:bg-slate-50 dark:hover:bg-slate-800 rounded-full transition-all shrink-0 hidden sm:flex">
+<span class="material-symbols-outlined text-[24px]">image</span>
+</button>
+<!-- Input Field -->
+<div class="flex-1 bg-slate-100 dark:bg-slate-800/80 rounded-[24px] min-h-[44px] flex items-center px-4 py-2 border border-transparent focus-within:border-primary/30 focus-within:bg-white dark:focus-within:bg-slate-900 transition-all group">
+<input class="w-full bg-transparent border-none p-0 text-slate-900 dark:text-white placeholder-slate-400 focus:ring-0 text-[15px]" placeholder="Type a message..." type="text"/>
+<button class="text-slate-400 hover:text-primary ml-2 p-1 rounded-full transition-colors opacity-70 group-focus-within:opacity-100">
+<span class="material-symbols-outlined text-[20px]">sentiment_satisfied</span>
+</button>
+</div>
+<!-- Send Button -->
+<button class="w-11 h-11 flex items-center justify-center bg-primary text-white rounded-full shadow-lg shadow-primary/30 hover:bg-sky-600 hover:scale-105 active:scale-95 transition-all shrink-0">
+<span class="material-symbols-outlined text-[20px] ml-0.5">send</span>
+</button>
+</div>
+</footer>
+</body></html>

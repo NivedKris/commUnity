@@ -1,0 +1,369 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Profile - Stitch{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-slate-100 py-6 px-4 sm:px-6 lg:px-8 pb-24">
+    <div class="max-w-3xl mx-auto">
+        <!-- Header Card -->
+        <div class="bg-white rounded-2xl shadow-lg overflow-hidden mb-6">
+            <div class="relative h-32 bg-gradient-to-r from-primary to-blue-600">
+                <a href="{{ url_for('profile.view_profile') }}" 
+                   class="absolute top-4 left-4 bg-white/20 backdrop-blur-sm hover:bg-white/30 rounded-full p-2 transition-colors">
+                    <span class="material-symbols-rounded text-white">arrow_back</span>
+                </a>
+                <div class="absolute -bottom-12 left-8">
+                    <img src="{% if current_user.profile_picture %}{{ current_user.profile_picture }}{% else %}https://ui-avatars.com/api/?name={{ current_user.display_name or 'User' }}&size=120&background=1392ec&color=fff{% endif %}" 
+                         class="w-24 h-24 rounded-full border-4 border-white shadow-lg object-cover">
+                </div>
+            </div>
+            <div class="pt-16 px-6 pb-6">
+                <h1 class="text-2xl font-bold text-gray-900">Edit Profile</h1>
+                <p class="text-sm text-gray-600 mt-1">Update your profile information</p>
+            </div>
+        </div>
+
+        <!-- Edit Form -->
+        <form id="editProfileForm" class="space-y-4">
+            <!-- Name -->
+            <div class="bg-white rounded-2xl p-6 shadow-sm">
+                <label class="block text-sm font-semibold text-gray-700 mb-2">
+                    Full Name *
+                </label>
+                <div class="relative">
+                    <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-[20px]">person</span>
+                    <input type="text" 
+                           name="name" 
+                           value="{{ current_user.name }}" 
+                           class="w-full h-12 pl-12 pr-4 rounded-xl border border-gray-200 focus:ring-2 focus:ring-primary/30 focus:border-transparent bg-gray-50 text-base transition-all"
+                           required>
+                </div>
+            </div>
+
+            <!-- Bio -->
+            <div class="bg-white rounded-2xl p-6 shadow-sm">
+                <label class="block text-sm font-semibold text-gray-700 mb-2">
+                    Bio
+                </label>
+                <textarea name="bio" 
+                          rows="4"
+                          class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-primary/30 focus:border-transparent bg-gray-50 text-base transition-all resize-none"
+                          placeholder="Tell others about yourself...">{{ current_user.bio or '' }}</textarea>
+                <p class="text-xs text-gray-500 mt-2">Share your story, interests, or what you're passionate about</p>
+            </div>
+
+            <!-- Location -->
+            <div class="bg-white rounded-2xl p-6 shadow-sm">
+                <label class="block text-sm font-semibold text-gray-700 mb-2">
+                    Location
+                </label>
+                <div class="relative">
+                    <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-[20px]">location_on</span>
+                    <input type="text" 
+                           name="location" 
+                           id="location"
+                           value="{{ current_user.location or '' }}" 
+                           class="w-full h-12 pl-12 pr-14 rounded-xl border border-gray-200 focus:ring-2 focus:ring-primary/30 focus:border-transparent bg-gray-50 text-base transition-all"
+                           placeholder="City, State/Country">
+                    <button type="button" id="get-location" class="absolute right-3 top-1/2 -translate-y-1/2 h-8 px-2 flex items-center justify-center text-primary hover:bg-primary/10 rounded-lg transition-colors" title="Use my location">
+                        <span class="material-symbols-outlined text-[20px]">my_location</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Phone Number -->
+            <div class="bg-white rounded-2xl p-6 shadow-sm">
+                <label class="block text-sm font-semibold text-gray-700 mb-2">
+                    Phone Number
+                </label>
+                <div class="relative">
+                    <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-[20px]">phone</span>
+                    <input type="tel" 
+                           name="phone_number" 
+                           value="{{ current_user.phone_number or '' }}" 
+                           class="w-full h-12 pl-12 pr-4 rounded-xl border border-gray-200 focus:ring-2 focus:ring-primary/30 focus:border-transparent bg-gray-50 text-base transition-all"
+                           placeholder="+91 1234567890">
+                </div>
+            </div>
+
+            <!-- Interests -->
+            <div class="bg-white rounded-2xl p-6 shadow-sm">
+                <label class="block text-sm font-semibold text-gray-700 mb-3">
+                    Your Interests
+                </label>
+                
+                <!-- Search/Add Interest Input -->
+                <div class="relative mb-3">
+                    <input type="text" 
+                           id="interest-search" 
+                           placeholder="Type to search or add interests..."
+                           class="w-full h-12 px-4 pr-12 rounded-xl border border-gray-200 focus:ring-2 focus:ring-primary/30 focus:border-transparent bg-gray-50 text-base transition-all"
+                    />
+                    <span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 text-[20px] pointer-events-none">search</span>
+                    
+                    <!-- Suggestions Dropdown -->
+                    <div id="interest-suggestions" class="hidden absolute z-10 w-full mt-1 max-h-60 overflow-y-auto bg-white border border-gray-200 rounded-xl shadow-lg">
+                        <!-- Suggestions will be populated here -->
+                    </div>
+                </div>
+                
+                <!-- Common Interests Quick Select -->
+                <div class="flex flex-wrap gap-2 mb-3" id="common-interests">
+                    <button type="button" class="common-interest-btn px-3 py-1.5 rounded-full border border-gray-200 bg-gray-50 text-gray-600 text-sm font-medium hover:border-primary/50 hover:text-primary transition-all" data-interest="Technology">Technology</button>
+                    <button type="button" class="common-interest-btn px-3 py-1.5 rounded-full border border-gray-200 bg-gray-50 text-gray-600 text-sm font-medium hover:border-primary/50 hover:text-primary transition-all" data-interest="Sports">Sports</button>
+                    <button type="button" class="common-interest-btn px-3 py-1.5 rounded-full border border-gray-200 bg-gray-50 text-gray-600 text-sm font-medium hover:border-primary/50 hover:text-primary transition-all" data-interest="Music">Music</button>
+                    <button type="button" class="common-interest-btn px-3 py-1.5 rounded-full border border-gray-200 bg-gray-50 text-gray-600 text-sm font-medium hover:border-primary/50 hover:text-primary transition-all" data-interest="Art">Art</button>
+                    <button type="button" class="common-interest-btn px-3 py-1.5 rounded-full border border-gray-200 bg-gray-50 text-gray-600 text-sm font-medium hover:border-primary/50 hover:text-primary transition-all" data-interest="Food">Food</button>
+                    <button type="button" class="common-interest-btn px-3 py-1.5 rounded-full border border-gray-200 bg-gray-50 text-gray-600 text-sm font-medium hover:border-primary/50 hover:text-primary transition-all" data-interest="Travel">Travel</button>
+                    <button type="button" class="common-interest-btn px-3 py-1.5 rounded-full border border-gray-200 bg-gray-50 text-gray-600 text-sm font-medium hover:border-primary/50 hover:text-primary transition-all" data-interest="Reading">Reading</button>
+                    <button type="button" class="common-interest-btn px-3 py-1.5 rounded-full border border-gray-200 bg-gray-50 text-gray-600 text-sm font-medium hover:border-primary/50 hover:text-primary transition-all" data-interest="Photography">Photography</button>
+                    <button type="button" class="common-interest-btn px-3 py-1.5 rounded-full border border-gray-200 bg-gray-50 text-gray-600 text-sm font-medium hover:border-primary/50 hover:text-primary transition-all" data-interest="Volunteering">Volunteering</button>
+                    <button type="button" class="common-interest-btn px-3 py-1.5 rounded-full border border-gray-200 bg-gray-50 text-gray-600 text-sm font-medium hover:border-primary/50 hover:text-primary transition-all" data-interest="Fitness">Fitness</button>
+                </div>
+                
+                <!-- Selected Interests -->
+                <div id="selected-interests" class="flex flex-wrap gap-2 min-h-[40px] p-3 bg-gray-50 rounded-xl border border-gray-200">
+                    <!-- Selected interests will appear here -->
+                </div>
+                
+                <!-- Hidden input to store selected interests -->
+                <input type="hidden" id="interests-data" name="interests" value='{{ current_user.interests|tojson if current_user.interests else "[]" }}'>
+            </div>
+
+            <!-- Submit Buttons -->
+            <div class="flex gap-3 sticky bottom-4 bg-white rounded-2xl p-4 shadow-lg border border-gray-100">
+                <button type="submit" 
+                        id="save-btn"
+                        class="flex-1 h-12 bg-primary hover:bg-blue-700 text-white rounded-xl font-semibold transition-all active:scale-[0.98] flex items-center justify-center gap-2">
+                    <span id="save-text">Save Changes</span>
+                    <span id="save-loading" class="hidden">
+                        <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                    </span>
+                </button>
+                <a href="{{ url_for('profile.view_profile') }}" 
+                   class="h-12 px-6 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl font-semibold transition-colors flex items-center justify-center">
+                    Cancel
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    // Comprehensive interest list (same as signup)
+    const allInterests = [
+        'Technology', 'Programming', 'Web Development', 'Mobile Apps', 'AI & Machine Learning', 'Data Science',
+        'Cybersecurity', 'Blockchain', 'Gaming', 'Virtual Reality',
+        'Sports', 'Football', 'Basketball', 'Tennis', 'Swimming', 'Yoga', 'Fitness', 'Running', 'Cycling', 'Hiking',
+        'Art', 'Painting', 'Drawing', 'Sculpture', 'Photography', 'Digital Art', 'Graphic Design',
+        'Music', 'Guitar', 'Piano', 'Singing', 'DJing', 'Music Production', 'Concert Going',
+        'Volunteering', 'Community Service', 'Environmental Conservation', 'Animal Welfare', 'Teaching',
+        'Food', 'Cooking', 'Baking', 'Wine Tasting', 'Coffee', 'Restaurants', 'Veganism', 'Food Photography',
+        'Travel', 'Backpacking', 'Road Trips', 'Cultural Exchange', 'Adventure Travel',
+        'Reading', 'Writing', 'Poetry', 'Blogging', 'Journalism', 'Book Clubs',
+        'Movies', 'TV Shows', 'Theater', 'Stand-up Comedy', 'Film Making',
+        'Fashion', 'Beauty', 'Makeup', 'Styling', 'Sustainable Fashion',
+        'Business', 'Entrepreneurship', 'Marketing', 'Finance', 'Real Estate', 'Investing',
+        'Education', 'Languages', 'History', 'Science', 'Philosophy', 'Psychology',
+        'Gardening', 'Urban Farming', 'Sustainability', 'DIY Projects', 'Woodworking', 'Crafts',
+        'Pets', 'Dogs', 'Cats', 'Bird Watching', 'Aquariums',
+        'Meditation', 'Mindfulness', 'Spirituality', 'Self-improvement', 'Mental Health'
+    ];
+    
+    // Initialize with existing interests
+    let selectedInterests = JSON.parse(document.getElementById('interests-data').value || '[]');
+    
+    // Get location functionality
+    document.getElementById('get-location')?.addEventListener('click', function() {
+        const btn = this;
+        const icon = btn.querySelector('.material-symbols-outlined');
+        const locationInput = document.getElementById('location');
+        
+        icon.textContent = 'progress_activity';
+        icon.classList.add('animate-spin');
+        btn.disabled = true;
+        
+        if ('geolocation' in navigator) {
+            navigator.geolocation.getCurrentPosition(
+                async (position) => {
+                    const { latitude, longitude } = position.coords;
+                    
+                    try {
+                        const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`);
+                        const data = await response.json();
+                        
+                        const city = data.address.city || data.address.town || data.address.village || data.address.county;
+                        const country = data.address.country;
+                        locationInput.value = `${city}, ${country}`;
+                    } catch (error) {
+                        console.error('Error getting location:', error);
+                        alert('Could not get your location');
+                    } finally {
+                        icon.textContent = 'my_location';
+                        icon.classList.remove('animate-spin');
+                        btn.disabled = false;
+                    }
+                },
+                (error) => {
+                    console.error('Geolocation error:', error);
+                    alert('Please enable location access');
+                    icon.textContent = 'my_location';
+                    icon.classList.remove('animate-spin');
+                    btn.disabled = false;
+                }
+            );
+        } else {
+            alert('Geolocation is not supported by your browser');
+            icon.textContent = 'my_location';
+            icon.classList.remove('animate-spin');
+            btn.disabled = false;
+        }
+    });
+    
+    // Interest search functionality
+    const interestSearch = document.getElementById('interest-search');
+    const suggestionBox = document.getElementById('interest-suggestions');
+    
+    interestSearch.addEventListener('input', (e) => {
+        const query = e.target.value.toLowerCase().trim();
+        
+        if (query.length === 0) {
+            suggestionBox.classList.add('hidden');
+            return;
+        }
+        
+        const matches = allInterests.filter(interest => 
+            interest.toLowerCase().includes(query) && !selectedInterests.includes(interest)
+        );
+        
+        if (matches.length > 0) {
+            suggestionBox.innerHTML = matches.map(interest => 
+                `<div class="px-4 py-2 hover:bg-gray-50 cursor-pointer text-sm suggestion-item" data-interest="${interest}">
+                    ${interest}
+                </div>`
+            ).join('');
+            suggestionBox.classList.remove('hidden');
+            
+            // Add click handlers
+            document.querySelectorAll('.suggestion-item').forEach(item => {
+                item.addEventListener('click', () => {
+                    addInterest(item.dataset.interest);
+                    interestSearch.value = '';
+                    suggestionBox.classList.add('hidden');
+                });
+            });
+        } else {
+            suggestionBox.classList.add('hidden');
+        }
+    });
+    
+    // Common interest buttons
+    document.querySelectorAll('.common-interest-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const interest = btn.dataset.interest;
+            if (!selectedInterests.includes(interest)) {
+                addInterest(interest);
+            }
+        });
+    });
+    
+    // Add interest function
+    function addInterest(interest) {
+        if (!selectedInterests.includes(interest)) {
+            selectedInterests.push(interest);
+            updateInterestDisplay();
+            document.getElementById('interests-data').value = JSON.stringify(selectedInterests);
+        }
+    }
+    
+    // Remove interest function
+    function removeInterest(interest) {
+        selectedInterests = selectedInterests.filter(i => i !== interest);
+        updateInterestDisplay();
+        document.getElementById('interests-data').value = JSON.stringify(selectedInterests);
+    }
+    
+    // Update interest display
+    function updateInterestDisplay() {
+        const container = document.getElementById('selected-interests');
+        if (selectedInterests.length === 0) {
+            container.innerHTML = '<p class="text-sm text-gray-500">No interests selected yet. Add some above!</p>';
+        } else {
+            container.innerHTML = selectedInterests.map(interest => 
+                `<div class="flex items-center gap-1 px-3 py-1.5 bg-primary/10 text-primary rounded-full text-sm font-medium">
+                    <span>${interest}</span>
+                    <button type="button" onclick="removeInterest('${interest}')" class="ml-1 hover:text-red-500">
+                        <span class="material-symbols-outlined text-[16px]">close</span>
+                    </button>
+                </div>`
+            ).join('');
+        }
+    }
+    
+    // Initialize display
+    updateInterestDisplay();
+    
+    // Form submission
+    document.getElementById('editProfileForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const saveBtn = document.getElementById('save-btn');
+        const saveText = document.getElementById('save-text');
+        const saveLoading = document.getElementById('save-loading');
+        
+        // Disable button and show loading
+        saveBtn.disabled = true;
+        saveText.classList.add('hidden');
+        saveLoading.classList.remove('hidden');
+        
+        const formData = new FormData(e.target);
+        
+        // Build update data
+        const updateData = {
+            name: formData.get('name'),
+            bio: formData.get('bio'),
+            location: formData.get('location'),
+            phone_number: formData.get('phone_number'),
+            interests: selectedInterests
+        };
+        
+        try {
+            const response = await fetch('/profile/update', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(updateData)
+            });
+            
+            const result = await response.json();
+            
+            if (result.success) {
+                // Show success and redirect
+                window.location.href = '/profile/';
+            } else {
+                alert('Error: ' + result.error);
+                saveBtn.disabled = false;
+                saveText.classList.remove('hidden');
+                saveLoading.classList.add('hidden');
+            }
+        } catch (error) {
+            console.error('Update error:', error);
+            alert('Failed to update profile. Please try again.');
+            saveBtn.disabled = false;
+            saveText.classList.remove('hidden');
+            saveLoading.classList.add('hidden');
+        }
+    });
+    
+    // Close suggestions when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('#interest-search') && !e.target.closest('#interest-suggestions')) {
+            suggestionBox.classList.add('hidden');
+        }
+    });
+</script>
+{% endblock %}
