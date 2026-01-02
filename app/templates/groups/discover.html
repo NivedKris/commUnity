@@ -61,43 +61,52 @@
 
     <!-- Groups List -->
     <div class="flex-1 overflow-y-auto pb-4">
-        <div class="px-4 sm:px-6 lg:px-8 space-y-6">
+        <div class="px-4 sm:px-6 lg:px-8 space-y-4">
             {% if groups %}
                 <!-- Groups Cards -->
                 <div class="space-y-3">
                     {% for group in groups %}
-                    <a href="/groups/{{ group.id }}" class="flex gap-3 items-center p-3 bg-white dark:bg-surface-dark rounded-2xl border border-slate-100 dark:border-slate-700 hover:shadow-md transition-shadow">
-                        <!-- Group Image -->
-                        <div class="shrink-0">
-                            <div class="h-14 w-14 rounded-xl overflow-hidden bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
-                                {% if group.image_url %}
-                                <img src="{{ group.image_url }}" alt="{{ group.name }}" class="w-full h-full object-cover">
-                                {% else %}
-                                <span class="material-symbols-outlined text-white text-2xl">groups</span>
-                                {% endif %}
+                    <a href="/groups/{{ group.id }}" class="block group">
+                        <div class="flex gap-4 items-start p-4 bg-white dark:bg-surface-dark rounded-xl border border-slate-200 dark:border-slate-700 hover:border-primary/50 dark:hover:border-primary/50 hover:shadow-sm transition-all">
+                            <!-- Group Image -->
+                            <div class="shrink-0">
+                                <div class="h-16 w-16 rounded-xl overflow-hidden bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center shadow-sm">
+                                    {% if group.image_url %}
+                                    <img src="{{ group.image_url }}" alt="{{ group.name }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                                    {% else %}
+                                    <span class="material-symbols-outlined text-white text-3xl">groups</span>
+                                    {% endif %}
+                                </div>
                             </div>
-                        </div>
-                        
-                        <!-- Group Info -->
-                        <div class="flex-1 min-w-0">
-                            <h3 class="text-base font-bold text-slate-900 dark:text-white truncate">{{ group.name }}</h3>
-                            <p class="text-sm text-slate-600 dark:text-slate-400 line-clamp-1 mb-1">{{ group.description }}</p>
-                            <div class="flex items-center gap-1 text-xs text-slate-500 dark:text-slate-400">
-                                <span class="material-symbols-outlined" style="font-size: 16px;">group</span>
-                                <span>{{ group.member_count }} member{{ 's' if group.member_count != 1 else '' }}</span>
+                            
+                            <!-- Group Info -->
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-start justify-between gap-2 mb-1">
+                                    <h3 class="text-base font-bold text-slate-900 dark:text-white line-clamp-1 group-hover:text-primary transition-colors">{{ group.name }}</h3>
+                                    {% if group.is_member %}
+                                    <span class="shrink-0 px-2.5 py-1 rounded-full bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 text-xs font-bold">
+                                        Member
+                                    </span>
+                                    {% endif %}
+                                </div>
+                                <p class="text-sm text-slate-600 dark:text-slate-400 line-clamp-2 mb-2 leading-relaxed">{{ group.description }}</p>
+                                <div class="flex items-center gap-3 text-xs">
+                                    <div class="flex items-center gap-1 text-slate-500 dark:text-slate-400">
+                                        <span class="material-symbols-outlined" style="font-size: 16px;">group</span>
+                                        <span class="font-medium">{{ group.member_count }} member{{ 's' if group.member_count != 1 else '' }}</span>
+                                    </div>
+                                    <span class="text-slate-300 dark:text-slate-600">•</span>
+                                    <span class="px-2 py-0.5 rounded-md bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400 font-medium">{{ group.category }}</span>
+                                </div>
                             </div>
-                        </div>
-                        
-                        <!-- Join/Member Button -->
-                        <div class="shrink-0">
-                            {% if group.is_member %}
-                            <div class="h-8 px-4 rounded-full bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 text-sm font-semibold flex items-center justify-center">
-                                Member
+                            
+                            <!-- Join Button (for non-members) -->
+                            {% if not group.is_member %}
+                            <div class="shrink-0">
+                                <button onclick="event.preventDefault(); event.stopPropagation(); joinGroup('{{ group.id }}', this)" class="h-9 px-5 rounded-lg bg-primary text-white text-sm font-semibold hover:bg-primary/90 active:scale-95 transition-all shadow-sm">
+                                    Join
+                                </button>
                             </div>
-                            {% else %}
-                            <button onclick="event.preventDefault(); joinGroup('{{ group.id }}', this)" class="h-8 px-4 rounded-full bg-primary text-white text-sm font-semibold hover:opacity-90 transition-opacity">
-                                Join
-                            </button>
                             {% endif %}
                         </div>
                     </a>
@@ -105,7 +114,7 @@
                 </div>
             {% else %}
             <!-- Empty State -->
-            <div class="text-center py-12">
+            <div class="text-center py-16">
                 <div class="flex justify-center mb-4">
                     <div class="flex items-center justify-center w-20 h-20 rounded-full bg-slate-100 dark:bg-slate-800">
                         <span class="material-symbols-outlined text-4xl text-slate-400">groups</span>
@@ -113,7 +122,7 @@
                 </div>
                 <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-2">No groups found</h3>
                 <p class="text-slate-500 dark:text-slate-400 mb-6">Be the first to create a group and start building community!</p>
-                <a href="/groups/create" class="inline-flex items-center gap-2 px-6 py-3 bg-primary hover:bg-primary/90 text-white font-semibold rounded-xl transition-colors">
+                <a href="/groups/create" class="inline-flex items-center gap-2 px-6 py-3 bg-primary hover:bg-primary/90 text-white font-semibold rounded-xl transition-colors shadow-lg shadow-primary/25">
                     <span class="material-symbols-outlined">add</span>
                     Create Group
                 </a>
@@ -165,7 +174,7 @@
 <script>
 async function joinGroup(groupId, button) {
     try {
-        const response = await fetch(`/groups/${groupId}/join`, {
+        const response = await fetch(`/groups/api/${groupId}/join`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -174,9 +183,13 @@ async function joinGroup(groupId, button) {
         
         const data = await response.json();
         
-        if (response.ok) {
-            // Update button to show "Member" status
-            button.outerHTML = '<div class="h-8 px-4 rounded-full bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 text-sm font-semibold flex items-center justify-center">Member</div>';
+        if (response.ok && data.success) {
+            // Replace button with Member badge
+            const badge = document.createElement('span');
+            badge.className = 'shrink-0 px-2.5 py-1 rounded-full bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 text-xs font-bold';
+            badge.textContent = 'Member';
+            button.parentElement.parentElement.querySelector('.flex-1').appendChild(badge);
+            button.parentElement.remove();
         } else {
             alert(data.error || 'Failed to join group');
         }

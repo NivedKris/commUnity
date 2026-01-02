@@ -100,9 +100,61 @@ def group_detail(group_id):
         is_member = group.is_member(current_user.id)
         user_role = group.get_user_role(current_user.id) if is_member else None
         
-        # Get group posts (we'll implement this later when we add posts table)
-        # For now, return empty posts
+        # Get group posts with user details, likes, and comments
         posts = []
+        try:
+            posts_response = supabase.table('group_posts')\
+                .select('*')\
+                .eq('group_id', group_id)\
+                .order('created_at', desc=True)\
+                .execute()
+            
+            if posts_response.data:
+                for post_data in posts_response.data:
+                    # Get post author
+                    author = User.get_by_id(post_data['user_id'])
+                    
+                    # Get like count
+                    likes_response = supabase.table('group_post_likes')\
+                        .select('id', count='exact')\
+                        .eq('post_id', post_data['id'])\
+                        .execute()
+                    like_count = likes_response.count if hasattr(likes_response, 'count') else 0
+                    
+                    # Check if current user liked
+                    user_liked = False
+                    if is_member:
+                        user_like = supabase.table('group_post_likes')\
+                            .select('id')\
+                            .eq('post_id', post_data['id'])\
+                            .eq('user_id', current_user.id)\
+                            .execute()
+                        user_liked = len(user_like.data) > 0
+                    
+                    # Get comment count
+                    comments_response = supabase.table('group_post_comments')\
+                        .select('id', count='exact')\
+                        .eq('post_id', post_data['id'])\
+                        .execute()
+                    comment_count = comments_response.count if hasattr(comments_response, 'count') else 0
+                    
+                    posts.append({
+                        'id': post_data['id'],
+                        'content': post_data['content'],
+                        'image_url': post_data.get('image_url'),
+                        'created_at': post_data['created_at'],
+                        'user': {
+                            'id': author.id,
+                            'name': author.name,
+                            'profile_picture': author.profile_picture
+                        } if author else None,
+                        'like_count': like_count,
+                        'comment_count': comment_count,
+                        'liked_by_user': user_liked
+                    })
+        except Exception as e:
+            print(f"Error fetching posts: {e}")
+            posts = []
         
         group_data = {
             'id': str(group.id),
@@ -376,4 +428,200 @@ def leave_group(group_id):
         print(f"Error leaving group: {e}")
         import traceback
         traceback.print_exc()
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+@bp.route('/api/<group_id>/posts', methods=['POST'])
+@login_required
+def create_post(group_id):
+    """Create a post in a group"""
+    try:
+        group = Group.get_by_id(group_id)
+        
+        if not group:
+            return jsonify({'success': False, 'error': 'Group not found'}), 404
+        
+        # Check if member
+        if not group.is_member(current_user.id):
+            return jsonify({'success': False, 'error': 'Must be a member to post'}), 403
+        
+        # Handle both JSON and form data
+        if request.is_json:
+            content = request.json.get('content', '').strip()
+            image_url = None
+        else:
+            content = request.form.get('content', '').strip()
+            # Handle image upload
+            image_url = None
+            if 'image' in request.files:
+                file = request.files['image']
+                if file and file.filename:
+                    image_url = upload_to_storage(file, 'group_posts', folder=str(group_id))
+        
+        if not content:
+            return jsonify({'success': False, 'error': 'Content is required'}), 400
+        
+        # Create post
+        post_data = {
+            'group_id': group_id,
+            'user_id': current_user.id,
+            'content': content
+        }
+        
+        if image_url:
+            post_data['image_url'] = image_url
+        
+        response = supabase.table('group_posts').insert(post_data).execute()
+        
+        if response.data:
+            post = response.data[0]
+            return jsonify({
+                'success': True,
+                'post': {
+                    'id': post['id'],
+                    'content': post['content'],
+                    'image_url': post.get('image_url'),
+                    'created_at': post['created_at'],
+                    'user': {
+                        'id': current_user.id,
+                        'name': current_user.name,
+                        'profile_picture': current_user.profile_picture
+                    },
+                    'like_count': 0,
+                    'comment_count': 0,
+                    'liked_by_user': False
+                }
+            })
+        else:
+            return jsonify({'success': False, 'error': 'Failed to create post'}), 500
+            
+    except Exception as e:
+        print(f"Error creating post: {e}")
+        import traceback
+        traceback.print_exc()
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+@bp.route('/api/<group_id>/posts/<post_id>/like', methods=['POST'])
+@login_required
+def like_post(group_id, post_id):
+    """Like/unlike a post"""
+    try:
+        # Check if already liked
+        existing = supabase.table('group_post_likes')\
+            .select('id')\
+            .eq('post_id', post_id)\
+            .eq('user_id', current_user.id)\
+            .execute()
+        
+        if existing.data:
+            # Unlike
+            supabase.table('group_post_likes')\
+                .delete()\
+                .eq('post_id', post_id)\
+                .eq('user_id', current_user.id)\
+                .execute()
+            liked = False
+        else:
+            # Like
+            supabase.table('group_post_likes').insert({
+                'post_id': post_id,
+                'user_id': current_user.id
+            }).execute()
+            liked = True
+        
+        # Get like count
+        like_count_response = supabase.table('group_post_likes')\
+            .select('id', count='exact')\
+            .eq('post_id', post_id)\
+            .execute()
+        
+        like_count = like_count_response.count if hasattr(like_count_response, 'count') else 0
+        
+        return jsonify({
+            'success': True,
+            'liked': liked,
+            'like_count': like_count
+        })
+            
+    except Exception as e:
+        print(f"Error liking post: {e}")
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+@bp.route('/api/<group_id>/posts/<post_id>/comments', methods=['GET'])
+@login_required
+def get_comments(group_id, post_id):
+    """Get comments for a post"""
+    try:
+        response = supabase.table('group_post_comments')\
+            .select('*')\
+            .eq('post_id', post_id)\
+            .order('created_at', desc=False)\
+            .execute()
+        
+        comments = []
+        for comment in response.data:
+            user = User.get_by_id(comment['user_id'])
+            if user:
+                comments.append({
+                    'id': comment['id'],
+                    'comment': comment['comment'],
+                    'created_at': comment['created_at'],
+                    'user': {
+                        'id': user.id,
+                        'name': user.name,
+                        'profile_picture': user.profile_picture
+                    }
+                })
+        
+        return jsonify({
+            'success': True,
+            'comments': comments
+        })
+        
+    except Exception as e:
+        print(f"Error getting comments: {e}")
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+@bp.route('/api/<group_id>/posts/<post_id>/comments', methods=['POST'])
+@login_required
+def add_comment(group_id, post_id):
+    """Add a comment to a post"""
+    try:
+        comment_text = request.json.get('comment', '').strip()
+        
+        if not comment_text:
+            return jsonify({'success': False, 'error': 'Comment is required'}), 400
+        
+        # Create comment
+        comment_data = {
+            'post_id': post_id,
+            'user_id': current_user.id,
+            'comment': comment_text
+        }
+        
+        response = supabase.table('group_post_comments').insert(comment_data).execute()
+        
+        if response.data:
+            comment = response.data[0]
+            return jsonify({
+                'success': True,
+                'comment': {
+                    'id': comment['id'],
+                    'comment': comment['comment'],
+                    'created_at': comment['created_at'],
+                    'user': {
+                        'id': current_user.id,
+                        'name': current_user.name,
+                        'profile_picture': current_user.profile_picture
+                    }
+                }
+            })
+        else:
+            return jsonify({'success': False, 'error': 'Failed to add comment'}), 500
+            
+    except Exception as e:
+        print(f"Error adding comment: {e}")
         return jsonify({'success': False, 'error': str(e)}), 500

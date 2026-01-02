@@ -3,6 +3,11 @@
 {% block title %}{{ group.name }} - CommUnity{% endblock %}
 
 {% block content %}
+<style>
+.material-symbols-outlined.filled {
+    font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+</style>
 <div class="relative flex h-full w-full flex-col min-h-screen pb-24 bg-background-light dark:bg-background-dark overflow-hidden">
     <!-- Sticky Header -->
     <div class="sticky top-0 z-50 flex items-center justify-between bg-background-light/90 dark:bg-background-dark/90 px-4 py-3 backdrop-blur-md border-b border-slate-200 dark:border-slate-800">
@@ -110,19 +115,30 @@
                     <div class="flex items-start gap-3">
                         <img src="{{ current_user.profile_picture or 'https://ui-avatars.com/api/?name=' + current_user.name }}" alt="{{ current_user.name }}" class="w-10 h-10 rounded-full object-cover">
                         <div class="flex-1">
-                            <textarea placeholder="Share your thoughts with the group..." rows="3" class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white placeholder:text-slate-400 focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all resize-none"></textarea>
+                            <textarea id="post-content" placeholder="Share your thoughts with the group..." rows="3" class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white placeholder:text-slate-400 focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all resize-none"></textarea>
+                            
+                            <!-- Image Preview -->
+                            <div id="image-preview" class="hidden mt-3 relative">
+                                <img id="preview-img" src="" alt="Preview" class="rounded-xl max-h-64 object-cover">
+                                <button onclick="removeImage()" class="absolute top-2 right-2 p-1.5 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors">
+                                    <span class="material-symbols-outlined text-base">close</span>
+                                </button>
+                            </div>
+                            
+                            <input type="file" id="post-image" accept="image/*" class="hidden">
+                            
                             <div class="flex items-center justify-between mt-2">
                                 <div class="flex items-center gap-2">
-                                    <button class="flex items-center gap-1 px-3 py-1.5 rounded-lg text-sm text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+                                    <button onclick="document.getElementById('post-image').click()" class="flex items-center gap-1 px-3 py-1.5 rounded-lg text-sm text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
                                         <span class="material-symbols-outlined text-base">image</span>
                                         Photo
                                     </button>
-                                    <button class="flex items-center gap-1 px-3 py-1.5 rounded-lg text-sm text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+                                    <button class="flex items-center gap-1 px-3 py-1.5 rounded-lg text-sm text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors opacity-50 cursor-not-allowed" disabled>
                                         <span class="material-symbols-outlined text-base">poll</span>
                                         Poll
                                     </button>
                                 </div>
-                                <button disabled class="px-4 py-1.5 rounded-lg bg-slate-200 dark:bg-slate-700 text-slate-500 text-sm font-semibold cursor-not-allowed">
+                                <button onclick="createPost()" id="post-button" class="px-4 py-1.5 rounded-lg bg-primary hover:bg-primary/90 text-white text-sm font-semibold transition-colors">
                                     Post
                                 </button>
                             </div>
@@ -131,35 +147,64 @@
                 </div>
                 {% endif %}
 
-                <!-- Sample Discussion Posts -->
-                <div class="bg-white dark:bg-surface-dark rounded-2xl border border-slate-100 dark:border-slate-700 p-4 shadow-sm">
-                    <div class="flex items-start gap-3 mb-3">
-                        <img src="https://ui-avatars.com/api/?name=Sarah+Chen" alt="Member" class="w-10 h-10 rounded-full object-cover">
-                        <div class="flex-1 min-w-0">
-                            <div class="flex items-center gap-2 mb-1">
-                                <span class="font-semibold text-slate-900 dark:text-white">Sarah Chen</span>
-                                <span class="text-xs text-slate-500">2 hours ago</span>
-                            </div>
-                            <p class="text-slate-600 dark:text-slate-300 mb-3">Hey everyone! Really excited to be part of this community. Looking forward to connecting with all of you! 🎉</p>
-                            <div class="flex items-center gap-4 text-sm">
-                                <button class="flex items-center gap-1 text-slate-500 dark:text-slate-400 hover:text-primary transition-colors">
-                                    <span class="material-symbols-outlined text-base">thumb_up</span>
-                                    <span>12</span>
-                                </button>
-                                <button class="flex items-center gap-1 text-slate-500 dark:text-slate-400 hover:text-primary transition-colors">
-                                    <span class="material-symbols-outlined text-base">comment</span>
-                                    <span>3</span>
-                                </button>
-                                <button class="flex items-center gap-1 text-slate-500 dark:text-slate-400 hover:text-primary transition-colors">
-                                    <span class="material-symbols-outlined text-base">share</span>
-                                </button>
+                <!-- Posts Container -->
+                <div id="posts-container" class="space-y-4">
+                    {% if group.posts %}
+                        {% for post in group.posts %}
+                        <div class="bg-white dark:bg-surface-dark rounded-2xl border border-slate-100 dark:border-slate-700 p-4 shadow-sm" data-post-id="{{ post.id }}">
+                            <div class="flex items-start gap-3 mb-3">
+                                <img src="{{ post.user.profile_picture or 'https://ui-avatars.com/api/?name=' + post.user.name }}" alt="{{ post.user.name }}" class="w-10 h-10 rounded-full object-cover">
+                                <div class="flex-1 min-w-0">
+                                    <div class="flex items-center gap-2 mb-1">
+                                        <span class="font-semibold text-slate-900 dark:text-white">{{ post.user.name }}</span>
+                                        <span class="text-xs text-slate-500">{{ post.created_at }}</span>
+                                    </div>
+                                    <p class="text-slate-600 dark:text-slate-300 mb-3 whitespace-pre-wrap">{{ post.content }}</p>
+                                    {% if post.image_url %}
+                                    <img src="{{ post.image_url }}" alt="Post image" class="rounded-xl max-w-full mb-3">
+                                    {% endif %}
+                                    <div class="flex items-center gap-4 text-sm mb-3">
+                                        <button onclick="likePost('{{ post.id }}')" data-post-id="{{ post.id }}" class="like-btn flex items-center gap-1 {% if post.liked_by_user %}text-primary fill-primary{% else %}text-slate-500 dark:text-slate-400{% endif %} hover:text-primary transition-colors">
+                                            <span class="material-symbols-outlined text-base {% if post.liked_by_user %}filled{% endif %}">thumb_up</span>
+                                            <span class="like-count">{{ post.like_count }}</span>
+                                        </button>
+                                        <button onclick="toggleComments('{{ post.id }}')" class="flex items-center gap-1 text-slate-500 dark:text-slate-400 hover:text-primary transition-colors">
+                                            <span class="material-symbols-outlined text-base">comment</span>
+                                            <span class="comment-count">{{ post.comment_count }}</span>
+                                        </button>
+                                        <button onclick="sharePost('{{ post.id }}')" class="flex items-center gap-1 text-slate-500 dark:text-slate-400 hover:text-primary transition-colors">
+                                            <span class="material-symbols-outlined text-base">share</span>
+                                        </button>
+                                    </div>
+                                    
+                                    <!-- Comments Section -->
+                                    <div class="comments-section hidden" id="comments-{{ post.id }}">
+                                        <div class="border-t border-slate-200 dark:border-slate-700 pt-3 mt-3">
+                                            <div class="flex gap-2 mb-3">
+                                                <img src="{{ current_user.profile_picture or 'https://ui-avatars.com/api/?name=' + current_user.name }}" class="w-8 h-8 rounded-full">
+                                                <div class="flex-1">
+                                                    <textarea id="comment-input-{{ post.id }}" placeholder="Write a comment..." class="w-full px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white resize-none" rows="2"></textarea>
+                                                    <button onclick="addComment('{{ post.id }}')" class="mt-2 px-4 py-1 bg-primary text-white rounded-lg hover:bg-primary/90 text-sm">Comment</button>
+                                                </div>
+                                            </div>
+                                            <div class="space-y-3" id="comments-list-{{ post.id }}">
+                                                <!-- Comments will be loaded here -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-
-                <div class="text-center py-8">
-                    <p class="text-slate-500 dark:text-slate-400 text-sm">Full discussion features coming soon!</p>
+                        {% endfor %}
+                    {% else %}
+                        <div class="text-center py-12">
+                            <span class="material-symbols-outlined text-5xl text-slate-400 mb-3">forum</span>
+                            <p class="text-slate-500 dark:text-slate-400">No discussions yet</p>
+                            {% if group.is_member %}
+                            <p class="text-sm text-slate-400 mt-2">Be the first to start a conversation!</p>
+                            {% endif %}
+                        </div>
+                    {% endif %}
                 </div>
             </div>
 
@@ -236,6 +281,25 @@
 </div>
 
 <script>
+// Handle image preview
+document.getElementById('post-image').addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            document.getElementById('preview-img').src = e.target.result;
+            document.getElementById('image-preview').classList.remove('hidden');
+        };
+        reader.readAsDataURL(file);
+    }
+});
+
+function removeImage() {
+    document.getElementById('post-image').value = '';
+    document.getElementById('image-preview').classList.add('hidden');
+    document.getElementById('preview-img').src = '';
+}
+
 function switchTab(tabName) {
     // Hide all tab content
     document.querySelectorAll('.tab-content').forEach(content => {
@@ -255,6 +319,240 @@ function switchTab(tabName) {
     const activeTab = document.getElementById('tab-' + tabName);
     activeTab.classList.remove('text-slate-500', 'dark:text-slate-400', 'border-transparent');
     activeTab.classList.add('text-primary', 'border-primary');
+}
+
+async function createPost() {
+    const content = document.getElementById('post-content').value.trim();
+    const imageInput = document.getElementById('post-image');
+    const imageFile = imageInput.files[0];
+    
+    if (!content && !imageFile) {
+        alert('Please write something or attach an image');
+        return;
+    }
+    
+    const button = document.getElementById('post-button');
+    button.disabled = true;
+    button.textContent = 'Posting...';
+    
+    try {
+        const formData = new FormData();
+        formData.append('content', content || ' '); // At least a space if only image
+        if (imageFile) {
+            formData.append('image', imageFile);
+        }
+        
+        const response = await fetch(`/groups/api/{{ group.id }}/posts`, {
+            method: 'POST',
+            body: formData
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            // Clear textarea and image
+            document.getElementById('post-content').value = '';
+            removeImage();
+            
+            // Add post to feed
+            const postsContainer = document.getElementById('posts-container');
+            const emptyState = postsContainer.querySelector('.text-center.py-12');
+            if (emptyState) {
+                emptyState.remove();
+            }
+            
+            const imageHTML = data.post.image_url ? 
+                `<img src="${data.post.image_url}" alt="Post image" class="rounded-xl max-w-full mb-3">` : '';
+            
+            const postHTML = `
+                <div class="bg-white dark:bg-surface-dark rounded-2xl border border-slate-100 dark:border-slate-700 p-4 shadow-sm" data-post-id="${data.post.id}">
+                    <div class="flex items-start gap-3 mb-3">
+                        <img src="${data.post.user.profile_picture || 'https://ui-avatars.com/api/?name=' + data.post.user.name}" alt="${data.post.user.name}" class="w-10 h-10 rounded-full object-cover">
+                        <div class="flex-1 min-w-0">
+                            <div class="flex items-center gap-2 mb-1">
+                                <span class="font-semibold text-slate-900 dark:text-white">${data.post.user.name}</span>
+                                <span class="text-xs text-slate-500">Just now</span>
+                            </div>
+                            <p class="text-slate-600 dark:text-slate-300 mb-3 whitespace-pre-wrap">${data.post.content}</p>
+                            ${imageHTML}
+                            <div class="flex items-center gap-4 text-sm mb-3">
+                                <button onclick="likePost('${data.post.id}')" data-post-id="${data.post.id}" class="like-btn flex items-center gap-1 text-slate-500 dark:text-slate-400 hover:text-primary transition-colors">
+                                    <span class="material-symbols-outlined text-base">thumb_up</span>
+                                    <span class="like-count">0</span>
+                                </button>
+                                <button onclick="toggleComments('${data.post.id}')" class="flex items-center gap-1 text-slate-500 dark:text-slate-400 hover:text-primary transition-colors">
+                                    <span class="material-symbols-outlined text-base">comment</span>
+                                    <span class="comment-count">0</span>
+                                </button>
+                                <button onclick="sharePost('${data.post.id}')" class="flex items-center gap-1 text-slate-500 dark:text-slate-400 hover:text-primary transition-colors">
+                                    <span class="material-symbols-outlined text-base">share</span>
+                                </button>
+                            </div>
+                            <div class="comments-section hidden" id="comments-${data.post.id}">
+                                <div class="border-t border-slate-200 dark:border-slate-700 pt-3 mt-3">
+                                    <div class="flex gap-2 mb-3">
+                                        <img src="${data.post.user.profile_picture || 'https://ui-avatars.com/api/?name=' + data.post.user.name}" class="w-8 h-8 rounded-full">
+                                        <div class="flex-1">
+                                            <textarea id="comment-input-${data.post.id}" placeholder="Write a comment..." class="w-full px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white resize-none" rows="2"></textarea>
+                                            <button onclick="addComment('${data.post.id}')" class="mt-2 px-4 py-1 bg-primary text-white rounded-lg hover:bg-primary/90 text-sm">Comment</button>
+                                        </div>
+                                    </div>
+                                    <div class="space-y-3" id="comments-list-${data.post.id}"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            postsContainer.insertAdjacentHTML('afterbegin', postHTML);
+        } else {
+            alert(data.error || 'Failed to create post');
+        }
+    } catch (error) {
+        console.error('Error creating post:', error);
+        alert('Failed to create post');
+    } finally {
+        button.disabled = false;
+        button.textContent = 'Post';
+    }
+}
+
+// Debounce function to prevent rapid clicks
+let likeDebounce = {};
+
+async function likePost(postId) {
+    // Prevent multiple rapid clicks
+    if (likeDebounce[postId]) return;
+    likeDebounce[postId] = true;
+    
+    const likeButton = document.querySelector(`.like-btn[data-post-id="${postId}"]`);
+    const icon = likeButton.querySelector('.material-symbols-outlined');
+    const likeCount = likeButton.querySelector('.like-count');
+    
+    // Optimistic UI update
+    const isLiked = likeButton.classList.contains('text-primary');
+    const currentCount = parseInt(likeCount.textContent);
+    
+    if (isLiked) {
+        likeButton.classList.remove('text-primary', 'fill-primary');
+        likeButton.classList.add('text-slate-500', 'dark:text-slate-400');
+        icon.classList.remove('filled');
+        likeCount.textContent = Math.max(0, currentCount - 1);
+    } else {
+        likeButton.classList.add('text-primary', 'fill-primary');
+        likeButton.classList.remove('text-slate-500', 'dark:text-slate-400');
+        icon.classList.add('filled');
+        likeCount.textContent = currentCount + 1;
+    }
+    
+    try {
+        const response = await fetch(`/groups/api/{{ group.id }}/posts/${postId}/like`, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'}
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            // Update with actual count from server
+            likeCount.textContent = data.like_count;
+        } else {
+            // Revert on error
+            location.reload();
+        }
+    } catch (error) {
+        console.error('Error liking post:', error);
+        location.reload();
+    } finally {
+        setTimeout(() => { likeDebounce[postId] = false; }, 500);
+    }
+}
+
+function toggleComments(postId) {
+    const commentsSection = document.getElementById(`comments-${postId}`);
+    if (commentsSection.classList.contains('hidden')) {
+        commentsSection.classList.remove('hidden');
+        loadComments(postId);
+    } else {
+        commentsSection.classList.add('hidden');
+    }
+}
+
+async function loadComments(postId) {
+    try {
+        const response = await fetch(`/groups/api/{{ group.id }}/posts/${postId}/comments`);
+        const data = await response.json();
+        
+        if (data.success && data.comments) {
+            const commentsList = document.getElementById(`comments-list-${postId}`);
+            commentsList.innerHTML = data.comments.map(comment => `
+                <div class="flex gap-2">
+                    <img src="${comment.user.profile_picture || 'https://ui-avatars.com/api/?name=' + comment.user.name}" class="w-8 h-8 rounded-full">
+                    <div class="flex-1 bg-slate-50 dark:bg-slate-800 rounded-lg px-3 py-2">
+                        <div class="font-semibold text-sm text-slate-900 dark:text-white">${comment.user.name}</div>
+                        <div class="text-slate-600 dark:text-slate-300 text-sm">${comment.comment}</div>
+                        <div class="text-xs text-slate-400 mt-1">${new Date(comment.created_at).toLocaleString()}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+    } catch (error) {
+        console.error('Error loading comments:', error);
+    }
+}
+
+async function addComment(postId) {
+    const input = document.getElementById(`comment-input-${postId}`);
+    const comment = input.value.trim();
+    
+    if (!comment) {
+        alert('Please write a comment');
+        return;
+    }
+    
+    try {
+        const response = await fetch(`/groups/api/{{ group.id }}/posts/${postId}/comments`, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ comment })
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            input.value = '';
+            loadComments(postId);
+            
+            // Update comment count
+            const postElement = document.querySelector(`[data-post-id="${postId}"]`);
+            const commentCount = postElement.querySelector('.comment-count');
+            commentCount.textContent = parseInt(commentCount.textContent) + 1;
+        } else {
+            alert(data.error || 'Failed to add comment');
+        }
+    } catch (error) {
+        console.error('Error adding comment:', error);
+        alert('Failed to add comment');
+    }
+}
+
+function sharePost(postId) {
+    const url = window.location.href + '#post-' + postId;
+    
+    if (navigator.share) {
+        navigator.share({
+            title: 'Check out this post',
+            url: url
+        }).catch(err => console.log('Error sharing:', err));
+    } else {
+        // Fallback: copy to clipboard
+        navigator.clipboard.writeText(url).then(() => {
+            alert('Link copied to clipboard!');
+        }).catch(err => {
+            console.error('Error copying:', err);
+        });
+    }
 }
 
 function handleJoin() {
